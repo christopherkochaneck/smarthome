@@ -1,0 +1,33 @@
+import { FC } from 'react';
+import HomeIcon from '../../../res/images/home.svg';
+import BulbIcon from '../../../res/images/bulb.svg';
+import BoxMultipleIcon from '../../../res/images/box-multiple.svg';
+import SettingsIcon from '../../../res/images/settings.svg';
+import { NavbarButton } from './components/navbarbutton';
+
+export const Navbar: FC = () => {
+	return (
+		<div className="flex bg-black w-screen h-max">
+			<div className="p-1 w-1/4">
+				<NavbarButton href="/" dimension={30}>
+					<HomeIcon />
+				</NavbarButton>
+			</div>
+			<div className="p-1 w-1/4">
+				<NavbarButton href="/devices" dimension={30}>
+					<BulbIcon />
+				</NavbarButton>
+			</div>
+			<div className="p-1 w-1/4">
+				<NavbarButton href="/groups" dimension={30}>
+					<BoxMultipleIcon />
+				</NavbarButton>
+			</div>
+			<div className="p-1 w-1/4">
+				<NavbarButton href="/settings" dimension={30}>
+					<SettingsIcon />
+				</NavbarButton>
+			</div>
+		</div>
+	);
+};
