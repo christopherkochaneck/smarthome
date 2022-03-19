@@ -1,13 +1,12 @@
 import type { NextPage } from 'next';
-import { useState } from 'react';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
 
-const Settings: NextPage = () => {
+const Scenes: NextPage = () => {
 	return (
 		<LayoutWrapper>
-			<div className="text-white">Settings</div>
+			<div className="text-white">Scenes</div>
 		</LayoutWrapper>
 	);
 };
 
-export default Settings;
+export default Scenes;

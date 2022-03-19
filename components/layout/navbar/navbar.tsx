@@ -9,22 +9,22 @@ export const Navbar: FC = () => {
 	return (
 		<div className="flex bg-black w-screen h-max">
 			<div className="p-1 w-1/4">
-				<NavbarButton href="/" dimension={30}>
+				<NavbarButton href="/">
 					<HomeIcon />
 				</NavbarButton>
 			</div>
 			<div className="p-1 w-1/4">
-				<NavbarButton href="/devices" dimension={30}>
+				<NavbarButton href="/devices">
 					<BulbIcon />
 				</NavbarButton>
 			</div>
 			<div className="p-1 w-1/4">
-				<NavbarButton href="/groups" dimension={30}>
+				<NavbarButton href="/scenes">
 					<BoxMultipleIcon />
 				</NavbarButton>
 			</div>
 			<div className="p-1 w-1/4">
-				<NavbarButton href="/settings" dimension={30}>
+				<NavbarButton href="/settings">
 					<SettingsIcon />
 				</NavbarButton>
 			</div>

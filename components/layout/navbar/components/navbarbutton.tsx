@@ -3,8 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 interface Props {
-	href: any;
-	dimension: number;
+	href: string;
 }
 
 export const NavbarButton: FC<Props> = (props) => {

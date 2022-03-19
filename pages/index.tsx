@@ -5,7 +5,7 @@ import { WeatherForeCast } from '../components/weatherForeCast/weatherForeCast';
 
 interface Weather {
 	name: string;
-	main: { temp_max: string; temp_min: string };
+	main: { temp: string };
 }
 
 interface Props {
@@ -13,11 +13,7 @@ interface Props {
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
-	const res = await axios.get(
-		`https://api.openweathermap.org/data/2.5/weather?q=Sankt Ingbert&units=metric&APPID=${process.env.OPEN_WEATHER_MAP_API_KEY}`
-	);
-
-	const weatherData = res.data;
+	const weatherData = await getWeatherData();
 
 	return { props: { weatherData } };
 };
@@ -36,3 +32,12 @@ const Home: NextPage<Props> = ({ weatherData }) => {
 };
 
 export default Home;
+
+async function getWeatherData(): Promise<Weather> {
+	const res = await axios.get(
+		`https://api.openweathermap.org/data/2.5/weather?q=Sankt Ingbert&units=metric&APPID=${process.env.OPEN_WEATHER_MAP_API_KEY}`
+	);
+
+	const weatherData = res.data;
+	return weatherData;
+}

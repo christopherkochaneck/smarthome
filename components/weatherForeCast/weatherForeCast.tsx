@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 interface Weather {
 	name: string;
-	main: { temp_max: string; temp_min: string };
+	main: { temp: string };
 }
 
 interface Props {
@@ -22,9 +22,7 @@ export const WeatherForeCast: FC<Props> = ({ weatherData }) => {
 			}}
 		>
 			<div className="text-3xl">{weatherData.name}</div>
-			<div className="text-2xl">
-				{weatherData.main.temp_min}° / {weatherData.main.temp_max}°
-			</div>
+			<div className="text-2xl">{weatherData.main.temp}°</div>
 		</div>
 	);
 };

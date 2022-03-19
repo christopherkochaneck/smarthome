@@ -8,13 +8,13 @@ const Devices: NextPage = () => {
 		<LayoutWrapper>
 			<div className="grid grid-cols-2">
 				<div className="p-4">
-					<LightCard />
+					<LightCard ipAddress="192.168.1.119" />
 				</div>
 				<div className="p-4">
-					<LightCard />
+					<LightCard ipAddress="192.168.1.118" />
 				</div>
 				<div className="p-4 w-full">
-					<PlugCard />
+					<PlugCard state={true} />
 				</div>
 			</div>
 		</LayoutWrapper>
