@@ -44,7 +44,7 @@ export class RGBW2 {
 
 	async getColor() {
 		try {
-			const res = await axios.get(`http://${this.ipAddress}/settings/color/0`);
+			const res = await axios.get(`http://${this.ipAddress}/color/0`);
 
 			this.color = { red: res.data.red, green: res.data.green, blue: res.data.blue };
 
