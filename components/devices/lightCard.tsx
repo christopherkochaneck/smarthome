@@ -4,7 +4,7 @@ import LightIcon from '../../res/images/bulb.svg';
 import { Card } from '../misc/card/card';
 
 interface Props {
-	ipAddress: string;
+	device: RGBW2;
 }
 
 interface Color {
@@ -16,9 +16,9 @@ interface Color {
 export const LightCard: FC<Props> = (props) => {
 	const [color, setColor] = useState<Color | undefined>(undefined);
 	const [name, setName] = useState('');
-	const [state, setState] = useState<Boolean | undefined>();
+	const [state, setState] = useState<Boolean | undefined>(undefined);
 
-	const device = new RGBW2(props.ipAddress);
+	const device = props.device;
 
 	useEffect(() => {
 		const interval = setInterval(() => {

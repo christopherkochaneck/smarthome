@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 import '../styles/globals.scss';
+import { DeviceProvider } from '../context/DeviceContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
@@ -10,7 +11,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 			<Head>
 				<title>Smarthome</title>
 			</Head>
-			<Component {...pageProps} />
+			<DeviceProvider>
+				<Component {...pageProps} />
+			</DeviceProvider>
 		</React.Fragment>
 	);
 }
