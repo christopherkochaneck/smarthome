@@ -10,12 +10,7 @@ export const NavbarButton: FC<Props> = (props) => {
 	const router = useRouter();
 
 	let isActive = router.pathname === props.href;
-	let textColor: string;
-	if (isActive) {
-		textColor = 'text-white';
-	} else {
-		textColor = 'text-zinc-700';
-	}
+	const textColor = isActive ? 'text-white' : 'text-black';
 
 	return (
 		<div className="grid">

@@ -1,52 +1,45 @@
 import { FC, useEffect, useState } from 'react';
+import { useDevices } from '../../context/DeviceContext';
 import { RGBW2 } from '../../devices/rgbw2';
+import color from '../../interfaces/color';
 import LightIcon from '../../res/images/bulb.svg';
 import { Card } from '../misc/card/card';
 
 interface Props {
-	device: RGBW2;
-}
-
-interface Color {
-	red?: number;
-	green?: number;
-	blue?: number;
+	deviceKey: string;
 }
 
 export const LightCard: FC<Props> = (props) => {
-	const [color, setColor] = useState<Color | undefined>(undefined);
-	const [name, setName] = useState('');
-	const [state, setState] = useState<Boolean | undefined>(undefined);
-
-	const device = props.device;
+	const [color, setColor] = useState<color>({ red: 0, green: 0, blue: 0 });
+	const [device, setDevice] = useState<RGBW2 | undefined>();
+	const [state, setState] = useState<boolean | undefined>();
+	const devices = useDevices();
 
 	useEffect(() => {
-		const interval = setInterval(() => {
-			device
-				.getState()
-				.then((data) => setState(data))
-				.catch((error) => console.log(error));
+		const d = devices.shellies[props.deviceKey];
+		setDevice(d);
+		setColor(d.color);
+	}, [devices.shellies, props.deviceKey]);
 
-			device
-				.getColor()
-				.then((data) => setColor(data))
-				.catch((error) => console.log(error));
-		}, 500);
+	useEffect(() => {
+		devices.addListener(props.deviceKey);
 		return () => {
-			clearInterval(interval);
+			devices.removeListener(props.deviceKey);
 		};
 	}, []);
 
-	useEffect(() => {
-		device.getName().then((data) => setName(data));
-	}, []);
+	if (!device) {
+		return null;
+	}
 
 	return (
 		<div
 			className="h-full w-translate-y-full"
 			onClick={async () => {
-				await device.toggleDevice();
-				setState(await device.getState());
+				// const state = await device.state;
+				// device.toggleDevice();
+				setColor({ red: 0, green: 255, blue: 0 });
+				setState(state);
 			}}
 		>
 			<Card>
@@ -61,7 +54,7 @@ export const LightCard: FC<Props> = (props) => {
 					<div className="justify-self-center">
 						<LightIcon />
 					</div>
-					<div className="text-gray-700 whitespace-pre-line">{name}</div>
+					<div className="text-gray-700 whitespace-pre-line">{device.name}</div>
 				</div>
 			</Card>
 		</div>

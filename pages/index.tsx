@@ -34,10 +34,16 @@ const Home: NextPage<Props> = ({ weatherData }) => {
 export default Home;
 
 async function getWeatherData(): Promise<Weather> {
-	const res = await axios.get(
-		`https://api.openweathermap.org/data/2.5/weather?q=Sankt Ingbert&units=metric&APPID=${process.env.OPEN_WEATHER_MAP_API_KEY}`
-	);
+	try {
+		const res = await axios.get(
+			`https://api.openweathermap.org/data/2.5/weather?q=Sankt Ingbert&units=metric&APPID=${process.env.OPEN_WEATHER_MAP_API_KEY}`
+		);
 
-	const weatherData = res.data;
-	return weatherData;
+		const weatherData = res.data;
+
+		return weatherData;
+	} catch (error) {
+		console.log(error);
+		return { name: 'No Data available.', main: { temp: 'N/A' } };
+	}
 }

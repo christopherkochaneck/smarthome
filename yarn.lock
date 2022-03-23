@@ -4419,6 +4419,11 @@ which@^2.0.1:
   dependencies:
     isexe "^2.0.0"
 
+wol@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/wol/-/wol-1.0.7.tgz#a2e70efca2a28324a744a5d12331d359da470ff7"
+  integrity sha512-kg7ETY8g3V5+3GVhUfWCVjeXuCmfrX6xfw4cw4c88+MtoxkbFmcs9Y5yhT1wwOL8inogFUQZ8JMzH9OekaaawQ==
+
 word-wrap@^1.2.3:
   version "1.2.3"
   resolved "https://registry.npmjs.org/word-wrap/-/word-wrap-1.2.3.tgz"

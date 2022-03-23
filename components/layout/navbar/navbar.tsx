@@ -19,7 +19,7 @@ export const Navbar: FC = () => {
 				</NavbarButton>
 			</div>
 			<div className="p-1 w-1/4">
-				<NavbarButton href="/scenes">
+				<NavbarButton href="/groups">
 					<BoxMultipleIcon />
 				</NavbarButton>
 			</div>

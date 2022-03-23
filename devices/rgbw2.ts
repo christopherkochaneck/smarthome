@@ -1,23 +1,22 @@
 import axios from 'axios';
-
-interface Color {
-	red: number;
-	green: number;
-	blue: number;
-}
+import color from '../interfaces/color';
 
 export class RGBW2 {
 	ipAddress: string;
-	state: Boolean = false;
-	color?: Color;
+	state: boolean = false;
+	color: color = { red: 0, green: 0, blue: 0 };
+	name: string = '';
 	hostname?: string;
 
 	constructor(ipAddress: string) {
 		this.ipAddress = ipAddress;
+	}
+
+	public initialize() {
 		this.setDeviceData();
 	}
 
-	async getStatus() {
+	public async getStatus(): Promise<any> {
 		try {
 			const res = await axios.get(`http://${this.ipAddress}/status`);
 			if (res.data.meters[0].power < 0.5) {
@@ -28,21 +27,21 @@ export class RGBW2 {
 
 			return res.data;
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	}
 
-	async getSettings() {
+	public async getSettings(): Promise<any> {
 		try {
 			const res = await axios.get(`http://${this.ipAddress}/settings`);
 
 			return res.data;
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	}
 
-	async getColor() {
+	public async getColor(): Promise<color> {
 		try {
 			const res = await axios.get(`http://${this.ipAddress}/color/0`);
 
@@ -50,54 +49,47 @@ export class RGBW2 {
 
 			return this.color;
 		} catch (error) {
-			console.log(error);
+			console.error(error);
+			return { red: 0, green: 0, blue: 0 };
 		}
 	}
 
-	async getName() {
-		try {
-			const res = await axios.get(`http://${this.ipAddress}/settings`);
-
-			return res.data.name;
-		} catch (error) {
-			console.log(error);
-		}
-	}
-
-	setState(state: Boolean) {
+	public setState(state: boolean) {
 		this.state = state;
 	}
 
-	async getState() {
+	public async getState(): Promise<boolean> {
 		try {
 			const res = await axios.get(`http://${this.ipAddress}/color/0`);
 			this.setState(res.data.ison);
 
 			return this.state;
 		} catch (error) {
-			console.log(error);
+			console.error(error);
+			return false;
 		}
 	}
 
-	async setDeviceData() {
+	private async setDeviceData() {
 		try {
 			const res = await this.getSettings();
 			this.hostname = res.device.hostname;
+			this.name = res.name;
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	}
 
-	async setBrightness(brightness: number) {
+	public async setBrightness(brightness: number): Promise<void> {
 		try {
 			await axios.get(`http://${this.ipAddress}/settings/color/0?gain=${brightness}`);
 			return;
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	}
 
-	async toggleDevice() {
+	public async toggleDevice(): Promise<void> {
 		try {
 			await this.getStatus();
 			if (this.state) {
@@ -106,7 +98,7 @@ export class RGBW2 {
 				await axios.get(`http://${this.ipAddress}/color/0?turn=on`);
 			}
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	}
 }

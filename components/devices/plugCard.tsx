@@ -3,7 +3,7 @@ import PlugIcon from '../../res/images/plug.svg';
 import { Card } from '../misc/card/card';
 
 interface Props {
-	state: Boolean;
+	state: boolean;
 }
 
 export const PlugCard: FC<Props> = (props) => {
