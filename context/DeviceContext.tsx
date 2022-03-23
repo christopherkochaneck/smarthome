@@ -40,26 +40,17 @@ export const DeviceProvider: FC = (props) => {
 	}>(allDevices);
 
 	useEffect(() => {
-		console.log('hello');
-		Object.keys(allDevices).map((x) => allDevices[x].initialize());
-	}, [allDevices]);
-
-	useEffect(() => {
 		const fetchData = async () => {
-			await Promise.all(
-				Object.keys(allDevices)
-					// .filter((x) => allDevices.includes(x))
-					.map(async (key) => {
-						try {
-							const device = allDevices[key];
-							shellies[key].color = await device.getColor();
-							shellies[key].state = await device.getState();
-						} catch (err) {
-							console.error(err);
-						}
-						setShellies(shellies);
-					})
-			);
+			Object.keys(allDevices)
+				// .filter((x) => allDevices.includes(x))
+				.map(async (key) => {
+					try {
+						shellies[key].initialize();
+						setShellies({ ...allDevices });
+					} catch (err) {
+						console.error(err);
+					}
+				});
 		};
 
 		const interval = setInterval(() => {
