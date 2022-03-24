@@ -15,9 +15,10 @@ export const LightCard: FC<Props> = (props) => {
 	const devices = useDevices();
 	const [color, setColor] = useState<color>({ red: 0, green: 0, blue: 0 });
 	const [device, setDevice] = useState<RGBW2>(devices.shellies[props.deviceKey]);
-	const [state, setState] = useState<boolean | undefined>();
+	const [state, setState] = useState<boolean>(false);
 	const [open, setOpen] = useState<boolean>(false);
 	const [brightness, setBrightness] = useState<number>(0);
+	const [selectedColor, setSelectedColor] = useState<color>();
 
 	useEffect(() => {
 		const d = devices.shellies[props.deviceKey];
@@ -28,15 +29,28 @@ export const LightCard: FC<Props> = (props) => {
 		setBrightness(state ? d.brightness : 0);
 	}, [devices.shellies, props.deviceKey]);
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		console.log(selectedColor);
+	}, [selectedColor]);
 
-	if (device.isConnected === false) {
-		return null;
-	}
+	useEffect(() => {
+		console.log(brightness);
+	}, [brightness]);
+
+	// if (device.isConnected === false) {
+	// 	return null;
+	// }
 
 	return (
 		<>
-			<RGBW2Modal open={open} device={device} setOpen={setOpen} />
+			<RGBW2Modal
+				open={open}
+				device={device}
+				setOpen={setOpen}
+				setSelectedColor={setSelectedColor}
+				brightness={brightness}
+				setBrightness={setBrightness}
+			/>
 			<div
 				className="h-full w-translate-y-full"
 				onClick={() => {
@@ -72,7 +86,7 @@ export const LightCard: FC<Props> = (props) => {
 								alignSelf: 'center',
 							}}
 						>
-							<ToggleSwitch checked={state} />
+							<ToggleSwitch state={state} setState={setState} />
 						</div>
 						<div className="text-zinc-400 text-left">{`Brightness: ${brightness}%`}</div>
 					</div>

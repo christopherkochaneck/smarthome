@@ -25,7 +25,7 @@ export class RGBW2 {
 
 			return res.data;
 		} catch (error) {
-			console.error(error);
+			// console.error(error);
 		}
 	}
 
@@ -36,7 +36,7 @@ export class RGBW2 {
 			return res.data;
 		} catch (error) {
 			this.isConnected = false;
-			console.error(error);
+			// console.error(error);
 		}
 	}
 
@@ -67,7 +67,7 @@ export class RGBW2 {
 			this.brightness = res.lights[0].gain;
 		} catch (error) {
 			this.isConnected = false;
-			console.error(error);
+			// console.error(error);
 		}
 	}
 
@@ -75,7 +75,7 @@ export class RGBW2 {
 		try {
 			await axios.get(`http://${this.ipAddress}/settings/color/0?color=${color}`);
 		} catch (error) {
-			console.error(error);
+			// console.error(error);
 		}
 	}
 
@@ -84,7 +84,7 @@ export class RGBW2 {
 			await axios.get(`http://${this.ipAddress}/settings/color/0?gain=${brightness}`);
 			return;
 		} catch (error) {
-			console.error(error);
+			// console.error(error);
 		}
 	}
 
@@ -96,7 +96,7 @@ export class RGBW2 {
 				await axios.get(`http://${this.ipAddress}/color/0?turn=on`);
 			}
 		} catch (error) {
-			console.error(error);
+			// console.error(error);
 		}
 	}
 }

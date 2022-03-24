@@ -48,7 +48,7 @@ export const DeviceProvider: FC = (props) => {
 						shellies[key].initialize();
 						setShellies({ ...allDevices });
 					} catch (error) {
-						console.error(error);
+						// console.error(error);
 					}
 				});
 		};

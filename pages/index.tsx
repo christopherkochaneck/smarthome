@@ -43,7 +43,7 @@ async function getWeatherData(): Promise<Weather> {
 
 		return weatherData;
 	} catch (error) {
-		console.error(error);
+		// console.error(error);
 		return { name: 'No Data available.', main: { temp: 'N/A' } };
 	}
 }
