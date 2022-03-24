@@ -12,11 +12,12 @@ interface Props {
 }
 
 export const LightCard: FC<Props> = (props) => {
+	const devices = useDevices();
 	const [color, setColor] = useState<color>({ red: 0, green: 0, blue: 0 });
-	const [device, setDevice] = useState<RGBW2 | undefined>();
+	const [device, setDevice] = useState<RGBW2>(devices.shellies[props.deviceKey]);
 	const [state, setState] = useState<boolean | undefined>();
 	const [open, setOpen] = useState<boolean>(false);
-	const devices = useDevices();
+	const [brightness, setBrightness] = useState<number>(0);
 
 	useEffect(() => {
 		const d = devices.shellies[props.deviceKey];
@@ -24,6 +25,7 @@ export const LightCard: FC<Props> = (props) => {
 		const s = d.state;
 		setColor(s ? d.color : d.offColor);
 		setState(s);
+		setBrightness(state ? d.brightness : 0);
 	}, [devices.shellies, props.deviceKey]);
 
 	if (!device) {
@@ -32,16 +34,18 @@ export const LightCard: FC<Props> = (props) => {
 
 	return (
 		<>
-			<RGBW2Modal open={open} device={device} />
+			<RGBW2Modal open={open} device={device} setOpen={setOpen} />
 			<div
 				className="h-full w-translate-y-full"
-				onClick={async () => {
+				onClick={() => {
 					setOpen(!open);
-					await device.toggleDevice();
-					const state = device.state;
-					setColor(state ? device.color : device.offColor);
-					setState(state);
 				}}
+				//   async () => {
+				// 	await device.toggleDevice();
+				// 	const state = device.state;
+				// 	setColor(state ? device.color : device.offColor);
+				// 	setState(state);
+				// }}
 			>
 				<Card>
 					<div
@@ -68,7 +72,7 @@ export const LightCard: FC<Props> = (props) => {
 						>
 							<ToggleSwitch checked={state} />
 						</div>
-						<div className="text-zinc-400 text-left">{`Brightness: ${device.brightness}%`}</div>
+						<div className="text-zinc-400 text-left">{`Brightness: ${brightness}%`}</div>
 					</div>
 				</Card>
 			</div>

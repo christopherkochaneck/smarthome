@@ -1,20 +1,21 @@
-import { FC, useEffect, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { Dialog } from '@headlessui/react';
 import { RGBW2 } from '../../../../devices/rgbw2';
+import color from '../../../../interfaces/color';
 
 interface Props {
 	open: boolean;
+	setOpen: Dispatch<SetStateAction<boolean>>;
 	device: RGBW2;
 }
 
 export const RGBW2Modal: FC<Props> = (props) => {
-	const [open, setOpen] = useState(props.open);
-	const [device, setDevice] = useState(props.device);
-
 	return (
 		<Dialog
-			open={open}
-			onClose={() => setOpen(!open)}
+			open={props.open}
+			onClose={() => {
+				props.setOpen(false);
+			}}
 			className="fixed z-10 inset-0 overflow-y-auto grid justify-items-center"
 		>
 			<div className="flex items-center justify-center h-screen">
@@ -33,9 +34,6 @@ export const RGBW2Modal: FC<Props> = (props) => {
 				>
 					<div
 						className="bg-red-600 rounded-full w-20 h-20 hover:cursor-pointer"
-						onClick={async () => {
-							await device.setColor({ red: 255, green: 0, blue: 0 });
-						}}
 						style={{
 							display: 'block',
 							borderRadius: '50%',
@@ -46,9 +44,6 @@ export const RGBW2Modal: FC<Props> = (props) => {
 					/>
 					<div
 						className="bg-green-600 rounded-full w-20 h-20 hover:cursor-pointer"
-						onClick={async () => {
-							await device.setColor({ red: 0, green: 255, blue: 0 });
-						}}
 						style={{
 							display: 'block',
 							borderRadius: '50%',
@@ -59,9 +54,6 @@ export const RGBW2Modal: FC<Props> = (props) => {
 					/>
 					<div
 						className="bg-blue-600 rounded-full w-20 h-20 hover:cursor-pointer"
-						onClick={async () => {
-							await device.setColor({ red: 0, green: 0, blue: 255 });
-						}}
 						style={{
 							display: 'block',
 							borderRadius: '50%',
@@ -72,9 +64,6 @@ export const RGBW2Modal: FC<Props> = (props) => {
 					/>
 					<div
 						className="bg-yellow-400 rounded-full w-20 h-20 hover:cursor-pointer"
-						onClick={async () => {
-							await device.setColor({ red: 255, green: 255, blue: 0 });
-						}}
 						style={{
 							display: 'block',
 							borderRadius: '50%',
@@ -85,9 +74,6 @@ export const RGBW2Modal: FC<Props> = (props) => {
 					/>
 					<div
 						className="bg-white rounded-full w-20 h-20 hover:cursor-pointer"
-						onClick={async () => {
-							await device.setColor({ red: 255, green: 255, blue: 255 });
-						}}
 						style={{
 							display: 'block',
 							borderRadius: '50%',
@@ -98,9 +84,6 @@ export const RGBW2Modal: FC<Props> = (props) => {
 					/>
 					<div
 						className="bg-purple-700 rounded-full w-20 h-20 hover:cursor-pointer"
-						onClick={async () => {
-							await device.setColor({ red: 255, green: 0, blue: 255 });
-						}}
 						style={{
 							display: 'block',
 							borderRadius: '50%',
