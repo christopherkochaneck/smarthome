@@ -48,14 +48,14 @@ export const DeviceProvider: FC = (props) => {
 						shellies[key].initialize();
 						setShellies({ ...allDevices });
 					} catch (error) {
-						// console.error(error);
+						console.error(error);
 					}
 				});
 		};
 
 		const interval = setInterval(() => {
 			fetchData();
-		}, 500);
+		}, 100);
 		return () => {
 			clearInterval(interval);
 		};
