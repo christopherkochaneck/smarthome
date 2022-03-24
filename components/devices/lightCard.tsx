@@ -28,7 +28,9 @@ export const LightCard: FC<Props> = (props) => {
 		setBrightness(state ? d.brightness : 0);
 	}, [devices.shellies, props.deviceKey]);
 
-	if (!device) {
+	useEffect(() => {}, []);
+
+	if (device.isConnected === false) {
 		return null;
 	}
 
