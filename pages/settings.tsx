@@ -1,11 +1,17 @@
 import type { NextPage } from 'next';
-import { useState } from 'react';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 const Settings: NextPage = () => {
+	const { data: session, status } = useSession();
+
 	return (
 		<LayoutWrapper>
-			<div className="text-white">Settings</div>
+			{session ? (
+				<button onClick={() => signOut()} className="text-white">
+					Logout
+				</button>
+			) : null}
 		</LayoutWrapper>
 	);
 };

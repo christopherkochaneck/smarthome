@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { AppProps } from 'next/app';
 import '../styles/globals.scss';
 import { DeviceProvider } from '../context/DeviceContext';
+import { SessionProvider } from 'next-auth/react';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
@@ -11,9 +12,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 			<Head>
 				<title>Smarthome</title>
 			</Head>
-			<DeviceProvider>
-				<Component {...pageProps} />
-			</DeviceProvider>
+			<SessionProvider session={pageProps.session}>
+				<DeviceProvider>
+					<Component {...pageProps} />
+				</DeviceProvider>
+			</SessionProvider>
 		</React.Fragment>
 	);
 }

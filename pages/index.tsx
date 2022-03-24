@@ -1,7 +1,9 @@
 import axios from 'axios';
 import type { GetServerSideProps, NextPage } from 'next';
+import { useSession } from 'next-auth/react';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
 import { WeatherForeCast } from '../components/weatherForeCast/weatherForeCast';
+import { SignIn } from '../components/auth/signIn';
 
 interface Weather {
 	name: string;
@@ -19,15 +21,23 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 };
 
 const Home: NextPage<Props> = ({ weatherData }) => {
+	const { data: session, status } = useSession(undefined);
+
 	return (
-		<LayoutWrapper>
-			<div className="text-zinc-400 text-3xl p-10 text-center">
-				Hey Chris, here's whats up for today.
-			</div>
-			<div className="px-10">
-				<WeatherForeCast weatherData={weatherData} />
-			</div>
-		</LayoutWrapper>
+		<>
+			{session ? (
+				<LayoutWrapper>
+					<div className="text-zinc-400 text-3xl p-10 text-center">
+						Hey Chris, here's whats up for today.
+					</div>
+					<div className="px-10">
+						<WeatherForeCast weatherData={weatherData} />
+					</div>
+				</LayoutWrapper>
+			) : (
+				<SignIn />
+			)}
+		</>
 	);
 };
 
@@ -43,7 +53,7 @@ async function getWeatherData(): Promise<Weather> {
 
 		return weatherData;
 	} catch (error) {
-		// console.error(error);
+		console.error(error);
 		return { name: 'No Data available.', main: { temp: 'N/A' } };
 	}
 }
