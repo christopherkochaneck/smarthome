@@ -3,7 +3,7 @@ import { useDevices } from '../../context/DeviceContext';
 import { RGBW2 } from '../../devices/rgbw2';
 import color from '../../interfaces/color';
 import LightIcon from '../../res/images/bulb.svg';
-import { Card } from '../misc/card/card';
+import { Card } from '../ui/card/card';
 import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 
@@ -18,7 +18,7 @@ export const LightCard: FC<Props> = (props) => {
 	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
 	const [state, setState] = useState<boolean>(false);
 	const [open, setOpen] = useState<boolean>(false);
-	const [brightness, setBrightness] = useState<number>(0);
+	const [brightness, setBrightness] = useState<number>(100);
 
 	useEffect(() => {
 		const d = devices.shellies[props.deviceKey];
@@ -26,16 +26,12 @@ export const LightCard: FC<Props> = (props) => {
 		const s = d.state;
 		setColor(s ? d.color : d.offColor);
 		setState(s);
-		setBrightness(state ? d.brightness : 0);
+		setBrightness(d.brightness);
 	}, [devices.shellies, props.deviceKey]);
 
 	useEffect(() => {
 		device.setColor(selectedColor!);
 	}, [selectedColor]);
-
-	// useEffect(() => {
-	// 	device.setBrightness(brightness);
-	// }, [brightness]);
 
 	return (
 		<>
@@ -50,11 +46,10 @@ export const LightCard: FC<Props> = (props) => {
 			<div
 				className="h-full w-translate-y-full"
 				onClick={async () => {
-					setOpen(!open);
-					// await device.toggleDevice();
-					// const state = device.state;
-					// setColor(state ? device.color : device.offColor);
-					// setState(state);
+					await device.toggleDevice();
+					const state = device.state;
+					setColor(state ? device.color : device.offColor);
+					setState(state);
 				}}
 			>
 				<Card>
@@ -68,7 +63,13 @@ export const LightCard: FC<Props> = (props) => {
 							padding: '10px',
 						}}
 					>
-						<div style={{ gridArea: '1 / 1 / 3 / 2' }}>
+						<div
+							style={{ gridArea: '1 / 1 / 3 / 2' }}
+							onClick={(e) => {
+								e.stopPropagation();
+								setOpen(!open);
+							}}
+						>
 							<LightIcon />
 						</div>
 						<div className="text-zinc-400 text-left">

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import PlugIcon from '../../res/images/plug.svg';
-import { Card } from '../misc/card/card';
+import { Card } from '../ui/card/card';
 
 interface Props {
 	state: boolean;

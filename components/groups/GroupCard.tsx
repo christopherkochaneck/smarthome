@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { RGBW2 } from '../../devices/rgbw2';
-import { Card } from '../misc/card/card';
+import { Card } from '../ui/card/card';
 
 interface Props {
 	devices?: {
