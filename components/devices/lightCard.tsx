@@ -19,6 +19,7 @@ export const LightCard: FC<Props> = (props) => {
 	const [state, setState] = useState<boolean>(false);
 	const [open, setOpen] = useState<boolean>(false);
 	const [brightness, setBrightness] = useState<number>(100);
+	const [fade, setFade] = useState<boolean>(false);
 
 	useEffect(() => {
 		const d = devices.shellies[props.deviceKey];
@@ -33,6 +34,21 @@ export const LightCard: FC<Props> = (props) => {
 		device.setColor(selectedColor!);
 	}, [selectedColor]);
 
+	useEffect(() => {
+		if (open) {
+			const interval = setInterval(async () => {
+				await device.setColor({
+					red: Math.random() * 100,
+					green: Math.random() * 100,
+					blue: Math.random() * 100,
+				});
+			}, 3000);
+			return () => {
+				clearInterval(interval);
+			};
+		}
+	}, [fade]);
+
 	return (
 		<>
 			<RGBW2Modal
@@ -42,6 +58,8 @@ export const LightCard: FC<Props> = (props) => {
 				setSelectedColor={setSelectedColor}
 				brightness={brightness}
 				setBrightness={setBrightness}
+				fade={fade}
+				setFade={setFade}
 			/>
 			<div
 				className="h-full w-translate-y-full"
