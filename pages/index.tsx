@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 };
 
 const Home: NextPage<Props> = ({ weatherData }) => {
-	const { data: session, status } = useSession(undefined);
+	const { data: session } = useSession(undefined);
 
 	return (
 		<>
