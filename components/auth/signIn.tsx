@@ -5,7 +5,7 @@ import { FC } from 'react';
 export const SignIn: FC = () => {
 	return (
 		<div className="flex flex-row jusify-center items-center bg-zinc-800 h-screen w-screen">
-			<GoogleButton onClick={() => signIn('google')} />
+			<GoogleButton onClick={() => signIn('google')} className="mx-auto" />
 		</div>
 	);
 };
