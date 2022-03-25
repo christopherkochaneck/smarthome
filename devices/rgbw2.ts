@@ -49,11 +49,27 @@ export class RGBW2 {
 		try {
 			const res = await this.getSettings();
 
-			this.hostname = res.device.hostname;
-			this.state = res.lights[0].ison;
-			this.name = res.name;
-			this.color = { red: res.lights[0].red, green: res.lights[0].green, blue: res.lights[0].blue };
-			this.brightness = res.lights[0].gain;
+			if (this.hostname !== res.device.hostname) {
+				this.hostname = res.device.hostname;
+			}
+
+			if (this.state !== res.lights[0].ison) {
+				this.state = res.lights[0].ison;
+			}
+
+			if (this.name !== res.name) {
+				this.name = res.name;
+			}
+
+			let color = { red: res.lights[0].red, green: res.lights[0].green, blue: res.lights[0].blue };
+
+			if (this.color !== color) {
+				this.color = color;
+			}
+
+			if (this.brightness !== res.lights[0].gain) {
+				this.brightness = res.lights[0].gain;
+			}
 		} catch (error) {
 			console.error(error);
 		}
