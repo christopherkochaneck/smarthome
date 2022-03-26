@@ -6,6 +6,7 @@ export class PlugS {
 	name: string = '';
 	hostname?: string;
 	isConnected: boolean = false;
+	power: number = 0;
 
 	constructor(ipAddress: string) {
 		this.ipAddress = ipAddress;
@@ -25,9 +26,21 @@ export class PlugS {
 		}
 	}
 
+	public async getMeters(): Promise<any> {
+		try {
+			const res = await axios.get(`http://${this.ipAddress}/meter/0`);
+
+			return res.data;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	private async setDeviceData() {
 		try {
 			const res = await this.getSettings();
+
+			const res1 = await this.getMeters();
 
 			if (this.hostname !== res.device.hostname) {
 				this.hostname = res.device.hostname;
@@ -39,6 +52,10 @@ export class PlugS {
 
 			if (this.name !== res.name) {
 				this.name = res.name;
+			}
+
+			if (this.power !== res1.power) {
+				this.power === res1.power;
 			}
 		} catch (error) {
 			console.error(error);

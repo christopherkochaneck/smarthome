@@ -62,7 +62,7 @@ export const DeviceProvider: FC = (props) => {
 
 		const interval = setInterval(() => {
 			fetchData();
-		}, 100);
+		}, 150);
 		return () => {
 			clearInterval(interval);
 		};

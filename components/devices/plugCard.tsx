@@ -13,12 +13,13 @@ export const PlugCard: FC<Props> = (props) => {
 	const devices = useDevices();
 	const [device, setDevice] = useState<PlugS>(devices.plugS[props.deviceKey]);
 	const [state, setState] = useState<boolean>(false);
+	const [power, setPower] = useState<number>(0);
 
 	useEffect(() => {
 		const d = devices.plugS[props.deviceKey];
 		setDevice(d);
-		const s = d.state;
-		setState(s);
+		setState(d.state);
+		setPower(d.power);
 	}, [devices.plugS, props.deviceKey]);
 
 	return (
@@ -63,6 +64,7 @@ export const PlugCard: FC<Props> = (props) => {
 						>
 							<ToggleSwitch state={state} setState={setState} />
 						</div>
+						<div className="text-zinc-400 text-left">{`Load: ${power} W`}</div>
 					</div>
 				</Card>
 			</div>
