@@ -2,14 +2,14 @@ import { createContext, FC, useContext, useEffect, useState } from 'react';
 import { PlugS } from '../devices/plugS';
 import { RGBW2 } from '../devices/rgbw2';
 
-type DeviceContextType = {
+interface DeviceContextType {
 	rgbw2: {
 		[key: string]: RGBW2;
 	};
 	plugS: { [key: string]: PlugS };
 	// addListener: (key: string) => void;
 	// removeListener: (key: string) => void;
-};
+}
 
 const DeviceContext = createContext<DeviceContextType>(undefined!);
 
@@ -17,7 +17,7 @@ export function useDevices() {
 	return useContext(DeviceContext);
 }
 
-const allDevices: { rgbw2: { [key: string]: RGBW2 }; plugS: { [key: string]: PlugS } } = {
+const allDevices: DeviceContextType = {
 	rgbw2: { shellyDesk: new RGBW2('192.168.1.119'), shellyCloset: new RGBW2('192.168.1.118') },
 	plugS: { plug: new PlugS('192.168.1.168') },
 };
@@ -25,6 +25,7 @@ const allDevices: { rgbw2: { [key: string]: RGBW2 }; plugS: { [key: string]: Plu
 export const DeviceProvider: FC = (props) => {
 	const [rgbw2, setRgbw2] = useState<{ [key: string]: RGBW2 }>(allDevices.rgbw2);
 	const [plugS, setPlugS] = useState<{ [key: string]: PlugS }>(allDevices.plugS);
+
 	// const [activeDevices, setActiveDevices] = useState<string[]>([]);
 	// const addListener = (key: string) => {
 	// 	if (!activeDevices.includes(key)) {
