@@ -1,20 +1,71 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { useDevices } from '../../context/DeviceContext';
+import { PlugS } from '../../devices/plugS';
 import PlugIcon from '../../res/images/plug.svg';
 import { Card } from '../ui/card/card';
+import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 
 interface Props {
-	state: boolean;
+	deviceKey: string;
 }
 
 export const PlugCard: FC<Props> = (props) => {
-	const color = props.state ? 'text-white' : 'text-zinc-700';
+	const devices = useDevices();
+	const [device, setDevice] = useState<PlugS>(devices.plugS[props.deviceKey]);
+	const [state, setState] = useState<boolean>(false);
+
+	useEffect(() => {
+		const d = devices.plugS[props.deviceKey];
+		setDevice(d);
+		const s = d.state;
+		setState(s);
+	}, [devices.plugS, props.deviceKey]);
+
 	return (
-		<div className="h-full w-translate-y-full bg-black rounded-2xl grid">
-			<Card>
-				<div className={`${color} justify-self-center align-middle`}>
-					<PlugIcon />
-				</div>
-			</Card>
-		</div>
+		<>
+			<div
+				className="h-full w-translate-y-full"
+				onClick={async () => {
+					await device.toggleDevice();
+					const state = device.state;
+					setState(state);
+				}}
+			>
+				<Card>
+					<div
+						style={{
+							display: 'grid',
+							gridTemplateColumns: 'max-content 1fr max-content',
+							gridTemplateRows: 'repeat(2, max-content)',
+							columnGap: '10px',
+							padding: '10px',
+						}}
+					>
+						<div
+							style={{
+								gridArea: '1 / 1 / 3 / 2',
+								color: state ? 'white' : 'black',
+							}}
+							onClick={(e) => {
+								e.stopPropagation();
+							}}
+						>
+							<PlugIcon />
+						</div>
+						<div className="text-zinc-400 text-left">
+							{device.name ? device.name : 'DeviceTitle unavailable'}
+						</div>
+						<div
+							style={{
+								gridArea: '1 / 3 / 3 / 4',
+								alignSelf: 'center',
+							}}
+						>
+							<ToggleSwitch state={state} setState={setState} />
+						</div>
+					</div>
+				</Card>
+			</div>
+		</>
 	);
 };

@@ -11,7 +11,7 @@ const Devices: NextPage = () => {
 			<div className="grid gap-4">
 				<LightCard deviceKey="shellyDesk" />
 				<LightCard deviceKey="shellyCloset" />
-				<PlugCard state={true} />
+				<PlugCard deviceKey="plug" />
 			</div>
 		</LayoutWrapper>
 	);
