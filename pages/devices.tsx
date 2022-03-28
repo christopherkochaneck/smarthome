@@ -9,9 +9,14 @@ const Devices: NextPage = () => {
 	return (
 		<LayoutWrapper>
 			<div className="grid gap-4">
-				<LightCard deviceKey="shellyDesk" />
-				<LightCard deviceKey="shellyCloset" />
-				<PlugCard deviceKey="plug" />
+				<div className="text-zinc-500 text-center">Lights</div>
+				{Object.keys(devices.rgbw2).map((key) => {
+					return <LightCard deviceKey={key} />;
+				})}
+				<div className="text-zinc-500 text-center">Plugs</div>
+				{Object.keys(devices.plugS).map((key) => {
+					return <PlugCard deviceKey={key} />;
+				})}
 			</div>
 		</LayoutWrapper>
 	);
