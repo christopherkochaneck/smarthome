@@ -7,16 +7,13 @@ interface Props {
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 	setSelectedColor: Dispatch<SetStateAction<color | undefined>>;
-	device: RGBW2;
-	brightness: number;
-	setBrightness: Dispatch<SetStateAction<number>>;
-	fade: boolean;
-	setFade: Dispatch<SetStateAction<boolean>>;
+	device?: RGBW2;
+	devices?: RGBW2[];
+	brightness?: number;
+	setBrightness?: Dispatch<SetStateAction<number>>;
 }
 
 export const RGBW2Modal: FC<Props> = (props) => {
-	const [fade, setFade] = useState<boolean>(props.fade);
-
 	return (
 		<Dialog
 			open={props.open}
@@ -125,17 +122,8 @@ export const RGBW2Modal: FC<Props> = (props) => {
 					max="100"
 					step="1"
 					value={props.brightness}
-					onChange={(e) => props.setBrightness(parseInt(e.target.value))}
+					onChange={(e) => props.setBrightness!(parseInt(e.target.value))}
 				/>
-				<button
-					onClick={(e) => {
-						e.stopPropagation();
-						props.setFade(!fade);
-					}}
-					className="text-white rounded-xl bg-zinc-700 w-max h-max p-4 relative"
-				>
-					Automated Color Change
-				</button>
 			</div>
 		</Dialog>
 	);

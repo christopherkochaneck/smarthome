@@ -105,4 +105,20 @@ export class RGBW2 {
 			console.error(error);
 		}
 	}
+
+	public async turnOff(): Promise<void> {
+		try {
+			await axios.get(`http://${this.ipAddress}/color/0?turn=off`);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	public async turnOn(): Promise<void> {
+		try {
+			await axios.get(`http://${this.ipAddress}/color/0?turn=on`);
+		} catch (error) {
+			console.log(error);
+		}
+	}
 }

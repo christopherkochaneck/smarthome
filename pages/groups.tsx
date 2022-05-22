@@ -1,14 +1,14 @@
 import type { NextPage } from 'next';
-import { GroupCard } from '../components/groups/GroupCard';
+import { GroupLightCard } from '../components/groups/GroupLightCard';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
-import { useDevices } from '../context/DeviceContext';
 
 const Groups: NextPage = () => {
-	const devices = useDevices();
 	return (
 		<LayoutWrapper>
-			<div>
-				<GroupCard></GroupCard>
+			<div className="grid gap-4">
+				<div className="text-zinc-500 text-center">Groups</div>
+				<GroupLightCard group={{ rgbw2: ['shellyDesk', 'shellyCloset'] }} title="LED Stripes" />
+				<div className="text-zinc-500 text-center">Scenes</div>
 			</div>
 		</LayoutWrapper>
 	);
