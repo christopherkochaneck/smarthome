@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 interface Props {
-	href: string;
+	href: string | undefined;
 }
 
 export const NavbarButton: FC<Props> = (props) => {
@@ -15,7 +15,7 @@ export const NavbarButton: FC<Props> = (props) => {
 	return (
 		<div className="grid">
 			<div className="text-center hover:cursor-pointer w-min justify-self-center">
-				<Link href={props.href}>
+				<Link href={props.href!}>
 					<a className={textColor}>{props.children}</a>
 				</Link>
 			</div>

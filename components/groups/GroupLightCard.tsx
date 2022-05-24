@@ -85,7 +85,6 @@ export const GroupLightCard: FC<Props> = (props) => {
 					}
 
 					if (state) {
-						console.log('state', 'should switch');
 						await Promise.all(
 							Object.keys(lights).map(async (key) => {
 								const device = lights[parseInt(key)];
@@ -102,8 +101,6 @@ export const GroupLightCard: FC<Props> = (props) => {
 						);
 						setState(true);
 					}
-
-					console.log('state', state);
 
 					let stateArray: boolean[] = [];
 					Object.keys(lights).map((key) => {

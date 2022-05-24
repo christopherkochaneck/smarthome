@@ -21,22 +21,22 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 };
 
 const Home: NextPage<Props> = ({ weatherData }) => {
-	const { data: session } = useSession(undefined);
+	// const { data: session } = useSession(undefined);
 
 	return (
 		<>
-			{session ? (
-				<LayoutWrapper>
-					<div className="text-zinc-400 text-3xl p-10 text-center">
-						Hey Chris, here's whats up for today.
-					</div>
-					<div className="px-10">
-						<WeatherForeCast weatherData={weatherData} />
-					</div>
-				</LayoutWrapper>
-			) : (
+			{/* {session ? ( */}
+			<LayoutWrapper showAppbar={false} showAppbarIcon={true}>
+				<div className="text-zinc-400 text-3xl p-10 text-center">
+					Hey Chris, here's whats up for today.
+				</div>
+				<div className="px-10">
+					<WeatherForeCast weatherData={weatherData} />
+				</div>
+			</LayoutWrapper>
+			{/* ) : (
 				<SignIn />
-			)}
+			)} */}
 		</>
 	);
 };

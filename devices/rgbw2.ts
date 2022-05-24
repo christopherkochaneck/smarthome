@@ -110,7 +110,7 @@ export class RGBW2 {
 		try {
 			await axios.get(`http://${this.ipAddress}/color/0?turn=off`);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	}
 
@@ -118,7 +118,7 @@ export class RGBW2 {
 		try {
 			await axios.get(`http://${this.ipAddress}/color/0?turn=on`);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	}
 }

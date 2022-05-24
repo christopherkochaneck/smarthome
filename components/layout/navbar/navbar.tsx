@@ -7,7 +7,7 @@ import { NavbarButton } from './components/navbarbutton';
 
 export const Navbar: FC = () => {
 	return (
-		<div className="flex bg-black w-screen h-max">
+		<div className="flex bg-black w-screen h-16">
 			<div className="p-1 w-1/4">
 				<NavbarButton href="/">
 					<HomeIcon />
