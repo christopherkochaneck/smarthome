@@ -11,7 +11,7 @@ export const Select: FC<Props> = (props) => {
 		<>
 			<div className="grid gap-2">
 				<div className="text-zinc-700">{props.title}</div>
-				<select className={`${props.className} bg-zinc-700 w-full h-full`}>
+				<select className={`${props.className} bg-zinc-700`}>
 					{Object.keys(props.values).map((key) => {
 						return (
 							<option value={props.values[parseInt(key)].toLowerCase()}>
