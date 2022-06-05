@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export class PlugS {
+	id: string;
 	ipAddress: string;
 	state: boolean = false;
 	name: string = '';
@@ -8,8 +9,9 @@ export class PlugS {
 	isConnected: boolean = false;
 	power: number = 0;
 
-	constructor(ipAddress: string) {
+	constructor(ipAddress: string, id: string) {
 		this.ipAddress = ipAddress;
+		this.id = id;
 	}
 
 	public initialize() {

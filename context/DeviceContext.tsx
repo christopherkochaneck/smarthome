@@ -1,30 +1,50 @@
 import { createContext, FC, useContext, useEffect, useState } from 'react';
 import { PlugS } from '../devices/plugS';
 import { RGBW2 } from '../devices/rgbw2';
+import rgbw2Devices from '../data/rgbw2.json';
+import plugSDevices from '../data/plugS.json';
 
 interface DeviceContextType {
-	rgbw2: {
-		[key: string]: RGBW2;
-	};
-	plugS: { [key: string]: PlugS };
+	rgbw2: RGBW2[];
+	plugS: PlugS[];
 	// addListener: (key: string) => void;
 	// removeListener: (key: string) => void;
 }
 
 const DeviceContext = createContext<DeviceContextType>(undefined!);
 
+const getRGBW2Array = (): RGBW2[] => {
+	const rgbw2Array: RGBW2[] = [];
+	if (rgbw2Devices.length != 0) {
+		rgbw2Devices.map((key) => {
+			rgbw2Array.push(new RGBW2(key.ipAdress, key.id));
+		});
+	}
+	return rgbw2Array;
+};
+
+const plugSArray = (): PlugS[] => {
+	const plugSArray: PlugS[] = [];
+	if (plugSDevices.length != 0) {
+		plugSDevices.map((key) => {
+			plugSArray.push(new PlugS(key.ipAdress, key.id));
+		});
+	}
+	return plugSArray;
+};
+
 export function useDevices() {
 	return useContext(DeviceContext);
 }
 
 const allDevices: DeviceContextType = {
-	rgbw2: { shellyDesk: new RGBW2('192.168.1.119'), shellyCloset: new RGBW2('192.168.1.118') },
-	plugS: { plug: new PlugS('192.168.1.168') },
+	rgbw2: getRGBW2Array(),
+	plugS: plugSArray(),
 };
 
 export const DeviceProvider: FC = (props) => {
-	const [rgbw2, setRgbw2] = useState<{ [key: string]: RGBW2 }>(allDevices.rgbw2);
-	const [plugS, setPlugS] = useState<{ [key: string]: PlugS }>(allDevices.plugS);
+	const [rgbw2, setRgbw2] = useState<RGBW2[]>(allDevices.rgbw2);
+	const [plugS, setPlugS] = useState<PlugS[]>(allDevices.plugS);
 
 	// const [activeDevices, setActiveDevices] = useState<string[]>([]);
 	// const addListener = (key: string) => {
@@ -55,9 +75,7 @@ export const DeviceProvider: FC = (props) => {
 							setPlugS({ ...allDevices.plugS });
 						});
 					}
-				} catch (error) {
-					console.error(error);
-				}
+				} catch (error) {}
 			});
 		};
 

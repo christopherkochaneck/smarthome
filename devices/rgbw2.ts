@@ -2,6 +2,7 @@ import axios from 'axios';
 import color from '../interfaces/color';
 
 export class RGBW2 {
+	id: string;
 	ipAddress: string;
 	state: boolean = false;
 	color: color = { red: 0, green: 0, blue: 0 };
@@ -11,8 +12,9 @@ export class RGBW2 {
 	offColor: color = { red: 0, green: 0, blue: 0 };
 	isConnected: boolean = false;
 
-	constructor(ipAddress: string) {
+	constructor(ipAddress: string, id: string) {
 		this.ipAddress = ipAddress;
+		this.id = id;
 	}
 
 	public initialize() {

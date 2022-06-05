@@ -8,13 +8,13 @@ import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 
 interface Props {
-	deviceKey: string;
+	id: string;
 }
 
 export const LightCard: FC<Props> = (props) => {
 	const devices = useDevices();
 	const [color, setColor] = useState<color>({ red: 0, green: 0, blue: 0 });
-	const [device, setDevice] = useState<RGBW2>(devices.rgbw2[props.deviceKey]);
+	const [device, setDevice] = useState<RGBW2>(devices.rgbw2[props.id]);
 	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
 	const [state, setState] = useState<boolean>(false);
 	const [open, setOpen] = useState<boolean>(false);
@@ -22,16 +22,23 @@ export const LightCard: FC<Props> = (props) => {
 	const [fade, setFade] = useState<boolean>(false);
 
 	useEffect(() => {
-		const d = devices.rgbw2[props.deviceKey];
+		const d = devices.rgbw2[props.id];
+
+		if (!d) {
+			return;
+		}
+
 		setDevice(d);
 		const s = d.state;
 		setColor(s ? d.color : d.offColor);
 		setState(s);
 		setBrightness(d.brightness);
-	}, [devices.rgbw2, props.deviceKey]);
+	}, [devices.rgbw2, props.id]);
 
 	useEffect(() => {
-		device.setColor(selectedColor!);
+		if (device) {
+			device.setColor(selectedColor!);
+		}
 	}, [selectedColor]);
 
 	return (
@@ -47,10 +54,12 @@ export const LightCard: FC<Props> = (props) => {
 			<div
 				className="h-full w-translate-y-full"
 				onClick={async () => {
-					await device.toggleDevice();
-					const state = device.state;
-					setColor(state ? device.color : device.offColor);
-					setState(state);
+					if (device) {
+						await device.toggleDevice();
+						const state = device.state;
+						setColor(state ? device.color : device.offColor);
+						setState(state);
+					}
 				}}
 			>
 				<Card>

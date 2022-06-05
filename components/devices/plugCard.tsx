@@ -6,30 +6,32 @@ import { Card } from '../ui/card/card';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 
 interface Props {
-	deviceKey: string;
+	id: string;
 }
 
 export const PlugCard: FC<Props> = (props) => {
 	const devices = useDevices();
-	const [device, setDevice] = useState<PlugS>(devices.plugS[props.deviceKey]);
+	const [device, setDevice] = useState<PlugS>(devices.plugS[props.id]);
 	const [state, setState] = useState<boolean>(false);
 	const [power, setPower] = useState<number>(0);
 
 	useEffect(() => {
-		const d = devices.plugS[props.deviceKey];
+		const d = devices.plugS[props.id];
 		setDevice(d);
 		setState(d.state);
 		setPower(d.power);
-	}, [devices.plugS, props.deviceKey]);
+	}, [devices.plugS, props.id]);
 
 	return (
 		<>
 			<div
 				className="h-full w-translate-y-full"
 				onClick={async () => {
-					await device.toggleDevice();
-					const state = device.state;
-					setState(state);
+					if (device) {
+						await device.toggleDevice();
+						const state = device.state;
+						setState(state);
+					}
 				}}
 			>
 				<Card>
@@ -54,7 +56,7 @@ export const PlugCard: FC<Props> = (props) => {
 							<PlugIcon />
 						</div>
 						<div className="text-zinc-400 text-left">
-							{device.name ? device.name : 'DeviceTitle unavailable'}
+							{device ? device.name : 'DeviceTitle unavailable'}
 						</div>
 						<div
 							style={{
