@@ -9,31 +9,43 @@ import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 
 interface Props {
 	id: string;
+	ipAdress: string;
 }
 
 export const LightCard: FC<Props> = (props) => {
-	const devices = useDevices();
+	const { devices } = useDevices();
+
 	const [color, setColor] = useState<color>({ red: 0, green: 0, blue: 0 });
-	const [device, setDevice] = useState<RGBW2>(devices.rgbw2[props.id]);
+	const device = new RGBW2(props.ipAdress, props.id);
 	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
 	const [state, setState] = useState<boolean>(false);
 	const [open, setOpen] = useState<boolean>(false);
 	const [brightness, setBrightness] = useState<number>(100);
-	const [fade, setFade] = useState<boolean>(false);
+
+	const deviceColor = async () => {
+		setColor(await device.getColor());
+	};
+
+	const deviceState = async () => {
+		setState(await device.getState());
+	};
+
+	const deviceBrightness = async () => {
+		setBrightness(await device.getBrightness());
+	};
 
 	useEffect(() => {
-		const d = devices.rgbw2[props.id];
+		device.initialize();
 
-		if (!d) {
-			return;
-		}
-
-		setDevice(d);
-		const s = d.state;
-		setColor(s ? d.color : d.offColor);
-		setState(s);
-		setBrightness(d.brightness);
-	}, [devices.rgbw2, props.id]);
+		const interval = setInterval(() => {
+			deviceColor();
+			deviceState();
+			deviceBrightness();
+		}, 500);
+		return () => {
+			clearInterval(interval);
+		};
+	}, []);
 
 	useEffect(() => {
 		if (device) {
@@ -83,7 +95,7 @@ export const LightCard: FC<Props> = (props) => {
 							<LightIcon />
 						</div>
 						<div className="text-zinc-400 text-left">
-							{device.name ? device.name : 'DeviceTitle unavailable'}
+							{device ? device.name : 'DeviceTitle unavailable'}
 						</div>
 						<div
 							style={{

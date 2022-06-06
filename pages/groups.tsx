@@ -7,7 +7,7 @@ const Groups: NextPage = () => {
 		<LayoutWrapper showAppbar={true} showAppbarIcon={true} appBarTitle="Groups">
 			<div className="grid gap-4">
 				<div className="text-zinc-500 text-center">Groups</div>
-				<GroupLightCard group={{ rgbw2: ['shellyDesk', 'shellyCloset'] }} title="LED Stripes" />
+				{/* <GroupLightCard group={{ rgbw2: ['shellyDesk', 'shellyCloset'] }} title="LED Stripes" /> */}
 				<div className="text-zinc-500 text-center">Scenes</div>
 			</div>
 		</LayoutWrapper>

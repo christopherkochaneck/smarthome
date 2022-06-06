@@ -12,11 +12,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 			<Head>
 				<title>Smarthome</title>
 			</Head>
-			{/* <SessionProvider session={pageProps.session}> */}
 			<DeviceProvider>
 				<Component {...pageProps} />
 			</DeviceProvider>
-			{/* </SessionProvider> */}
 		</React.Fragment>
 	);
 }

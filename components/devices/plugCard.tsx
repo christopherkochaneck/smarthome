@@ -11,12 +11,19 @@ interface Props {
 
 export const PlugCard: FC<Props> = (props) => {
 	const devices = useDevices();
-	const [device, setDevice] = useState<PlugS>(devices.plugS[props.id]);
+
+	const plug = devices.plugS.find((x) => x.id === props.id);
+	const [device, setDevice] = useState<PlugS | undefined>(plug);
 	const [state, setState] = useState<boolean>(false);
 	const [power, setPower] = useState<number>(0);
 
 	useEffect(() => {
-		const d = devices.plugS[props.id];
+		const d = devices.plugS.find((x) => x.id === props.id);
+
+		if (!d) {
+			return;
+		}
+
 		setDevice(d);
 		setState(d.state);
 		setPower(d.power);
