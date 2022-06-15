@@ -17,10 +17,6 @@ export class RGBW2 {
 		this.id = id;
 	}
 
-	public initialize() {
-		this.setDeviceData();
-	}
-
 	public async getSettings(): Promise<any> {
 		try {
 			const res = await axios.get(`http://${this.ipAddress}/settings`);
@@ -43,11 +39,15 @@ export class RGBW2 {
 		return this.state;
 	}
 
+	public async getName() {
+		return this.name;
+	}
+
 	public getDevice() {
 		return this;
 	}
 
-	private async setDeviceData() {
+	public async fetchCurrentDeviceData() {
 		try {
 			const res = await this.getSettings();
 
