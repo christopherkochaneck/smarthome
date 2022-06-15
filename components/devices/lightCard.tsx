@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from 'react';
-import { useDevices } from '../../context/DeviceContext';
 import { RGBW2 } from '../../devices/rgbw2';
 import color from '../../interfaces/color';
 import LightIcon from '../../res/images/bulb.svg';
@@ -13,35 +12,23 @@ interface Props {
 }
 
 export const LightCard: FC<Props> = (props) => {
-	const { devices } = useDevices();
+	const device = new RGBW2(props.ipAdress, props.id);
 
 	const [color, setColor] = useState<color>({ red: 0, green: 0, blue: 0 });
-	const device = new RGBW2(props.ipAdress, props.id);
 	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
 	const [state, setState] = useState<boolean>(false);
-	const [open, setOpen] = useState<boolean>(false);
 	const [brightness, setBrightness] = useState<number>(100);
-
-	const deviceColor = async () => {
-		setColor(await device.getColor());
-	};
-
-	const deviceState = async () => {
-		setState(await device.getState());
-	};
-
-	const deviceBrightness = async () => {
-		setBrightness(await device.getBrightness());
-	};
+	const [name, setName] = useState<string>('');
+	const [open, setOpen] = useState<boolean>(false);
 
 	useEffect(() => {
-		device.initialize();
-
-		const interval = setInterval(() => {
-			deviceColor();
-			deviceState();
-			deviceBrightness();
-		}, 500);
+		const interval = setInterval(async () => {
+			await device.fetchCurrentDeviceData();
+			setColor(device.color);
+			setState(device.state);
+			setBrightness(device.brightness);
+			setName(device.name);
+		}, 150);
 		return () => {
 			clearInterval(interval);
 		};
@@ -66,12 +53,9 @@ export const LightCard: FC<Props> = (props) => {
 			<div
 				className="h-full w-translate-y-full"
 				onClick={async () => {
-					if (device) {
-						await device.toggleDevice();
-						const state = device.state;
-						setColor(state ? device.color : device.offColor);
-						setState(state);
-					}
+					device.toggleDevice();
+					setColor(state ? device.color : device.offColor);
+					setState(device.state);
 				}}
 			>
 				<Card>
@@ -95,7 +79,7 @@ export const LightCard: FC<Props> = (props) => {
 							<LightIcon />
 						</div>
 						<div className="text-zinc-400 text-left">
-							{device ? device.name : 'DeviceTitle unavailable'}
+							{device ? name : 'DeviceTitle unavailable'}
 						</div>
 						<div
 							style={{
