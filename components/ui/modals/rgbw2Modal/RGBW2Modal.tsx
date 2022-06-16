@@ -7,13 +7,19 @@ interface Props {
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 	setSelectedColor: Dispatch<SetStateAction<color | undefined>>;
-	device?: RGBW2;
+	device: RGBW2;
 	devices?: RGBW2[];
 	brightness?: number;
 	setBrightness?: Dispatch<SetStateAction<number>>;
 }
 
 export const RGBW2Modal: FC<Props> = (props) => {
+	const handleClick = async (color: color) => {
+		if (!props.device.state) {
+			props.device.setColor(color);
+			await props.device.turnOn();
+		}
+	};
 	return (
 		<Dialog
 			open={props.open}
@@ -38,8 +44,10 @@ export const RGBW2Modal: FC<Props> = (props) => {
 				>
 					<div
 						className="bg-red-600 rounded-full w-20 h-20 hover:cursor-pointer"
-						onClick={() => {
-							props.setSelectedColor({ red: 255, green: 0, blue: 0 });
+						onClick={async () => {
+							let color = { red: 255, green: 0, blue: 0 };
+							props.setSelectedColor(color);
+							await handleClick(color);
 						}}
 						style={{
 							display: 'block',
@@ -51,8 +59,10 @@ export const RGBW2Modal: FC<Props> = (props) => {
 					/>
 					<div
 						className="bg-green-600 rounded-full w-20 h-20 hover:cursor-pointer"
-						onClick={() => {
-							props.setSelectedColor({ red: 0, green: 255, blue: 0 });
+						onClick={async () => {
+							let color = { red: 0, green: 255, blue: 0 };
+							props.setSelectedColor(color);
+							await handleClick(color);
 						}}
 						style={{
 							display: 'block',
@@ -64,8 +74,10 @@ export const RGBW2Modal: FC<Props> = (props) => {
 					/>
 					<div
 						className="bg-blue-600 rounded-full w-20 h-20 hover:cursor-pointer"
-						onClick={() => {
-							props.setSelectedColor({ red: 0, green: 0, blue: 255 });
+						onClick={async () => {
+							let color = { red: 0, green: 0, blue: 255 };
+							props.setSelectedColor(color);
+							await handleClick(color);
 						}}
 						style={{
 							display: 'block',
@@ -77,8 +89,10 @@ export const RGBW2Modal: FC<Props> = (props) => {
 					/>
 					<div
 						className="bg-yellow-400 rounded-full w-20 h-20 hover:cursor-pointer"
-						onClick={() => {
-							props.setSelectedColor({ red: 255, green: 255, blue: 0 });
+						onClick={async () => {
+							let color = { red: 255, green: 255, blue: 0 };
+							props.setSelectedColor(color);
+							await handleClick(color);
 						}}
 						style={{
 							display: 'block',
@@ -90,8 +104,10 @@ export const RGBW2Modal: FC<Props> = (props) => {
 					/>
 					<div
 						className="bg-white rounded-full w-20 h-20 hover:cursor-pointer"
-						onClick={() => {
-							props.setSelectedColor({ red: 255, green: 255, blue: 255 });
+						onClick={async () => {
+							let color = { red: 255, green: 255, blue: 255 };
+							props.setSelectedColor(color);
+							await handleClick(color);
 						}}
 						style={{
 							display: 'block',
@@ -103,8 +119,10 @@ export const RGBW2Modal: FC<Props> = (props) => {
 					/>
 					<div
 						className="bg-purple-700 rounded-full w-20 h-20 hover:cursor-pointer"
-						onClick={() => {
-							props.setSelectedColor({ red: 255, green: 0, blue: 255 });
+						onClick={async () => {
+							let color = { red: 255, green: 0, blue: 255 };
+							props.setSelectedColor(color);
+							await handleClick(color);
 						}}
 						style={{
 							display: 'block',
