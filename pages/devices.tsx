@@ -18,7 +18,7 @@ const Devices: NextPage = () => {
 					})}
 				<div className="text-zinc-500 text-center">Plugs</div>
 				{devices
-					.filter((x) => x.type === 'plugs')
+					.filter((x) => x.type === 'plugS')
 					.map((key) => {
 						return <PlugCard id={key.id} key={key.id} ipAdress={key.ipAdress} />;
 					})}
