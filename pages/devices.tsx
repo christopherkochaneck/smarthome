@@ -16,13 +16,12 @@ const Devices: NextPage = () => {
 					.map((key) => {
 						return <LightCard id={key.id} key={key.id} ipAdress={key.ipAdress} />;
 					})}
-				{/* {devices.rgbw2.map((key) => {
-					return <LightCard id={key.id} key={key.id} />;
-				})} */}
 				<div className="text-zinc-500 text-center">Plugs</div>
-				{/* {devices.plugS.map((key) => {
-					return <PlugCard id={key.id} key={key.id} />;
-				})} */}
+				{devices
+					.filter((x) => x.type === 'plugs')
+					.map((key) => {
+						return <PlugCard id={key.id} key={key.id} ipAdress={key.ipAdress} />;
+					})}
 			</div>
 		</LayoutWrapper>
 	);

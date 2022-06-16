@@ -14,13 +14,9 @@ export class PlugS {
 		this.id = id;
 	}
 
-	public initialize() {
-		this.setDeviceData();
-	}
-
 	public async getSettings(): Promise<any> {
 		try {
-			const res = await axios.get(`http://${this.ipAddress}/settings`);
+			const res = await axios({ method: 'GET', url: `http://${this.ipAddress}/settings` });
 
 			return res.data;
 		} catch (error) {
@@ -30,7 +26,7 @@ export class PlugS {
 
 	public async getMeters(): Promise<any> {
 		try {
-			const res = await axios.get(`http://${this.ipAddress}/meter/0`);
+			const res = await axios({ method: 'GET', url: `http://${this.ipAddress}/meter/0` });
 
 			return res.data;
 		} catch (error) {
@@ -38,7 +34,7 @@ export class PlugS {
 		}
 	}
 
-	private async setDeviceData() {
+	public async fetchCurrentDeviceData() {
 		try {
 			const res = await this.getSettings();
 
@@ -64,13 +60,17 @@ export class PlugS {
 		}
 	}
 
-	public async toggleDevice(): Promise<void> {
+	public async turnOff(): Promise<void> {
 		try {
-			if (this.state) {
-				await axios.get(`http://${this.ipAddress}/relay/0?turn=off`);
-			} else {
-				await axios.get(`http://${this.ipAddress}/relay/0?turn=on`);
-			}
+			await axios({ method: 'GET', url: `http://${this.ipAddress}/relay/0?turn=off` });
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	public async turnOn(): Promise<void> {
+		try {
+			await axios({ method: 'GET', url: `http://${this.ipAddress}/relay/0?turn=on` });
 		} catch (error) {
 			console.error(error);
 		}

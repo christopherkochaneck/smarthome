@@ -1,44 +1,42 @@
 import { FC, useEffect, useState } from 'react';
-import { useDevices } from '../../context/DeviceContext';
 import { PlugS } from '../../devices/plugS';
 import PlugIcon from '../../res/images/plug.svg';
 import { Card } from '../ui/card/card';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 
 interface Props {
+	ipAdress: string;
 	id: string;
 }
 
 export const PlugCard: FC<Props> = (props) => {
-	const devices = useDevices();
+	const device = new PlugS(props.ipAdress, props.id);
 
-	const plug = devices.plugS.find((x) => x.id === props.id);
-	const [device, setDevice] = useState<PlugS | undefined>(plug);
 	const [state, setState] = useState<boolean>(false);
 	const [power, setPower] = useState<number>(0);
 
 	useEffect(() => {
-		const d = devices.plugS.find((x) => x.id === props.id);
-
-		if (!d) {
-			return;
-		}
-
-		setDevice(d);
-		setState(d.state);
-		setPower(d.power);
-	}, [devices.plugS, props.id]);
+		const interval = setInterval(async () => {
+			await device.fetchCurrentDeviceData();
+			setState(device.state);
+			setPower(device.power);
+		}, 150);
+		return () => {
+			clearInterval(interval);
+		};
+	}, []);
 
 	return (
 		<>
 			<div
 				className="h-full w-translate-y-full"
 				onClick={async () => {
-					if (device) {
-						await device.toggleDevice();
-						const state = device.state;
-						setState(state);
+					if (state) {
+						await device.turnOff();
+					} else {
+						await device.turnOn();
 					}
+					setState(state);
 				}}
 			>
 				<Card>
