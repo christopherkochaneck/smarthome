@@ -54,11 +54,7 @@ export const LightCard: FC<Props> = (props) => {
 			<div
 				className="h-full w-translate-y-full"
 				onClick={async () => {
-					if (state) {
-						await device.turnOff();
-					} else {
-						await device.turnOn();
-					}
+					state ? await device.turnOff() : await device.turnOn();
 					setColor(state ? device.color : device.offColor);
 					setState(device.state);
 				}}
