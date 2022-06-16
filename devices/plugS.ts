@@ -38,23 +38,15 @@ export class PlugS {
 		try {
 			const res = await this.getSettings();
 
-			const res1 = await this.getMeters();
+			const meters = await this.getMeters();
 
-			if (this.hostname !== res.device.hostname) {
-				this.hostname = res.device.hostname;
-			}
+			this.hostname = res.device.hostname;
 
-			if (this.state !== res.relays[0].ison) {
-				this.state = res.relays[0].ison;
-			}
+			this.state = res.relays[0].ison;
 
-			if (this.name !== res.name) {
-				this.name = res.name;
-			}
+			this.name = res.name;
 
-			if (this.power !== res1.power) {
-				this.power === res1.power;
-			}
+			this.power = meters.power;
 		} catch (error) {
 			console.error(error);
 		}
