@@ -9,7 +9,7 @@ import {
 } from 'react';
 import rgbw2Devices from '../data/rgbw2.json';
 import plugSDevices from '../data/plugS.json';
-import groups from '../data/groups.json';
+// import groups from '../data/groups.json';
 import { RGBW2Type } from '../types/RGBW2Type';
 import { PlugSType } from '../types/PlugSTypes';
 import axios from 'axios';
@@ -51,7 +51,6 @@ export const DeviceProvider: FC = (props) => {
 	}, [devices]);
 
 	const contextValue: DeviceContextType = { devices, setDevices };
-	console.log('devices', devices);
 
 	return (
 		<>

@@ -51,27 +51,17 @@ export class RGBW2 {
 		try {
 			const res = await this.getSettings();
 
-			if (this.hostname !== res.device.hostname) {
-				this.hostname = res.device.hostname;
-			}
+			this.hostname = res.device.hostname;
 
-			if (this.state !== res.lights[0].ison) {
-				this.state = res.lights[0].ison;
-			}
+			this.state = res.lights[0].ison;
 
-			if (this.name !== res.name) {
-				this.name = res.name;
-			}
+			this.name = res.name;
 
 			let color = { red: res.lights[0].red, green: res.lights[0].green, blue: res.lights[0].blue };
 
-			if (this.color !== color) {
-				this.color = color;
-			}
+			this.color = color;
 
-			if (this.brightness !== res.lights[0].gain) {
-				this.brightness = res.lights[0].gain;
-			}
+			this.brightness = res.lights[0].gain;
 		} catch (error) {
 			console.error(error);
 		}
@@ -91,18 +81,6 @@ export class RGBW2 {
 		try {
 			await axios.get(`http://${this.ipAddress}/color/0?gain=${brightness}`);
 			return;
-		} catch (error) {
-			console.error(error);
-		}
-	}
-
-	public async toggleDevice(): Promise<void> {
-		try {
-			if (this.state) {
-				await axios.get(`http://${this.ipAddress}/color/0?turn=off`);
-			} else {
-				await axios.get(`http://${this.ipAddress}/color/0?turn=on`);
-			}
 		} catch (error) {
 			console.error(error);
 		}
