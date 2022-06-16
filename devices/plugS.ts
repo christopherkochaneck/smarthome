@@ -44,7 +44,7 @@ export class PlugS {
 
 			this.state = res.relays[0].ison;
 
-			this.name = res.name;
+			this.name = res.relays[0].name;
 
 			this.power = meters.power;
 		} catch (error) {

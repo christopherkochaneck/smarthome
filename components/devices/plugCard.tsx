@@ -5,8 +5,9 @@ import { Card } from '../ui/card/card';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 
 interface Props {
-	ipAdress: string;
 	id: string;
+	name: string;
+	ipAdress: string;
 }
 
 export const PlugCard: FC<Props> = (props) => {
@@ -14,12 +15,14 @@ export const PlugCard: FC<Props> = (props) => {
 
 	const [state, setState] = useState<boolean>(false);
 	const [power, setPower] = useState<number>(0);
+	const [name, setName] = useState<string>(props.name);
 
 	useEffect(() => {
 		const interval = setInterval(async () => {
 			await device.fetchCurrentDeviceData();
 			setState(device.state);
 			setPower(device.power);
+			setName(props.name);
 		}, 150);
 		return () => {
 			clearInterval(interval);
@@ -60,9 +63,7 @@ export const PlugCard: FC<Props> = (props) => {
 						>
 							<PlugIcon />
 						</div>
-						<div className="text-zinc-400 text-left">
-							{device ? device.name : 'DeviceTitle unavailable'}
-						</div>
+						<div className="text-zinc-400 text-left">{name ? name : 'DeviceTitle unavailable'}</div>
 						<div
 							style={{
 								gridArea: '1 / 3 / 3 / 4',

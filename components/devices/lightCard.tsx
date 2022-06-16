@@ -8,6 +8,7 @@ import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 
 interface Props {
 	id: string;
+	name: string;
 	ipAdress: string;
 }
 
@@ -18,7 +19,7 @@ export const LightCard: FC<Props> = (props) => {
 	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
 	const [state, setState] = useState<boolean>(false);
 	const [brightness, setBrightness] = useState<number>(100);
-	const [name, setName] = useState<string>('');
+	const [name, setName] = useState<string>(props.name);
 	const [open, setOpen] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -27,7 +28,7 @@ export const LightCard: FC<Props> = (props) => {
 			setColor(device.color);
 			setState(device.state);
 			setBrightness(device.brightness);
-			setName(device.name);
+			setName(props.name);
 		}, 150);
 		return () => {
 			clearInterval(interval);
