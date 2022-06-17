@@ -7,7 +7,7 @@ interface Props {
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 	setSelectedColor: Dispatch<SetStateAction<color | undefined>>;
-	device: RGBW2;
+	device?: RGBW2;
 	devices?: RGBW2[];
 	brightness?: number;
 	setBrightness?: Dispatch<SetStateAction<number>>;
@@ -15,6 +15,10 @@ interface Props {
 
 export const RGBW2Modal: FC<Props> = (props) => {
 	const handleClick = async (color: color) => {
+		if (!props.device) {
+			return;
+		}
+
 		if (!props.device.state) {
 			props.device.setColor(color);
 			await props.device.turnOn();
