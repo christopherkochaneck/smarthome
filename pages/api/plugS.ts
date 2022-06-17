@@ -3,7 +3,11 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 function checkIfFileExists() {
 	if (!fs.existsSync('data/plugS.json')) {
-		fs.writeFile('data/plugS.json', '[]', (err) => console.error(err));
+		try {
+			fs.writeFileSync('data/plugS.json', '[]');
+		} catch (err) {
+			console.log(err);
+		}
 	}
 }
 

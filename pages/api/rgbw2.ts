@@ -3,7 +3,11 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 function checkIfFileExists() {
 	if (!fs.existsSync('data/plugS.json')) {
-		fs.writeFile('data/plugS.json', '[]', (err) => console.error(err));
+		try {
+			fs.writeFileSync('data/plugS.json', '[]');
+		} catch (err) {
+			console.log(err);
+		}
 	}
 }
 
@@ -27,7 +31,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 				const object = JSON.parse(data);
 				object.push(req.body);
 				const appendedJson = JSON.stringify(object);
-				fs.writeFileSync('data/plugS.json', appendedJson);
+				fs.writeFileSync('data/rgbw2.json', appendedJson);
 				return res.status(200).send(appendedJson);
 			} catch (err) {
 				console.log(err);
