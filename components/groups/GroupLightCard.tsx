@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { useDevices } from '../../context/DeviceContext';
+import { useGroups } from '../../context/GroupContext';
 import { RGBW2 } from '../../devices/rgbw2';
 import color from '../../interfaces/color';
 import LightIcon from '../../res/images/bulb.svg';
@@ -8,35 +9,38 @@ import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 
 interface Props {
-	group?: {
-		rgbw2?: string[];
-	};
+	group: string;
 	title: string;
 }
 
 export const GroupLightCard: FC<Props> = (props) => {
+	const groups = useGroups();
 	const devices = useDevices();
-	const [lights, setLights] = useState<RGBW2[]>();
+
+	const [lights, setDevices] = useState<RGBW2[]>([]);
 	const [color, setColor] = useState<color>();
 	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
 	const [state, setState] = useState<boolean>(false);
 	const [states, setStates] = useState<boolean[]>();
 	const [open, setOpen] = useState<boolean>(false);
-	const [fade, setFade] = useState<boolean>(false);
+
+	const group = groups.groups.find((x) => x.name === props.group);
+
+	// for (let i = 0; i <= group.ids.length; i++) {
+	// 	const deviceID = group!.ids[i];
+	// 	const deviceData = devices.devices.find((x) => x.id === deviceID);
+
+	// 	let device = new RGBW2(deviceData!.ipAdress, deviceData!.id);
+
+	// 	setDevices([...lights, device]);
+	// }
 
 	useEffect(() => {
 		const lightArray: RGBW2[] = [];
 		const stateArray: boolean[] = [];
 		const colorArray: color[] = [];
-		Object.keys(props.group!.rgbw2!).map((key) => {
-			const index = parseInt(key);
-			const name = props.group?.rgbw2![index];
-
-			if (!name) {
-				return;
-			}
-
-			const device = devices.rgbw2[name];
+		lights.map((key) => {
+			const device = lights[key.id];
 			lightArray.push(device);
 			stateArray.push(device.state);
 			colorArray.push(device.color);
@@ -49,7 +53,7 @@ export const GroupLightCard: FC<Props> = (props) => {
 				setState(false);
 			}
 		});
-		setLights({ ...lightArray });
+		setDevices({ ...lightArray });
 		setStates({ ...stateArray });
 
 		if (!lights) {
@@ -58,7 +62,7 @@ export const GroupLightCard: FC<Props> = (props) => {
 		setColor(lights[0].state ? lights[0].color : lights[0].offColor);
 
 		// 	setBrightness(d.brightness);
-	}, [devices.rgbw2, props.group]);
+	}, [groups, props.group]);
 
 	useEffect(() => {
 		if (!lights) {
