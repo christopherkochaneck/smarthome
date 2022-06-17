@@ -24,16 +24,20 @@ export const GroupLightCard: FC<Props> = (props) => {
 	const [states, setStates] = useState<boolean[]>();
 	const [open, setOpen] = useState<boolean>(false);
 
-	const group = groups.groups.find((x) => x.name === props.group);
+	useEffect(() => {
+		const group = groups.groups.find((x) => x.name === props.group);
+		if (group) {
+			for (let i = 0; i <= group.ids.length; i++) {
+				const deviceID = group.ids[i];
+				const deviceData = devices.devices.find((x) => x.id === deviceID);
 
-	// for (let i = 0; i <= group.ids.length; i++) {
-	// 	const deviceID = group!.ids[i];
-	// 	const deviceData = devices.devices.find((x) => x.id === deviceID);
-
-	// 	let device = new RGBW2(deviceData!.ipAdress, deviceData!.id);
-
-	// 	setDevices([...lights, device]);
-	// }
+				if (deviceData) {
+					let device = new RGBW2(deviceData!.ipAdress, deviceData!.id);
+					setDevices([...lights, device]);
+				}
+			}
+		}
+	}, [groups, devices]);
 
 	useEffect(() => {
 		const lightArray: RGBW2[] = [];
@@ -53,15 +57,15 @@ export const GroupLightCard: FC<Props> = (props) => {
 				setState(false);
 			}
 		});
-		setDevices({ ...lightArray });
-		setStates({ ...stateArray });
+		setDevices([...lightArray]);
+		setStates([...stateArray]);
 
-		if (!lights) {
+		if (lights.length === 0) {
 			return;
 		}
 		setColor(lights[0].state ? lights[0].color : lights[0].offColor);
 
-		// 	setBrightness(d.brightness);
+		// setBrightness(d.brightness);
 	}, [groups, props.group]);
 
 	useEffect(() => {
