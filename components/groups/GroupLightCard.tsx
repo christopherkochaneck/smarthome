@@ -40,33 +40,35 @@ export const GroupLightCard: FC<Props> = (props) => {
 	}, [groups, devices]);
 
 	useEffect(() => {
-		const lightArray: RGBW2[] = [];
-		const stateArray: boolean[] = [];
-		const colorArray: color[] = [];
-		lights.map((key) => {
-			const device = lights[key.id];
-			lightArray.push(device);
-			stateArray.push(device.state);
-			colorArray.push(device.color);
+		const interval = setInterval(() => {
+			const lightArray: RGBW2[] = [];
+			const stateArray: boolean[] = [];
+			const colorArray: color[] = [];
+			lights.map((device) => {
+				lightArray.push(device);
+				stateArray.push(device.state);
+				colorArray.push(device.color);
 
-			if (device.state) {
-				setState(true);
+				if (device.state) {
+					setState(true);
+				}
+
+				if (stateArray.every((state) => state === false)) {
+					setState(false);
+				}
+			});
+			setDevices([...lightArray]);
+			setStates([...stateArray]);
+
+			if (lights.length === 0) {
+				return;
 			}
-
-			if (stateArray.every((state) => state === false)) {
-				setState(false);
-			}
-		});
-		setDevices([...lightArray]);
-		setStates([...stateArray]);
-
-		if (lights.length === 0) {
-			return;
-		}
-		setColor(lights[0].state ? lights[0].color : lights[0].offColor);
-
-		// setBrightness(d.brightness);
-	}, [groups, props.group]);
+			setColor(lights[0].state ? lights[0].color : lights[0].offColor);
+		}, 150);
+		return () => {
+			clearInterval(interval);
+		};
+	}, []);
 
 	useEffect(() => {
 		if (!lights) {
