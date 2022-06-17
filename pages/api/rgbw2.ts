@@ -13,32 +13,26 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 	switch (method) {
 		case 'GET':
 			checkIfFileExists();
-			fs.readFile('data/rgbw2.json', 'utf8', (err, data) => {
-				if (err) {
-					console.error(err);
-				} else {
-					return res.status(200).send(JSON.parse(data));
-				}
-			});
+			try {
+				const data = fs.readFileSync('data/rgbw2.json').toString();
+				return res.status(200).send(JSON.parse(data));
+			} catch (err) {
+				console.log(err);
+			}
 			break;
 		case 'POST':
 			checkIfFileExists();
-			let jsonObject = { id: req.body.id, title: req.body.title, ipAdress: req.body.ipAdress };
-			fs.readFile('data/rgbw2.json', 'utf-8', (err, data) => {
-				if (err) {
-					console.log(err);
-				} else {
-					const object = JSON.parse(data);
-					object.push(jsonObject);
-					const appendedJson = JSON.stringify(object);
-					fs.writeFile('data/rgbw2.json', appendedJson, 'utf8', (err) => {
-						if (err) {
-							console.log(err);
-						}
-					});
-					return res.status(200).send(jsonObject);
-				}
-			});
+			try {
+				const data = fs.readFileSync('data/rgbw2.json').toString();
+				const object = JSON.parse(data);
+				object.push(req.body);
+				const appendedJson = JSON.stringify(object);
+				fs.writeFileSync('data/plugS.json', appendedJson);
+				return res.status(200).send(appendedJson);
+			} catch (err) {
+				console.log(err);
+			}
+
 			break;
 		case 'PATCH':
 			checkIfFileExists();
@@ -50,7 +44,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 			break;
 		default:
 			res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
-			res.status(405).end(`Method ${method} Not Allowed`);
+			return res.status(405).end(`Method ${method} Not Allowed`);
 			break;
 	}
 }
