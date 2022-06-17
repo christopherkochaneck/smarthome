@@ -20,6 +20,7 @@ type Device = RGBW2Type | PlugSType;
 interface DeviceContextType {
 	devices: Device[];
 	setDevices: Dispatch<SetStateAction<Device[]>>;
+	addDevice: (device: Device) => void;
 }
 
 const DeviceContext = createContext<DeviceContextType>(undefined!);
@@ -43,11 +44,17 @@ export const DeviceProvider: FC = (props) => {
 		fetchData();
 	}, []);
 
-	useEffect(() => {
-		//saveJSON
-	}, [devices]);
+	const addDevice = async (device: Device) => {
+		await axios({
+			method: 'post',
+			url: `http://localhost:3000/api/${device.type}`,
+			data: device,
+		});
 
-	const contextValue: DeviceContextType = { devices, setDevices };
+		setDevices([...devices, device]);
+	};
+
+	const contextValue: DeviceContextType = { devices, setDevices, addDevice };
 
 	return (
 		<>

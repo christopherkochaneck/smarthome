@@ -1,4 +1,3 @@
-import axios from 'axios';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
@@ -8,8 +7,12 @@ import { Input } from '../components/ui/input/input';
 import { Select } from '../components/ui/select/select';
 import DiskFloppy from '../res/images/device-floppy.svg';
 import { v4 as uuidv4 } from 'uuid';
+import { useDevices } from '../context/DeviceContext';
+import { RGBW2Type } from '../types/RGBW2Type';
+import { PlugSType } from '../types/PlugSTypes';
 
 const Devices: NextPage = () => {
+	const devices = useDevices();
 	const [deviceType, setDeviceType] = useState<string>('rgbw2');
 	const [deviceName, setDeviceName] = useState<string>('');
 	const [deviceIP, setDeviceIP] = useState<string>('');
@@ -18,29 +21,24 @@ const Devices: NextPage = () => {
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		try {
+			let device: RGBW2Type | PlugSType;
 			if (deviceType === 'rgbw2') {
-				await axios({
-					method: 'post',
-					url: 'http://localhost:3000/api/rgbw2',
-					data: {
-						id: uuidv4(),
-						title: deviceName,
-						ipAdress: deviceIP,
-					},
-				});
-				return;
+				device = {
+					type: 'rgbw2',
+					id: uuidv4(),
+					title: deviceName,
+					ipAdress: deviceIP,
+				};
+				devices.addDevice(device);
 			}
-			if (deviceType === 'plugs') {
-				console.log('triggered');
-				await axios({
-					method: 'post',
-					url: 'http://localhost:3000/api/plugS',
-					data: {
-						id: uuidv4(),
-						title: deviceName,
-						ipAdress: deviceIP,
-					},
-				});
+			if (deviceType === 'plugS') {
+				device = {
+					type: 'plugS',
+					id: uuidv4(),
+					title: deviceName,
+					ipAdress: deviceIP,
+				};
+				devices.addDevice(device);
 				return;
 			}
 		} catch (ex) {
