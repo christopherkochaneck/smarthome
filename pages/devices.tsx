@@ -1,4 +1,4 @@
-import type { GetStaticProps, NextPage } from 'next';
+import type { NextPage } from 'next';
 import { LightCard } from '../components/devices/lightCard';
 import { PlugCard } from '../components/devices/plugCard';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
