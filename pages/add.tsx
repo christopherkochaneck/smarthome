@@ -17,7 +17,6 @@ const Devices: NextPage = () => {
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
 		try {
 			if (deviceType === 'rgbw2') {
 				await axios({
@@ -29,8 +28,10 @@ const Devices: NextPage = () => {
 						ipAdress: deviceIP,
 					},
 				});
+				return;
 			}
 			if (deviceType === 'plugs') {
+				console.log('triggered');
 				await axios({
 					method: 'post',
 					url: 'http://localhost:3000/api/plugS',
@@ -40,6 +41,7 @@ const Devices: NextPage = () => {
 						ipAdress: deviceIP,
 					},
 				});
+				return;
 			}
 		} catch (ex) {
 			console.log(ex);
