@@ -17,7 +17,6 @@ const Devices: NextPage = () => {
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(deviceType);
 
 		try {
 			if (deviceType === 'rgbw2') {
