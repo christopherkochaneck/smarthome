@@ -30,8 +30,8 @@ export const GroupProvider: FC = (props) => {
 	const [groups, setGroups] = useState<Group[]>([]);
 
 	const fetchData = async () => {
-		const groupsRes = await axios({ method: 'get', url: 'http://localhost:3000/api/group' });
-		setGroups([groupsRes.data]);
+		const groupRes = await axios({ method: 'get', url: 'http://localhost:3000/api/group' });
+		setGroups(groupRes.data);
 	};
 
 	useEffect(() => {
