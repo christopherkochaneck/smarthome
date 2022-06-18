@@ -30,8 +30,14 @@ const AddGroup: NextPage = () => {
 						}}
 					/>
 					<div className="text-zinc-700 text-center">Select Devices to Add</div>
-					<LightSelectionCard id="123" name="" />
-					<PlugSelectionCard id="1234" name="" />
+					{devices.devices.map((key) => {
+						if (key.type === 'rgbw2') {
+							return <LightSelectionCard id={key.id} key={key.id} name={key.title} />;
+						}
+						if ((key.type = 'plugS')) {
+							return <PlugSelectionCard id={key.id} key={key.id} name={key.title} />;
+						}
+					})}
 				</div>
 				<FloatingActionButton
 					className="bg-black absolute right-4 bottom-20 text-zinc-700"

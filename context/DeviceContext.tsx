@@ -8,7 +8,7 @@ import {
 	useState,
 } from 'react';
 import { RGBW2Type } from '../types/RGBW2Type';
-import { PlugSType } from '../types/PlugSTypes';
+import { PlugSType } from '../types/PlugSType';
 import axios from 'axios';
 
 interface Group {

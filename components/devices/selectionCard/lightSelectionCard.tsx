@@ -21,7 +21,7 @@ export const LightSelectionCard: FC<Props> = (props) => {
 					onClick={() => setSelected(!selected)}
 				>
 					<LightIcon />
-					<div className="text-zinc-400 flex-grow">My Name</div>
+					<div className="text-zinc-400 flex-grow">{props.name}</div>
 					<SelectionIndicator selected={selected} setSelected={setSelected} />
 				</div>
 			</Card>

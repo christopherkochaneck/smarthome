@@ -20,7 +20,7 @@ export const PlugSelectionCard: FC<Props> = (props) => {
 					onClick={() => setSelected(!selected)}
 				>
 					<PlugIcon />
-					<div className="text-zinc-400 flex-grow">My Name</div>
+					<div className="text-zinc-400 flex-grow">{props.name}</div>
 					<SelectionIndicator selected={selected} setSelected={setSelected} />
 				</div>
 			</Card>
