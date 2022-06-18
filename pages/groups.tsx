@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import { GroupLightCard } from '../components/groups/GroupLightCard';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
+import { SceneCard } from '../components/scenes/SceneCard';
 import { useGroups } from '../context/GroupContext';
 
 const Groups: NextPage = () => {
@@ -13,6 +14,7 @@ const Groups: NextPage = () => {
 					return <GroupLightCard group={key.name} title={key.name} />;
 				})}
 				<div className="text-zinc-500 text-center">Scenes</div>
+				<SceneCard name="My Scene Name" />
 			</div>
 		</LayoutWrapper>
 	);
