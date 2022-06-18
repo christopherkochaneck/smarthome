@@ -11,7 +11,7 @@ import { useDevices } from '../context/DeviceContext';
 import { RGBW2Type } from '../types/RGBW2Type';
 import { PlugSType } from '../types/PlugSTypes';
 
-const Devices: NextPage = () => {
+const AddDevice: NextPage = () => {
 	const devices = useDevices();
 	const [deviceType, setDeviceType] = useState<string>('rgbw2');
 	const [deviceName, setDeviceName] = useState<string>('');
@@ -87,4 +87,4 @@ const Devices: NextPage = () => {
 	);
 };
 
-export default Devices;
+export default AddDevice;

@@ -4,7 +4,7 @@ import { LayoutWrapper } from '../components/layout/layoutWrapper';
 
 const Groups: NextPage = () => {
 	return (
-		<LayoutWrapper showAppbar={true} showAppbarIcon={true} appBarTitle="Groups">
+		<LayoutWrapper showAppbar={true} showAppbarIcon={true} appBarTitle="Groups" href="/addGroup">
 			<div className="grid gap-4">
 				<div className="text-zinc-500 text-center">Groups</div>
 				<GroupLightCard group="test" title="LED Stripes" />

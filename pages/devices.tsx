@@ -8,7 +8,7 @@ const Devices: NextPage = () => {
 	const { devices } = useDevices();
 
 	return (
-		<LayoutWrapper showAppbar={true} showAppbarIcon={true} appBarTitle="Devices">
+		<LayoutWrapper showAppbar={true} showAppbarIcon={true} appBarTitle="Devices" href="/addDevice">
 			<div className="grid gap-4">
 				<div className="text-zinc-500 text-center">Lights</div>
 				{devices
