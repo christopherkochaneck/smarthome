@@ -16,7 +16,7 @@ export const LayoutWrapper: FC<Props> = (props) => {
 					href={props.href}
 					showAppbar={props.showAppbar}
 					title={props.appBarTitle}
-					showAddIcon={props.showAppbar}
+					showAddIcon={props.showAppbarIcon}
 				/>
 			</header>
 			<main className="flex-1">

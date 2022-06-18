@@ -50,7 +50,7 @@ const AddDevice: NextPage = () => {
 	};
 
 	return (
-		<LayoutWrapper showAppbar={true} showAppbarIcon={true} appBarTitle="Add Device">
+		<LayoutWrapper showAppbar={true} showAppbarIcon={false} appBarTitle="Add Device">
 			<form onSubmit={handleSubmit}>
 				<div className="grid gap-4">
 					<Select

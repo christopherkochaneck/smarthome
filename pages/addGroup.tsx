@@ -30,7 +30,7 @@ const AddGroup: NextPage = () => {
 	};
 
 	return (
-		<LayoutWrapper showAppbar={true} showAppbarIcon={true} appBarTitle="Add Group">
+		<LayoutWrapper showAppbar={true} showAppbarIcon={false} appBarTitle="Add Group">
 			<form onSubmit={handleSubmit}>
 				<div className="grid gap-4">
 					<Input
