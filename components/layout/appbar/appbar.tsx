@@ -6,6 +6,7 @@ interface Props {
 	showAppbar: boolean;
 	showAddIcon?: boolean;
 	title?: string;
+	href?: string;
 }
 
 export const Appbar: FC<Props> = (props) => {
@@ -18,7 +19,7 @@ export const Appbar: FC<Props> = (props) => {
 					</div>
 					{props.showAddIcon ? (
 						<div className="text-center hover:cursor-pointer w-min justify-self-center p-2">
-							<Link href="/add">
+							<Link href={props.href ? props.href : ''}>
 								<a className="text-zinc-700 " href="/add">
 									<Plus />
 								</a>

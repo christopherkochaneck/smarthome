@@ -6,12 +6,14 @@ interface Props {
 	appBarTitle?: string;
 	showAppbar: boolean;
 	showAppbarIcon: boolean;
+	href?: string;
 }
 export const LayoutWrapper: FC<Props> = (props) => {
 	return (
 		<div className="flex flex-col h-screen bg-[#121212]">
 			<header>
 				<Appbar
+					href={props.href}
 					showAppbar={props.showAppbar}
 					title={props.appBarTitle}
 					showAddIcon={props.showAppbar}
