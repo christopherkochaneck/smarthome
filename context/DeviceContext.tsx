@@ -11,10 +11,6 @@ import { RGBW2Type } from '../types/RGBW2Type';
 import { PlugSType } from '../types/PlugSType';
 import axios from 'axios';
 
-interface Group {
-	itemID: string[];
-}
-
 type Device = RGBW2Type | PlugSType;
 
 interface DeviceContextType {
