@@ -8,16 +8,12 @@ import {
 	useState,
 } from 'react';
 import axios from 'axios';
-
-type Group = {
-	type: 'group';
-	name: string;
-	ids: string[];
-};
+import { GroupType } from '../types/GroupType';
 
 interface GroupContextType {
-	groups: Group[];
-	setGroups: Dispatch<SetStateAction<Group[]>>;
+	groups: GroupType[];
+	setGroups: Dispatch<SetStateAction<GroupType[]>>;
+	addGroup: (group: GroupType) => void;
 }
 
 const GroupContext = createContext<GroupContextType>(undefined!);
@@ -27,7 +23,7 @@ export function useGroups() {
 }
 
 export const GroupProvider: FC = (props) => {
-	const [groups, setGroups] = useState<Group[]>([]);
+	const [groups, setGroups] = useState<GroupType[]>([]);
 
 	const fetchData = async () => {
 		const groupRes = await axios({ method: 'get', url: 'http://localhost:3000/api/group' });
@@ -38,11 +34,17 @@ export const GroupProvider: FC = (props) => {
 		fetchData();
 	}, []);
 
-	useEffect(() => {
-		//saveJSON
-	}, [groups]);
+	const addGroup = async (group: GroupType) => {
+		await axios({
+			method: 'post',
+			url: 'http://localhost:3000/api/group',
+			data: group,
+		});
 
-	const contextValue: GroupContextType = { groups, setGroups };
+		setGroups([...groups, group]);
+	};
+
+	const contextValue: GroupContextType = { groups, setGroups, addGroup };
 
 	return (
 		<>
