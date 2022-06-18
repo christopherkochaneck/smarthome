@@ -9,7 +9,7 @@ import DiskFloppy from '../res/images/device-floppy.svg';
 import { v4 as uuidv4 } from 'uuid';
 import { useDevices } from '../context/DeviceContext';
 import { RGBW2Type } from '../types/RGBW2Type';
-import { PlugSType } from '../types/PlugSTypes';
+import { PlugSType } from '../types/PlugSType';
 
 const AddDevice: NextPage = () => {
 	const devices = useDevices();
@@ -22,6 +22,7 @@ const AddDevice: NextPage = () => {
 		e.preventDefault();
 		try {
 			let device: RGBW2Type | PlugSType;
+			console.log('triggered', deviceType);
 			if (deviceType === 'rgbw2') {
 				device = {
 					type: 'rgbw2',
@@ -31,7 +32,7 @@ const AddDevice: NextPage = () => {
 				};
 				devices.addDevice(device);
 			}
-			if (deviceType === 'plugS') {
+			if (deviceType === 'plugs') {
 				device = {
 					type: 'plugS',
 					id: uuidv4(),
