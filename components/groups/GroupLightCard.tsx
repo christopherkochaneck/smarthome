@@ -69,9 +69,9 @@ export const GroupLightCard: FC<Props> = (props) => {
 		if (!lights) {
 			return;
 		}
-		// lights.map((device: RGBW2) => {
-		// 	device.setColor(selectedColor!);
-		// });
+		lights.map((device: RGBW2) => {
+			device.setColor(selectedColor!);
+		});
 	}, [selectedColor]);
 
 	return (
