@@ -45,7 +45,6 @@ export const LightCard: FC<Props> = (props) => {
 		<>
 			<RGBW2Modal
 				open={open}
-				device={device}
 				setOpen={setOpen}
 				setSelectedColor={setSelectedColor}
 				brightness={brightness}
