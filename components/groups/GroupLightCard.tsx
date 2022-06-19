@@ -40,13 +40,18 @@ export const GroupLightCard: FC<Props> = (props) => {
 			}
 
 			const device = new RGBW2(res.ipAdress, res.id);
-			lights.push(device);
+			setLights([...lights, device]);
 		});
+	}, [groups, devices, props.groupID]);
 
-		const interval = setInterval(() => {
-			lights.map(async (device: RGBW2) => {
-				await device.fetchCurrentDeviceData();
-			});
+	useEffect(() => {
+		const interval = setInterval(async () => {
+			await Promise.all(
+				lights.map((device: RGBW2) => {
+					return device.fetchCurrentDeviceData();
+				})
+			);
+
 			if (lights.every((device) => device.state == false)) {
 				setState(false);
 			}
@@ -58,7 +63,7 @@ export const GroupLightCard: FC<Props> = (props) => {
 		return () => {
 			clearInterval(interval);
 		};
-	}, []);
+	}, [lights]);
 
 	useEffect(() => {
 		if (!lights) {
@@ -71,12 +76,7 @@ export const GroupLightCard: FC<Props> = (props) => {
 
 	return (
 		<>
-			<RGBW2Modal
-				open={open}
-				devices={lights}
-				setOpen={setOpen}
-				setSelectedColor={setSelectedColor}
-			/>
+			<RGBW2Modal open={open} setOpen={setOpen} setSelectedColor={setSelectedColor} />
 			<div
 				className="h-full w-translate-y-full"
 				onClick={async () => {

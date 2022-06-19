@@ -7,22 +7,13 @@ interface Props {
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 	setSelectedColor: Dispatch<SetStateAction<color | undefined>>;
-	device?: RGBW2;
-	devices?: RGBW2[];
 	brightness?: number;
 	setBrightness?: Dispatch<SetStateAction<number>>;
 }
 
 export const RGBW2Modal: FC<Props> = (props) => {
-	const handleClick = async (color: color) => {
-		if (!props.device) {
-			return;
-		}
-
-		if (!props.device.state) {
-			props.device.setColor(color);
-			await props.device.turnOn();
-		}
+	const handleClick = (color: color) => {
+		props.setSelectedColor(color);
 	};
 	return (
 		<Dialog
@@ -51,7 +42,7 @@ export const RGBW2Modal: FC<Props> = (props) => {
 						onClick={async () => {
 							let color = { red: 255, green: 0, blue: 0 };
 							props.setSelectedColor(color);
-							await handleClick(color);
+							handleClick(color);
 						}}
 						style={{
 							display: 'block',
@@ -66,7 +57,7 @@ export const RGBW2Modal: FC<Props> = (props) => {
 						onClick={async () => {
 							let color = { red: 0, green: 255, blue: 0 };
 							props.setSelectedColor(color);
-							await handleClick(color);
+							handleClick(color);
 						}}
 						style={{
 							display: 'block',
@@ -81,7 +72,7 @@ export const RGBW2Modal: FC<Props> = (props) => {
 						onClick={async () => {
 							let color = { red: 0, green: 0, blue: 255 };
 							props.setSelectedColor(color);
-							await handleClick(color);
+							handleClick(color);
 						}}
 						style={{
 							display: 'block',
@@ -96,7 +87,7 @@ export const RGBW2Modal: FC<Props> = (props) => {
 						onClick={async () => {
 							let color = { red: 255, green: 255, blue: 0 };
 							props.setSelectedColor(color);
-							await handleClick(color);
+							handleClick(color);
 						}}
 						style={{
 							display: 'block',
@@ -111,7 +102,7 @@ export const RGBW2Modal: FC<Props> = (props) => {
 						onClick={async () => {
 							let color = { red: 255, green: 255, blue: 255 };
 							props.setSelectedColor(color);
-							await handleClick(color);
+							handleClick(color);
 						}}
 						style={{
 							display: 'block',
@@ -126,7 +117,7 @@ export const RGBW2Modal: FC<Props> = (props) => {
 						onClick={async () => {
 							let color = { red: 255, green: 0, blue: 255 };
 							props.setSelectedColor(color);
-							await handleClick(color);
+							handleClick(color);
 						}}
 						style={{
 							display: 'block',
