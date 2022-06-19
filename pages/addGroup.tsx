@@ -10,6 +10,7 @@ import { LightSelectionCard } from '../components/devices/selectionCard/lightSel
 import { PlugSelectionCard } from '../components/devices/selectionCard/PlugSelectionCard';
 import { useGroups } from '../context/GroupContext';
 import { GroupType } from '../types/GroupType';
+import { v4 as uuidv4 } from 'uuid';
 
 const AddGroup: NextPage = () => {
 	const devices = useDevices();
@@ -21,6 +22,7 @@ const AddGroup: NextPage = () => {
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		let group: GroupType = {
+			id: uuidv4(),
 			name: groupName,
 			ids: ids,
 		};

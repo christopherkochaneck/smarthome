@@ -9,61 +9,51 @@ import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 
 interface Props {
-	group: string;
+	groupID: string;
+	groupName: string;
 	title: string;
 }
 
 export const GroupLightCard: FC<Props> = (props) => {
-	const groups = useGroups();
 	const devices = useDevices();
-
-	const [lights, setDevices] = useState<RGBW2[]>([]);
+	const groups = useGroups();
+	const [lights, setLights] = useState<RGBW2[]>([]);
 	const [color, setColor] = useState<color>();
 	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
 	const [state, setState] = useState<boolean>(false);
 	const [states, setStates] = useState<boolean[]>();
 	const [open, setOpen] = useState<boolean>(false);
+	const [name, setName] = useState<string>('');
 
 	useEffect(() => {
-		const group = groups.groups.find((x) => x.name === props.group);
-		if (group) {
-			for (let i = 0; i <= group.ids.length; i++) {
-				const deviceID = group.ids[i];
-				const deviceData = devices.devices.find((x) => x.id === deviceID);
+		const group = groups.groups.find((x) => x.id == props.groupID);
 
-				if (deviceData) {
-					let device = new RGBW2(deviceData!.ipAdress, deviceData!.id);
-					setDevices([...lights, device]);
-				}
-			}
+		if (group == undefined) {
+			return;
 		}
-	}, [groups, devices]);
 
-	useEffect(() => {
-		const interval = setInterval(() => {
-			const lightArray: RGBW2[] = [];
-			const stateArray: boolean[] = [];
-			const colorArray: color[] = [];
-			lights.map((device) => {
-				lightArray.push(device);
-				stateArray.push(device.state);
-				colorArray.push(device.color);
+		group.ids.map((id) => {
+			const res = devices.devices.find((x) => x.id == id);
 
-				if (device.state) {
-					setState(true);
-				}
-
-				if (stateArray.every((state) => state === false)) {
-					setState(false);
-				}
-			});
-			setDevices([...lightArray]);
-			setStates([...stateArray]);
-
-			if (lights.length === 0) {
+			if (res == undefined) {
 				return;
 			}
-			setColor(lights[0].state ? lights[0].color : lights[0].offColor);
+
+			const device = new RGBW2(res.ipAdress, res.id);
+			lights.push(device);
+		});
+
+		const interval = setInterval(() => {
+			lights.map(async (device: RGBW2) => {
+				await device.fetchCurrentDeviceData();
+			});
+			if (lights.every((device) => device.state == false)) {
+				setState(false);
+			}
+
+			if (lights.some((device) => device.state) == true) {
+				setState(true);
+			}
 		}, 150);
 		return () => {
 			clearInterval(interval);
@@ -74,9 +64,9 @@ export const GroupLightCard: FC<Props> = (props) => {
 		if (!lights) {
 			return;
 		}
-		Object.keys(lights).map((key) => {
-			lights[parseInt(key)].setColor(selectedColor!);
-		});
+		// lights.map((device: RGBW2) => {
+		// 	device.setColor(selectedColor!);
+		// });
 	}, [selectedColor]);
 
 	return (
@@ -96,35 +86,32 @@ export const GroupLightCard: FC<Props> = (props) => {
 
 					if (state) {
 						await Promise.all(
-							Object.keys(lights).map(async (key) => {
-								const device = lights[parseInt(key)];
-								device.turnOff();
+							lights.map(async (device: RGBW2) => {
+								await device.turnOff();
 							})
 						);
 						setState(false);
 					} else {
 						await Promise.all(
-							Object.keys(lights).map(async (key) => {
-								const device = lights[parseInt(key)];
-								device.turnOn();
+							lights.map(async (device: RGBW2) => {
+								await device.turnOn();
 							})
 						);
 						setState(true);
 					}
 
 					let stateArray: boolean[] = [];
-					Object.keys(lights).map((key) => {
-						let state = lights[parseInt(key)].state;
-						stateArray.push(state);
+					lights.map((device: RGBW2) => {
+						stateArray.push(device.state);
 					});
-					setStates({ ...stateArray });
+					setStates([...stateArray]);
 					setColor(state ? color : color);
 				}}
 			>
 				<Card>
 					<div
 						style={{
-							color: color && state ? `rgb(${color.red},${color.green}, ${color.blue})` : '#000',
+							color: 'white',
 							display: 'grid',
 							gridTemplateColumns: 'max-content 1fr max-content',
 							gridTemplateRows: 'repeat(2, max-content)',
@@ -142,6 +129,14 @@ export const GroupLightCard: FC<Props> = (props) => {
 							<LightIcon />
 						</div>
 						<div className="text-zinc-400 text-left">{props.title}</div>
+						<div
+							style={{
+								gridArea: '1 / 3 / 3 / 4',
+								alignSelf: 'center',
+							}}
+						>
+							<ToggleSwitch state={state} setState={setState} />
+						</div>
 					</div>
 				</Card>
 			</div>
