@@ -18,12 +18,11 @@ export const GroupLightCard: FC<Props> = (props) => {
 	const devices = useDevices();
 	const groups = useGroups();
 	const [lights, setLights] = useState<RGBW2[]>([]);
-	const [color, setColor] = useState<color>();
+	const [color, setColor] = useState<color>({ red: 0, green: 0, blue: 0 });
 	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
 	const [state, setState] = useState<boolean>(false);
 	const [states, setStates] = useState<boolean[]>();
 	const [open, setOpen] = useState<boolean>(false);
-	const [name, setName] = useState<string>('');
 
 	useEffect(() => {
 		const group = groups.groups.find((x) => x.id == props.groupID);
@@ -31,6 +30,10 @@ export const GroupLightCard: FC<Props> = (props) => {
 		if (group == undefined) {
 			return;
 		}
+
+		let lightArray: RGBW2[] = [];
+		let stateArray: boolean[] = [];
+		let colorArray: color[] = [];
 
 		group.ids.map((id) => {
 			const res = devices.devices.find((x) => x.id == id);
@@ -40,30 +43,35 @@ export const GroupLightCard: FC<Props> = (props) => {
 			}
 
 			const device = new RGBW2(res.ipAdress, res.id);
-			setLights([...lights, device]);
+
+			lightArray.push(device);
 		});
-	}, [groups, devices, props.groupID]);
 
-	useEffect(() => {
 		const interval = setInterval(async () => {
-			await Promise.all(
-				lights.map((device: RGBW2) => {
-					return device.fetchCurrentDeviceData();
-				})
-			);
+			stateArray = [];
+			colorArray = [];
+			lightArray.map((device: RGBW2) => {
+				device.fetchCurrentDeviceData();
 
-			if (lights.every((device) => device.state == false)) {
+				stateArray.push(device.state);
+				colorArray.push(device.color);
+			});
+
+			if (stateArray.includes(true)) {
+				setState(true);
+			}
+
+			if (stateArray.every((x) => (x = false))) {
 				setState(false);
 			}
 
-			if (lights.some((device) => device.state) == true) {
-				setState(true);
-			}
+			setLights(lightArray);
+			setColor(colorArray[0]);
 		}, 150);
 		return () => {
 			clearInterval(interval);
 		};
-	}, [lights]);
+	}, []);
 
 	useEffect(() => {
 		if (!lights) {
@@ -105,13 +113,13 @@ export const GroupLightCard: FC<Props> = (props) => {
 						stateArray.push(device.state);
 					});
 					setStates([...stateArray]);
-					setColor(state ? color : color);
+					setColor(color);
 				}}
 			>
 				<Card>
 					<div
 						style={{
-							color: 'white',
+							color: state ? `rgb(${color.red}, ${color.green}, ${color.blue})` : '#000',
 							display: 'grid',
 							gridTemplateColumns: 'max-content 1fr max-content',
 							gridTemplateRows: 'repeat(2, max-content)',
