@@ -5,7 +5,7 @@ import { AppProps } from 'next/app';
 import '../styles/globals.scss';
 import { DeviceProvider } from '../context/DeviceContext';
 import { GroupProvider } from '../context/GroupContext';
-// import { SessionProvider } from 'next-auth/react';
+import { SceneProvider } from '../context/SceneContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
@@ -13,11 +13,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 			<Head>
 				<title>Smarthome</title>
 			</Head>
-			<GroupProvider>
-				<DeviceProvider>
-					<Component {...pageProps} />
-				</DeviceProvider>
-			</GroupProvider>
+			<SceneProvider>
+				<GroupProvider>
+					<DeviceProvider>
+						<Component {...pageProps} />
+					</DeviceProvider>
+				</GroupProvider>
+			</SceneProvider>
 		</React.Fragment>
 	);
 }

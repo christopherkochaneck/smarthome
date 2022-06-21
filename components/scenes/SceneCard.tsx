@@ -6,15 +6,10 @@ interface Props {
 	name: string;
 }
 export const SceneCard: FC<Props> = (props) => {
-	const handleScene = () => {};
+	const handleScene = async () => {};
 	return (
 		<>
-			<div
-				className="h-[179px] w-1/2"
-				onClick={async () => {
-					handleScene;
-				}}
-			>
+			<div className="h-[179px] w-1/2" onClick={async () => await handleScene}>
 				<Card>
 					<div className="text-zinc-400">{props.name}</div>
 				</Card>

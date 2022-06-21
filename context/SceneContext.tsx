@@ -8,47 +8,47 @@ import {
 	useState,
 } from 'react';
 import axios from 'axios';
-import { GroupType } from '../types/SceneType';
+import { SceneType } from '../types/SceneType';
 
-interface GroupContextType {
-	groups: GroupType[];
-	setGroups: Dispatch<SetStateAction<GroupType[]>>;
-	addGroup: (group: GroupType) => void;
+interface SceneContextType {
+	scenes: SceneType[];
+	setScenes: Dispatch<SetStateAction<SceneType[]>>;
+	addScene: (scene: SceneType) => void;
 }
 
-const GroupContext = createContext<GroupContextType>(undefined!);
+const SceneContext = createContext<SceneContextType>(undefined!);
 
-export function useGroups() {
-	return useContext(GroupContext);
+export function useScenes() {
+	return useContext(SceneContext);
 }
 
-export const GroupProvider: FC = (props) => {
-	const [groups, setGroups] = useState<GroupType[]>([]);
+export const SceneProvider: FC = (props) => {
+	const [scenes, setScenes] = useState<SceneType[]>([]);
 
 	const fetchData = async () => {
-		const groupRes = await axios({ method: 'get', url: 'http://localhost:3000/api/group' });
-		setGroups(groupRes.data);
+		const sceneRes = await axios({ method: 'get', url: 'http://localhost:3000/api/scene' });
+		setScenes(sceneRes.data);
 	};
 
 	useEffect(() => {
 		fetchData();
 	}, []);
 
-	const addGroup = async (group: GroupType) => {
+	const addScene = async (scene: SceneType) => {
 		await axios({
 			method: 'post',
 			url: 'http://localhost:3000/api/group',
-			data: group,
+			data: scene,
 		});
 
-		setGroups([...groups, group]);
+		setScenes([...scenes, scene]);
 	};
 
-	const contextValue: GroupContextType = { groups, setGroups, addGroup };
+	const contextValue: SceneContextType = { scenes, setScenes, addScene };
 
 	return (
 		<>
-			<GroupContext.Provider value={contextValue}>{props.children}</GroupContext.Provider>
+			<SceneContext.Provider value={contextValue}>{props.children}</SceneContext.Provider>
 		</>
 	);
 };

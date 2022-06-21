@@ -1,12 +1,19 @@
-export type SceneType = {
-	name: string;
-	ids: string[];
-	// actions: ;
-};
+import { PlugSType } from './PlugSType';
+import { RGBW2Type } from './RGBW2Type';
 
-// [
-// 	{
-// 		"name": "MyScene",
-// 		"ids": ["sfoadfghsdfng", "aeorigiosfdhgjn"],
-// 		"actions": [{ "sfoadfghsdfng": { "color": "red" } }, { "aeorigiosfdhgjn": { "state": "on" } }]
-// 	}
+export interface Property {
+	color?: string;
+	state?: string;
+}
+
+export interface Action {
+	id: string;
+	type: RGBW2Type | PlugSType;
+	properties: Property[];
+}
+
+export type SceneType = {
+	id: string;
+	name: string;
+	actions: Action[];
+};

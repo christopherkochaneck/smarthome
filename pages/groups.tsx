@@ -1,4 +1,6 @@
+import { Tab } from '@headlessui/react';
 import type { NextPage } from 'next';
+import { TabSelection } from '../components/groups/components/tabSelection/tabSelection';
 import { GroupLightCard } from '../components/groups/GroupLightCard';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
 import { SceneCard } from '../components/scenes/SceneCard';
