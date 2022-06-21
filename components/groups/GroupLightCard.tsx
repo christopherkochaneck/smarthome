@@ -23,6 +23,7 @@ export const GroupLightCard: FC<Props> = (props) => {
 	const [state, setState] = useState<boolean>(false);
 	const [states, setStates] = useState<boolean[]>();
 	const [open, setOpen] = useState<boolean>(false);
+	const [updating, setUpdating] = useState<boolean>(false);
 
 	useEffect(() => {
 		const group = groups.groups.find((x) => x.id == props.groupID);
@@ -50,6 +51,11 @@ export const GroupLightCard: FC<Props> = (props) => {
 		const interval = setInterval(async () => {
 			stateArray = [];
 			colorArray = [];
+
+			if (updating) {
+				return;
+			}
+
 			lightArray.map((device: RGBW2) => {
 				device.fetchCurrentDeviceData();
 
@@ -61,7 +67,7 @@ export const GroupLightCard: FC<Props> = (props) => {
 				setState(true);
 			}
 
-			if (stateArray.every((x) => (x = false))) {
+			if (stateArray.every((x) => x == false)) {
 				setState(false);
 			}
 
@@ -93,19 +99,33 @@ export const GroupLightCard: FC<Props> = (props) => {
 					}
 
 					if (state) {
-						await Promise.all(
-							lights.map(async (device: RGBW2) => {
-								await device.turnOff();
-							})
-						);
-						setState(false);
+						try {
+							setUpdating(true);
+							await Promise.all(
+								lights.map(async (device: RGBW2) => {
+									return await device.turnOff();
+								})
+							);
+							setState(false);
+						} catch (err) {
+							console.error(err);
+						} finally {
+							setUpdating(false);
+						}
 					} else {
-						await Promise.all(
-							lights.map(async (device: RGBW2) => {
-								await device.turnOn();
-							})
-						);
-						setState(true);
+						try {
+							setUpdating(true);
+							await Promise.all(
+								lights.map(async (device: RGBW2) => {
+									return await device.turnOn();
+								})
+							);
+							setState(false);
+						} catch (err) {
+							console.error(err);
+						} finally {
+							setUpdating(false);
+						}
 					}
 
 					let stateArray: boolean[] = [];
