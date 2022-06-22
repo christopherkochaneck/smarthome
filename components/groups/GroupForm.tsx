@@ -16,7 +16,7 @@ export const GroupForm: FC = () => {
 	const groups = useGroups();
 	const [groupName, setGroupName] = useState<string>('');
 	const [ids, setIds] = useState<string[]>([]);
-	const [selectedTab, setSelectedTab] = useState<string>('');
+	const [selectedTab, setSelectedTab] = useState<string>('group');
 	const router = useRouter();
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -33,11 +33,10 @@ export const GroupForm: FC = () => {
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
+				<button type="button" onClick={() => router.push('/addScene')}>
+					Click here to create a Scene
+				</button>
 				<div className="grid gap-4">
-					<TabSelection>
-						<Tab title="Group" onClick={() => setSelectedTab('group')} />
-						<Tab title="Scene" onClick={() => setSelectedTab('scene')} />
-					</TabSelection>
 					<Input
 						title="Group Name"
 						className="h-10 rounded-xl"
