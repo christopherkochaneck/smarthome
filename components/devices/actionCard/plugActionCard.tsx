@@ -8,7 +8,7 @@ interface Props {
 	name: string;
 }
 
-export const LightSelectionCard: FC<Props> = (props) => {
+export const PlugActionCard: FC<Props> = (props) => {
 	const [state, setState] = useState<boolean>(false);
 
 	return (
