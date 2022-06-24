@@ -9,6 +9,7 @@ export const Avatar: FC<Props> = (props) => {
 	return (
 		<div className="w-max h-max">
 			<Image
+				alt="avatar"
 				src={props.avatarUrl}
 				width={props.dimension}
 				height={props.dimension}

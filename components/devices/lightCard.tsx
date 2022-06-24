@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { RGBW2 } from '../../devices/rgbw2';
 import color from '../../interfaces/color';
 import LightIcon from '../../res/images/bulb.svg';
@@ -13,7 +13,9 @@ interface Props {
 }
 
 export const LightCard: FC<Props> = (props) => {
-	const device = new RGBW2(props.ipAdress, props.id);
+	const device = useMemo(() => {
+		return new RGBW2(props.ipAdress, props.id);
+	}, [props.id, props.ipAdress]);
 
 	const [color, setColor] = useState<color>({ red: 0, green: 0, blue: 0 });
 	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
@@ -33,13 +35,13 @@ export const LightCard: FC<Props> = (props) => {
 		return () => {
 			clearInterval(interval);
 		};
-	}, []);
+	}, [device, props.name]);
 
 	useEffect(() => {
 		if (device) {
 			device.setColor(selectedColor!);
 		}
-	}, [selectedColor]);
+	}, [selectedColor, device]);
 
 	return (
 		<>

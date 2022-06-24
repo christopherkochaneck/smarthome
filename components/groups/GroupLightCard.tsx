@@ -77,7 +77,7 @@ export const GroupLightCard: FC<Props> = (props) => {
 		return () => {
 			clearInterval(interval);
 		};
-	}, []);
+	}, [devices.devices, groups.groups, props.groupID, updating]);
 
 	useEffect(() => {
 		if (!lights) {
@@ -86,7 +86,7 @@ export const GroupLightCard: FC<Props> = (props) => {
 		lights.map((device: RGBW2) => {
 			device.setColor(selectedColor!);
 		});
-	}, [selectedColor]);
+	}, [selectedColor, lights]);
 
 	return (
 		<>

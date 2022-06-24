@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { PlugS } from '../../devices/plugS';
 import PlugIcon from '../../res/images/plug.svg';
 import { Card } from '../ui/card/card';
@@ -11,7 +11,9 @@ interface Props {
 }
 
 export const PlugCard: FC<Props> = (props) => {
-	const device = new PlugS(props.ipAdress, props.id);
+	const device = useMemo(() => {
+		return new PlugS(props.ipAdress, props.id);
+	}, [props.id, props.ipAdress]);
 
 	const [state, setState] = useState<boolean>(false);
 	const [power, setPower] = useState<number>(0);
@@ -27,7 +29,7 @@ export const PlugCard: FC<Props> = (props) => {
 		return () => {
 			clearInterval(interval);
 		};
-	}, []);
+	}, [device, props.name]);
 
 	return (
 		<>

@@ -25,18 +25,14 @@ const Home: NextPage<Props> = ({ weatherData }) => {
 
 	return (
 		<>
-			{/* {session ? ( */}
 			<LayoutWrapper showAppbar={false} showAppbarIcon={true}>
 				<div className="text-zinc-400 text-3xl p-10 text-center">
-					Hey Chris, here's whats up for today.
+					Hey Chris, here&apos;s whats up for today.
 				</div>
 				<div className="px-10">
 					<WeatherForeCast weatherData={weatherData} />
 				</div>
 			</LayoutWrapper>
-			{/* ) : (
-				<SignIn />
-			)} */}
 		</>
 	);
 };
