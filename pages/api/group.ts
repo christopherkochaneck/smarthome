@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-function checkIfFileExists() {
+function createFileIfNotExists() {
 	if (!fs.existsSync('data/groups.json')) {
 		try {
 			fs.writeFileSync('data/groups.json', '[]');
@@ -16,8 +16,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
 	switch (method) {
 		case 'GET':
-			checkIfFileExists();
 			try {
+				createFileIfNotExists();
 				const data = fs.readFileSync('data/groups.json').toString();
 				return res.status(200).send(JSON.parse(data));
 			} catch (err) {
@@ -25,7 +25,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 			}
 			break;
 		case 'POST':
-			checkIfFileExists();
 			try {
 				const data = fs.readFileSync('data/groups.json').toString();
 				const object = JSON.parse(data);
@@ -37,11 +36,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 			}
 			break;
 		case 'PATCH':
-			checkIfFileExists();
 			req.body.id;
 			break;
 		case 'DELETE':
-			checkIfFileExists();
 			req.body.id;
 			break;
 		default:
