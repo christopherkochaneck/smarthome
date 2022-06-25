@@ -5,6 +5,7 @@ import { Card } from '../../ui/card/card';
 import { ColorIndicator } from './components/colorIndicator';
 import color from '../../../interfaces/color';
 import { ToggleSwitch } from '../../ui/toggleSwitch/toggleSwitch';
+import { Action } from '../../../types/SceneType';
 
 interface Props {
 	id: string;
@@ -12,6 +13,8 @@ interface Props {
 	color: color;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 	open: boolean;
+	actions: Action[];
+	setActions: Dispatch<SetStateAction<Action[]>>;
 }
 
 export const LightActionCard: FC<Props> = (props) => {
@@ -34,7 +37,18 @@ export const LightActionCard: FC<Props> = (props) => {
 					<div onClick={() => props.setOpen(!props.open)} className="col-start-3">
 						<ColorIndicator color={props.color} />
 					</div>
-					<div className="col-start-3" onClick={() => setState(!state)}>
+					<div
+						className="col-start-3"
+						onClick={() => {
+							setState(!state);
+							const action = props.actions.find((x) => x.id == props.id);
+							if (action == undefined) {
+								return;
+							}
+							action.actions.state = state;
+							props.setActions([action]);
+						}}
+					>
 						<ToggleSwitch state={state} setState={setState} />
 					</div>
 				</div>

@@ -12,12 +12,17 @@ import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
 import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
 import color from '../../interfaces/color';
 import { LightActionCard } from '../devices/actionCard/lightActionCard';
-import { keyframes } from '@emotion/react';
 
 export const SceneForm: FC = () => {
 	const devices = useDevices();
 	const [sceneName, setSceneName] = useState<string>('');
-	const [actions, setActions] = useState<Action[]>([]);
+	const [actions, setActions] = useState<Action[]>([
+		{
+			id: '83ac62c5-0700-4dff-89c6-df568b0abecd',
+			type: 'rgbw2',
+			actions: { color: { red: 0, green: 0, blue: 0 } },
+		},
+	]);
 	const router = useRouter();
 	const [ids, setIds] = useState<string[]>([]);
 	const [viewActionPage, setViewActionPage] = useState<boolean>(false);
@@ -47,6 +52,10 @@ export const SceneForm: FC = () => {
 	useEffect(() => {
 		setViewActionPage(false);
 	}, []);
+
+	useEffect(() => {
+		console.log(actions);
+	}, [actions]);
 
 	return (
 		<>
@@ -101,12 +110,13 @@ export const SceneForm: FC = () => {
 				<div className={`grid gap-4 ${!viewActionPage ? 'hidden' : 'block'}`}>
 					<RGBW2Modal setSelectedColor={setSelectedColor} open={open} setOpen={setOpen} />
 					<LightActionCard
-						id="123"
+						id="83ac62c5-0700-4dff-89c6-df568b0abecd"
 						name="Name"
 						color={selectedColor ? selectedColor : { red: 0, green: 0, blue: 0 }}
 						setOpen={setOpen}
 						open={open}
 						actions={actions}
+						setActions={setActions}
 					/>
 				</div>
 				<FloatingActionButton
