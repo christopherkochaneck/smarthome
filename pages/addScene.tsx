@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
-import { SceneForm } from '../components/scenes/SceneForm';
+import { SceneForm } from '../components/forms/SceneForm';
 
 const AddScene: NextPage = () => {
 	function handleSubmit() {}

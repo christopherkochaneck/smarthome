@@ -1,51 +1,47 @@
 import { useRouter } from 'next/router';
-import { FC, FormEvent, useState } from 'react';
+import { FC, FormEvent, useEffect, useState } from 'react';
 import { useDevices } from '../../context/DeviceContext';
-import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
-import ArrowNarrowRight from '../../res/images/arrow-narrow-right.svg';
-import DiskFloppy from '../../res/images/device-floppy.svg';
-import { Action, SceneType } from '../../types/SceneType';
-import { v4 as uuidv4 } from 'uuid';
-import { Input } from '../ui/input/input';
+import { useGroups } from '../../context/GroupContext';
+import { GroupType } from '../../types/GroupType';
 import { LightSelectionCard } from '../devices/selectionCard/lightSelectionCard';
 import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
-import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
-import color from '../../interfaces/color';
-import { LightActionCard } from '../devices/actionCard/lightActionCard';
+import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
+import { Input } from '../ui/input/input';
+import DeviceFloppy from '../../res/images/device-floppy.svg';
 
-export const SceneForm: FC = () => {
+export const GroupForm: FC = () => {
 	const devices = useDevices();
-	const [sceneName, setSceneName] = useState<string>('');
-	const [actions, setActions] = useState<Action[]>([]);
-	const router = useRouter();
+	const groups = useGroups();
+	const [groupName, setGroupName] = useState<string>('');
 	const [ids, setIds] = useState<string[]>([]);
-	const [viewActionPage, setViewActionPage] = useState<boolean>(false);
-	const [open, setOpen] = useState<boolean>(false);
-	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
+	const [selectedTab, setSelectedTab] = useState<string>('group');
+	const router = useRouter();
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		let scene: SceneType = {
-			id: uuidv4(),
-			name: sceneName,
-			actions: actions,
+		let group: GroupType = {
+			name: groupName,
+			ids: ids,
 		};
-		console.log(scene);
-		setViewActionPage(true);
-		// scenes.addScene(scene);
+		groups.addGroup(group);
 
-		// router.push('/groups');
+		router.push('/groups');
 	};
 
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
-				<div className={`grid gap-4 ${!viewActionPage ? 'block' : 'hidden'}`}>
+				<div className="text-white">
+					<button type="button" onClick={() => router.push('/addScene')}>
+						Click here to create a Scene
+					</button>
+				</div>
+				<div className="grid gap-4">
 					<Input
-						title="Scene Name"
+						title="Group Name"
 						className="h-10 rounded-xl"
 						onChange={(e) => {
-							setSceneName(e.currentTarget.value);
+							setGroupName(e.currentTarget.value);
 						}}
 					/>
 					<div className="text-zinc-700 text-center">Select Devices to Add</div>
@@ -87,21 +83,11 @@ export const SceneForm: FC = () => {
 						}
 					})}
 				</div>
-				<div className={`grid gap-4 ${!viewActionPage ? 'hidden' : 'block'}`}>
-					<RGBW2Modal setSelectedColor={setSelectedColor} open={open} setOpen={setOpen} />
-					<LightActionCard
-						id="123"
-						name="Name"
-						color={selectedColor ? selectedColor : { red: 0, green: 0, blue: 0 }}
-						setOpen={setOpen}
-						open={open}
-					/>
-				</div>
 				<FloatingActionButton
 					className="bg-black absolute right-4 bottom-20 text-zinc-700"
 					type="submit"
 				>
-					{viewActionPage ? <DiskFloppy /> : <ArrowNarrowRight />}
+					<DeviceFloppy />
 				</FloatingActionButton>
 			</form>
 		</>
