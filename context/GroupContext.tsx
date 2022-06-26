@@ -26,7 +26,10 @@ export const GroupProvider: FC = (props) => {
 	const [groups, setGroups] = useState<GroupType[]>([]);
 
 	const fetchData = async () => {
-		const groupRes = await axios({ method: 'get', url: 'http://localhost:3000/api/group' });
+		const groupRes = await axios({
+			method: 'get',
+			url: `${process.env.API_URL ?? 'http://localhost:3000'}/api/group`,
+		});
 		setGroups(groupRes.data);
 	};
 
@@ -37,7 +40,7 @@ export const GroupProvider: FC = (props) => {
 	const addGroup = async (group: GroupType) => {
 		await axios({
 			method: 'post',
-			url: 'http://localhost:3000/api/group',
+			url: `${process.env.API_URL}/api/group`,
 			data: group,
 		});
 
