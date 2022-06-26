@@ -2,7 +2,7 @@ FROM node:16 as dependencies
 
 COPY package.json yarn.lock ./
 
-RUN yarn add --frozen-lockfile
+RUN npm install
 
 FROM node:lts as builder
 WORKDIR /var/www/smarthome
