@@ -13,8 +13,8 @@ export const NavbarButton: FC<Props> = (props) => {
 	const textColor = isActive ? 'text-white' : 'text-zinc-700';
 
 	return (
-		<div className="grid">
-			<div className="text-center hover:cursor-pointer w-min justify-self-center">
+		<div className="grid h-full w-full">
+			<div className="self-center text-center hover:cursor-pointer w-min justify-self-center">
 				<Link href={props.href!}>
 					<a className={textColor}>{props.children}</a>
 				</Link>
