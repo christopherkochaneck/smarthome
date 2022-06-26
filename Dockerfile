@@ -1,11 +1,11 @@
-FROM node:16
+FROM node:lts
 
-WORKDIR /var/app
-COPY . /var/app
+COPY package.json /app/package.json
+WORKDIR /app
+RUN ["npm", "install", "--force"]
 
-RUN npm install
+COPY . /app
 
-RUN npm run build
+RUN ["npm", "run", "build"]
 
 EXPOSE 3000
-CMD ["yarn", "start"]

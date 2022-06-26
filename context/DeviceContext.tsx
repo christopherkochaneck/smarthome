@@ -31,7 +31,7 @@ export const DeviceProvider: FC = (props) => {
 	const fetchData = async () => {
 		const rgbw2 = await axios({
 			method: 'get',
-			url: `${process.env.NEXT_PUBLIC_NEXT_PUBLIC_ ?? 'http://localhost:3000'}/api/rgbw2`,
+			url: `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'}/api/rgbw2`,
 		});
 		const plugS = await axios({
 			method: 'get',
@@ -49,7 +49,7 @@ export const DeviceProvider: FC = (props) => {
 	const addDevice = async (device: Device) => {
 		await axios({
 			method: 'post',
-			url: `${process.env.NEXT_PUBLIC_API_URL}/api/${device.type}`,
+			url: `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'}/api/${device.type}`,
 			data: device,
 		});
 

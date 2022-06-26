@@ -40,7 +40,7 @@ export const GroupProvider: FC = (props) => {
 	const addGroup = async (group: GroupType) => {
 		await axios({
 			method: 'post',
-			url: `${process.env.NEXT_PUBLIC_API_URL}/api/group`,
+			url: `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'}/api/group`,
 			data: group,
 		});
 
