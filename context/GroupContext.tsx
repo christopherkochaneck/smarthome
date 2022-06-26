@@ -29,7 +29,7 @@ export const GroupProvider: FC = (props) => {
 	const fetchData = async () => {
 		const groupRes = await axios({
 			method: 'get',
-			url: `${BASE_URL ?? 'http://localhost:3000'}/api/group`,
+			url: `${BASE_URL}/api/group`,
 		});
 		setGroups(groupRes.data);
 	};
@@ -41,7 +41,7 @@ export const GroupProvider: FC = (props) => {
 	const addGroup = async (group: GroupType) => {
 		await axios({
 			method: 'post',
-			url: `${BASE_URL ?? 'http://localhost:3000'}/api/group`,
+			url: `${BASE_URL}/api/group`,
 			data: group,
 		});
 
