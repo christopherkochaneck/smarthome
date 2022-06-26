@@ -9,6 +9,7 @@ import {
 } from 'react';
 import axios from 'axios';
 import { GroupType } from '../types/GroupType';
+import { BASE_URL } from '../config/env';
 
 interface GroupContextType {
 	groups: GroupType[];
@@ -28,7 +29,7 @@ export const GroupProvider: FC = (props) => {
 	const fetchData = async () => {
 		const groupRes = await axios({
 			method: 'get',
-			url: `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'}/api/group`,
+			url: `${BASE_URL ?? 'http://localhost:3000'}/api/group`,
 		});
 		setGroups(groupRes.data);
 	};
@@ -40,7 +41,7 @@ export const GroupProvider: FC = (props) => {
 	const addGroup = async (group: GroupType) => {
 		await axios({
 			method: 'post',
-			url: `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'}/api/group`,
+			url: `${BASE_URL ?? 'http://localhost:3000'}/api/group`,
 			data: group,
 		});
 
