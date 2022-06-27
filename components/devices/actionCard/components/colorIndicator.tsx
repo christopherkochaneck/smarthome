@@ -8,7 +8,8 @@ export const ColorIndicator: FC<Props> = (props) => {
 	return (
 		<>
 			<div
-				className={`rounded-full border border-black h-10 w-10 bg-[rgb(${props.color.red},${props.color.green},${props.color.blue})]`}
+				className={`rounded-full border border-black h-10 w-10`}
+				style={{ background: `rgb(${props.color.red},${props.color.green},${props.color.blue})` }}
 			/>
 		</>
 	);
