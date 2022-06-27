@@ -27,7 +27,7 @@ export const SceneProvider: FC = (props) => {
 	const [scenes, setScenes] = useState<SceneType[]>([]);
 
 	const fetchData = async () => {
-		const sceneRes = await axios({ method: 'get', url: `${BASE_URL}/api/scene}` });
+		const sceneRes = await axios({ method: 'get', url: `${BASE_URL}/api/scene` });
 		setScenes(sceneRes.data);
 	};
 
