@@ -38,7 +38,7 @@ export const SceneProvider: FC = (props) => {
 	const addScene = async (scene: SceneType) => {
 		await axios({
 			method: 'post',
-			url: '${BASE_URL}/api/scene',
+			url: `${BASE_URL}/api/scene`,
 			data: scene,
 		});
 
