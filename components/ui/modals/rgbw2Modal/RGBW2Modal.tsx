@@ -6,7 +6,13 @@ import color from '../../../../interfaces/color';
 interface Props {
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
+<<<<<<< HEAD
 	setSelectedColor: Dispatch<SetStateAction<color | undefined>>;
+=======
+	setSelectedColor: Dispatch<SetStateAction<color>>;
+	device?: RGBW2;
+	devices?: RGBW2[];
+>>>>>>> feat/Scenes
 	brightness?: number;
 	setBrightness?: Dispatch<SetStateAction<number>>;
 }

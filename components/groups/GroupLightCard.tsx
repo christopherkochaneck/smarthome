@@ -17,9 +17,10 @@ interface Props {
 export const GroupLightCard: FC<Props> = (props) => {
 	const devices = useDevices();
 	const groups = useGroups();
+
 	const [lights, setLights] = useState<RGBW2[]>([]);
-	const [color, setColor] = useState<color>({ red: 0, green: 0, blue: 0 });
-	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
+	const [color, setColor] = useState<color>();
+	const [selectedColor, setSelectedColor] = useState<color>({ red: 0, green: 0, blue: 0 });
 	const [state, setState] = useState<boolean>(false);
 	const [states, setStates] = useState<boolean[]>();
 	const [open, setOpen] = useState<boolean>(false);
@@ -139,7 +140,7 @@ export const GroupLightCard: FC<Props> = (props) => {
 				<Card>
 					<div
 						style={{
-							color: state ? `rgb(${color.red}, ${color.green}, ${color.blue})` : '#000',
+							color: state && color ? `rgb(${color.red}, ${color.green}, ${color.blue})` : '#000',
 							display: 'grid',
 							gridTemplateColumns: 'max-content 1fr max-content',
 							gridTemplateRows: 'repeat(2, max-content)',
