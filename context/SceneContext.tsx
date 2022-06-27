@@ -9,6 +9,7 @@ import {
 } from 'react';
 import axios from 'axios';
 import { SceneType } from '../types/SceneType';
+import { BASE_URL } from '../config/env';
 
 interface SceneContextType {
 	scenes: SceneType[];
@@ -26,7 +27,7 @@ export const SceneProvider: FC = (props) => {
 	const [scenes, setScenes] = useState<SceneType[]>([]);
 
 	const fetchData = async () => {
-		const sceneRes = await axios({ method: 'get', url: 'http://localhost:3000/api/scene' });
+		const sceneRes = await axios({ method: 'get', url: `${BASE_URL}/api/scene}` });
 		setScenes(sceneRes.data);
 	};
 
@@ -37,7 +38,7 @@ export const SceneProvider: FC = (props) => {
 	const addScene = async (scene: SceneType) => {
 		await axios({
 			method: 'post',
-			url: 'http://localhost:3000/api/scene',
+			url: '${BASE_URL}/api/scene',
 			data: scene,
 		});
 
