@@ -1,20 +1,20 @@
 import * as fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
-import * as path from "path";
+import * as path from 'path';
 
-const dirName = path.join(process.cwd(), "data");
-const fileName = path.join(process.cwd(), "data", "groups.json");
+const dirName = path.join(process.cwd(), 'data');
+const fileName = path.join(process.cwd(), 'data', 'groups.json');
 
 function createFileIfNotExists() {
-  if (!fs.existsSync(dirName)) {
-    try {
-      fs.mkdirSync(dirName);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+	if (!fs.existsSync(dirName)) {
+		try {
+			fs.mkdirSync(dirName);
+		} catch (err) {
+			console.log(err);
+		}
+	}
 
-  if (!fs.existsSync(fileName)) {
+	if (!fs.existsSync(fileName)) {
 		try {
 			fs.writeFileSync(fileName, '[]');
 		} catch (err) {
@@ -33,7 +33,7 @@ function createFileIfNotExists() {
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
 	const { method } = req;
-  createFileIfNotExists();
+	createFileIfNotExists();
 
 	switch (method) {
 		case 'GET':
@@ -51,6 +51,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 				object.push(req.body);
 				const appendedJson = JSON.stringify(object);
 				fs.writeFileSync(fileName, appendedJson);
+				return res.status(200).send(JSON.parse(appendedJson));
 			} catch (err) {
 				console.log(err);
 			}
