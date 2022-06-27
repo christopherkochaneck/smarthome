@@ -53,12 +53,12 @@ export const SceneCard: FC<Props> = (props) => {
 	useEffect(() => {
 		const scene = scenes.scenes.find((x) => x.id == props.sceneID);
 		setScene(scene);
-	}, []);
+	}, [props.sceneID, scenes]);
 
 	useEffect(() => {
 		const scene = scenes.scenes.find((x) => x.id == props.sceneID);
 		setScene(scene);
-	}, [scenes]);
+	}, [props.sceneID, scenes]);
 
 	return (
 		<>

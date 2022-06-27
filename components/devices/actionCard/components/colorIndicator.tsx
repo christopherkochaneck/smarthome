@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import color from '../../../../interfaces/color';
 
 interface Props {

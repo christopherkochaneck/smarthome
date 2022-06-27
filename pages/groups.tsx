@@ -21,7 +21,7 @@ const Groups: NextPage = () => {
 				<div className="text-zinc-500 text-center">Scenes</div>
 				<div className="grid grid-cols-2 gap-4">
 					{scenes.scenes.map((key) => {
-						return <SceneCard name={key.name} sceneID={key.id} id={key.id} />;
+						return <SceneCard name={key.name} sceneID={key.id} key={key.id} />;
 					})}
 				</div>
 			</div>

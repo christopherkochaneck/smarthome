@@ -17,7 +17,6 @@ interface Props {
 }
 
 export const LightActionCard: FC<Props> = (props) => {
-	const [selected, setSelected] = useState<boolean>(false);
 	const [state, setState] = useState<boolean>(false);
 	const [open, setOpen] = useState<boolean>(false);
 	const [color, setSelectedColor] = useState<color>({ red: 0, green: 0, blue: 0 });
@@ -39,7 +38,7 @@ export const LightActionCard: FC<Props> = (props) => {
 			props.setActions([...props.actions, action]);
 			return;
 		}
-	}, [color, state]);
+	}, [color, state, props, action]);
 
 	return (
 		<>

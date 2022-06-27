@@ -8,6 +8,7 @@ import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
 import { Input } from '../ui/input/input';
 import DeviceFloppy from '../../res/images/device-floppy.svg';
+import { v4 as uuidv4 } from 'uuid';
 
 export const GroupForm: FC = () => {
 	const devices = useDevices();
@@ -20,6 +21,7 @@ export const GroupForm: FC = () => {
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		let group: GroupType = {
+			id: uuidv4(),
 			name: groupName,
 			ids: ids,
 		};
