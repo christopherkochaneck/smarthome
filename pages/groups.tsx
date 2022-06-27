@@ -1,6 +1,5 @@
 import { Tab } from '@headlessui/react';
 import type { NextPage } from 'next';
-import { TabSelection } from '../components/groups/components/tabSelection/tabSelection';
 import { GroupLightCard } from '../components/groups/GroupLightCard';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
 import { SceneCard } from '../components/scenes/SceneCard';
@@ -18,9 +17,11 @@ const Groups: NextPage = () => {
 					return <GroupLightCard group={key.name} title={key.name} />;
 				})}
 				<div className="text-zinc-500 text-center">Scenes</div>
-				{scenes.scenes.map((key) => {
-					return <SceneCard name={key.name} sceneID={key.id} id={key.id} />;
-				})}
+				<div className="grid grid-cols-2 gap-4">
+					{scenes.scenes.map((key) => {
+						return <SceneCard name={key.name} sceneID={key.id} id={key.id} />;
+					})}
+				</div>
 			</div>
 		</LayoutWrapper>
 	);

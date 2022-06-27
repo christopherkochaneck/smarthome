@@ -22,7 +22,6 @@ const AddDevice: NextPage = () => {
 		e.preventDefault();
 		try {
 			let device: RGBW2Type | PlugSType;
-			console.log('triggered', deviceType);
 			if (deviceType === 'rgbw2') {
 				device = {
 					type: 'rgbw2',

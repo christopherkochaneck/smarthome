@@ -31,21 +31,21 @@ export const SceneCard: FC<Props> = (props) => {
 			if (device.type == 'rgbw2') {
 				const entity = new RGBW2(device.ipAdress, device.id);
 
-				if (action.state == undefined) {
-					if (action.color == undefined) return;
-					await entity.setColor(action.color);
-					if (action.state == true) {
+				if (action.actions.state == undefined) {
+					if (action.actions.color == undefined) return;
+					await entity.setColor(action.actions.color);
+					if (action.actions.state == true) {
 						await entity.turnOn();
-					} else if (action.state == false) {
+					} else if (action.actions.state == false) {
 						await entity.turnOff();
 					}
 				}
 			} else if (device.type == 'plugS') {
 				const entity = new PlugS(device.ipAdress, device.id);
 
-				if (action.state == undefined) return;
+				if (action.actions.state == undefined) return;
 
-				action.state ? await entity.turnOn() : await entity.turnOff();
+				action.actions.state ? await entity.turnOn() : await entity.turnOff();
 			}
 		});
 	};
@@ -62,7 +62,7 @@ export const SceneCard: FC<Props> = (props) => {
 
 	return (
 		<>
-			<div className="h-[179px] w-1/2" onClick={handleScene}>
+			<div className="h-[179px] w-full" onClick={handleScene}>
 				<Card>
 					<div className="grid items-center">
 						<div className="text-zinc-400">{props.name}</div>

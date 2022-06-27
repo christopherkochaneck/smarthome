@@ -5,9 +5,6 @@ interface Props {
 	color: color;
 }
 export const ColorIndicator: FC<Props> = (props) => {
-	useEffect(() => {
-		console.log(props.color);
-	}, [props.color]);
 	return (
 		<>
 			<div
