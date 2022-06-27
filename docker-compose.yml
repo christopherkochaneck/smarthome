@@ -12,5 +12,5 @@ services:
     environment:
       TZ: Europe/Berlin
       NODE-ENV: production
-      OPEN_WEATHER_MAP_API_KEY: 4e973c29bc94ec6890e51f6c37f8eab5
-      NEXT_PUBLIC_API_URL: http://chris-raspberrypi
+      OPEN_WEATHER_MAP_API_KEY: ${OPEN_WEATHER_MAP_API_KEY}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
