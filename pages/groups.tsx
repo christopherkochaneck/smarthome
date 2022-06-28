@@ -10,7 +10,12 @@ const Groups: NextPage = () => {
 	const groups = useGroups();
 	const scenes = useScenes();
 	return (
-		<LayoutWrapper showAppbar={true} showAppbarIcon={true} appBarTitle="Groups" href="/addGroup">
+		<LayoutWrapper
+			showAppbar={true}
+			showAppbarIcon={true}
+			appBarTitle="Groups"
+			href="/add/addGroup"
+		>
 			<div className="grid gap-4">
 				<div className="text-zinc-500 text-center">Groups</div>
 				{groups.groups.map((key) => {
