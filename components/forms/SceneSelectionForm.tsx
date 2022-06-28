@@ -55,7 +55,7 @@ export const SceneSelectionForm: FC = () => {
 						title="Scene Name"
 						className="h-10 rounded-xl"
 						onChange={(e) => {
-							setSceneName(e.currentTarget.value);
+							setSceneName(e.currentTarget.value.trim());
 						}}
 					/>
 					<div className="text-zinc-700 text-center">Select Devices to Add</div>
