@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
-import { LayoutWrapper } from '../components/layout/layoutWrapper';
-import { GroupForm } from '../components/forms/GroupForm';
+import { LayoutWrapper } from '../../components/layout/layoutWrapper';
+import { GroupForm } from '../../components/forms/GroupForm';
 
 const AddGroup: NextPage = () => {
 	return (
