@@ -18,6 +18,7 @@ interface DeviceContextType {
 	devices: Device[];
 	setDevices: Dispatch<SetStateAction<Device[]>>;
 	addDevice: (device: Device) => void;
+	updateDevice: (device: Device) => void;
 }
 
 const DeviceContext = createContext<DeviceContextType>(undefined!);
@@ -57,7 +58,15 @@ export const DeviceProvider: FC = (props) => {
 		setDevices([...devices, device]);
 	};
 
-	const contextValue: DeviceContextType = { devices, setDevices, addDevice };
+	const updateDevice = async (device: Device) => {
+		await axios({
+			method: 'patch',
+			url: `${BASE_URL}/api/${device.type}`,
+			data: device,
+		});
+	};
+
+	const contextValue: DeviceContextType = { devices, setDevices, addDevice, updateDevice };
 
 	return (
 		<>
