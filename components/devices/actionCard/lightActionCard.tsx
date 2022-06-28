@@ -1,5 +1,4 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
-import { RGBW2 } from '../../../devices/rgbw2';
 import LightIcon from '../../../res/images/bulb.svg';
 import { Card } from '../../ui/card/card';
 import { ColorIndicator } from './components/colorIndicator';
