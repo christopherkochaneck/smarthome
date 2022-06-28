@@ -1,19 +1,19 @@
 import * as fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
-import * as path from "path";
+import * as path from 'path';
 
-const dirName = path.join(process.cwd(), "data");
-const fileName = path.join(process.cwd(), "data", "rgbw2.json");
+const dirName = path.join(process.cwd(), 'data');
+const fileName = path.join(process.cwd(), 'data', 'rgbw2.json');
 
 function createFileIfNotExists() {
-  if (!fs.existsSync(dirName)) {
+	if (!fs.existsSync(dirName)) {
 		try {
 			fs.mkdirSync(dirName);
 		} catch (err) {
 			console.log(err);
 		}
-  }
-  
+	}
+
 	if (!fs.existsSync(fileName)) {
 		try {
 			fs.writeFileSync(fileName, '[]');
@@ -50,11 +50,27 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
 			break;
 		case 'PATCH':
-			createFileIfNotExists();
-			req.body.id;
+			try {
+				const data = fs.readFileSync(fileName).toString();
+
+				const object = JSON.parse(data);
+				const updateIndex = object.findIndex((x: any) => (x.id = req.body.id));
+
+				object[updateIndex].title = req.body.title;
+
+				object[updateIndex].ipAdress = req.body.ipAdress;
+
+				// object.push(req.body);
+				// const appendedJson = JSON.stringify(object);
+				// fs.writeFileSync(fileName, appendedJson);
+				// return res.status(200).send(appendedJson);
+				return res.status(200).send('hello');
+			} catch (err) {
+				console.log(err);
+			}
+
 			break;
 		case 'DELETE':
-			createFileIfNotExists();
 			req.body.id;
 			break;
 		default:
