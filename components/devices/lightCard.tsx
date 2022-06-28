@@ -5,12 +5,19 @@ import LightIcon from '../../res/images/bulb.svg';
 import { Card } from '../ui/card/card';
 import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
+import Hammer from 'react-hammerjs';
 
 interface Props {
 	id: string;
 	name: string;
 	ipAdress: string;
+	onLongPress: () => void;
 }
+
+type Option = {
+	touchAction: string;
+	recognizers: { tap: { pointers: number; time: number; threshold: number } };
+};
 
 export const LightCard: FC<Props> = (props) => {
 	const device = useMemo(() => {
@@ -23,6 +30,16 @@ export const LightCard: FC<Props> = (props) => {
 	const [brightness, setBrightness] = useState<number>(100);
 	const [name, setName] = useState<string>(props.name);
 	const [open, setOpen] = useState<boolean>(false);
+	const [options, setOptions] = useState<Option>({
+		touchAction: 'compute',
+		recognizers: {
+			tap: {
+				pointers: 1,
+				time: 300,
+				threshold: 100,
+			},
+		},
+	});
 
 	useEffect(() => {
 		const interval = setInterval(async () => {
@@ -52,49 +69,62 @@ export const LightCard: FC<Props> = (props) => {
 				brightness={brightness}
 				setBrightness={setBrightness}
 			/>
-			<div
-				className="h-full w-translate-y-full"
-				onClick={async () => {
-					state ? await device.turnOff() : await device.turnOn();
-					setColor(state ? device.color : device.offColor);
-					setState(device.state);
+			<Hammer
+				onPress={() => props.onLongPress()}
+				options={{
+					touchAction: 'compute',
+					recognizers: {
+						press: {
+							time: 500,
+							threshold: 1000,
+						},
+					},
 				}}
 			>
-				<Card>
-					<div
-						style={{
-							color: color && state ? `rgb(${color.red},${color.green}, ${color.blue})` : '#000',
-							display: 'grid',
-							gridTemplateColumns: 'max-content 1fr max-content',
-							gridTemplateRows: 'repeat(2, max-content)',
-							columnGap: '10px',
-							padding: '10px',
-						}}
-					>
-						<div
-							style={{ gridArea: '1 / 1 / 3 / 2' }}
-							onClick={(e) => {
-								e.stopPropagation();
-								setOpen(!open);
-							}}
-						>
-							<LightIcon />
-						</div>
-						<div className="text-zinc-400 text-left">
-							{device ? name : 'DeviceTitle unavailable'}
-						</div>
+				<div
+					className="h-full w-translate-y-full"
+					onClick={async () => {
+						state ? await device.turnOff() : await device.turnOn();
+						setColor(state ? device.color : device.offColor);
+						setState(device.state);
+					}}
+				>
+					<Card>
 						<div
 							style={{
-								gridArea: '1 / 3 / 3 / 4',
-								alignSelf: 'center',
+								color: color && state ? `rgb(${color.red},${color.green}, ${color.blue})` : '#000',
+								display: 'grid',
+								gridTemplateColumns: 'max-content 1fr max-content',
+								gridTemplateRows: 'repeat(2, max-content)',
+								columnGap: '10px',
+								padding: '10px',
 							}}
 						>
-							<ToggleSwitch state={state} setState={setState} />
+							<div
+								style={{ gridArea: '1 / 1 / 3 / 2' }}
+								onClick={(e) => {
+									e.stopPropagation();
+									setOpen(!open);
+								}}
+							>
+								<LightIcon />
+							</div>
+							<div className="text-zinc-400 text-left">
+								{device ? name : 'DeviceTitle unavailable'}
+							</div>
+							<div
+								style={{
+									gridArea: '1 / 3 / 3 / 4',
+									alignSelf: 'center',
+								}}
+							>
+								<ToggleSwitch state={state} setState={setState} />
+							</div>
+							<div className="text-zinc-400 text-left">{`Brightness: ${brightness}%`}</div>
 						</div>
-						<div className="text-zinc-400 text-left">{`Brightness: ${brightness}%`}</div>
-					</div>
-				</Card>
-			</div>
+					</Card>
+				</div>
+			</Hammer>
 		</>
 	);
 };
