@@ -7,10 +7,9 @@ import { LightCard } from '../components/devices/lightCard';
 import { PlugCard } from '../components/devices/plugCard';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
 import { useDevices } from '../context/DeviceContext';
-import Hammer from 'hammerjs';
 
 const Devices: NextPage = () => {
-	const { devices } = useDevices();
+	const { devices, deleteDevice } = useDevices();
 	const [visible, setVisible] = useState<boolean>(false);
 	const [selectedId, setSelectedId] = useState<string>('');
 
@@ -21,6 +20,18 @@ const Devices: NextPage = () => {
 					title="Edit"
 					type="contextItem"
 					onClick={() => router.push(`/editDevice/${selectedId}`)}
+				/>
+				<ContextMenuItem
+					title="Delete"
+					type="cancel"
+					onClick={() => {
+						const device = devices.find((x) => x.id === selectedId);
+						if (device == undefined) {
+							return;
+						}
+						deleteDevice(device);
+						setVisible(false);
+					}}
 				/>
 				<ContextMenuItem title="Cancel" type="cancel" onClick={() => setVisible(false)} />
 			</ContextMenu>
@@ -35,6 +46,7 @@ const Devices: NextPage = () => {
 					{devices
 						.filter((x) => x.type === 'rgbw2')
 						.map((key) => {
+							console.log(key.title);
 							return (
 								<LightCard
 									id={key.id}

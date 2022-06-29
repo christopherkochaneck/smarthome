@@ -7,8 +7,8 @@ import { useGroups } from '../context/GroupContext';
 import { useScenes } from '../context/SceneContext';
 
 const Groups: NextPage = () => {
-	const groups = useGroups();
-	const scenes = useScenes();
+	const { groups } = useGroups();
+	const { scenes } = useScenes();
 	return (
 		<LayoutWrapper
 			showAppbar={true}
@@ -18,14 +18,14 @@ const Groups: NextPage = () => {
 		>
 			<div className="grid gap-4">
 				<div className="text-zinc-500 text-center">Groups</div>
-				{groups.groups.map((key) => {
+				{groups.map((key) => {
 					return (
 						<GroupLightCard groupID={key.id} groupName={key.name} title={key.name} key={key.name} />
 					);
 				})}
 				<div className="text-zinc-500 text-center">Scenes</div>
 				<div className="grid grid-cols-2 gap-4">
-					{scenes.scenes.map((key) => {
+					{scenes.map((key) => {
 						return <SceneCard name={key.name} sceneID={key.id} key={key.id} />;
 					})}
 				</div>

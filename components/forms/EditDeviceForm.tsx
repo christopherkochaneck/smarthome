@@ -25,26 +25,25 @@ export const EditDeviceForm: FC = () => {
 			if (deviceType === 'rgbw2') {
 				device = {
 					type: 'rgbw2',
-					id: uuidv4(),
+					id: deviceId,
 					title: deviceName,
 					ipAdress: deviceIP,
 				};
-				devices.updateDevice(device);
+				return devices.updateDevice(device);
 			}
 			if (deviceType === 'plugs') {
 				device = {
 					type: 'plugS',
-					id: uuidv4(),
+					id: deviceId,
 					title: deviceName,
 					ipAdress: deviceIP,
 				};
-				devices.updateDevice(device);
-				return;
+				return devices.updateDevice(device);
 			}
 		} catch (ex) {
 			console.log(ex);
 		} finally {
-			// router.push('/devices');
+			router.push('/devices');
 		}
 	};
 
@@ -64,6 +63,8 @@ export const EditDeviceForm: FC = () => {
 		}
 
 		setDeviceType(foundID.type);
+		setDeviceName(foundID.title);
+		setDeviceIP(foundID.ipAdress);
 	}, []);
 
 	useEffect(() => {
@@ -79,17 +80,17 @@ export const EditDeviceForm: FC = () => {
 					<Input
 						title="Device Name"
 						className="h-10 rounded-xl"
-						value={device?.title}
+						value={deviceName}
 						onChange={(e) => {
-							setDeviceName(e.currentTarget.value.trim());
+							setDeviceName(e.currentTarget.value);
 						}}
 					/>
 					<Input
 						title="Device IP"
 						className="h-10 rounded-xl"
-						value={device?.ipAdress}
+						value={deviceIP}
 						onChange={(e) => {
-							setDeviceIP(e.currentTarget.value.trim());
+							setDeviceIP(e.currentTarget.value);
 						}}
 					/>
 				</div>

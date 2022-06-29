@@ -37,7 +37,6 @@ export const SceneSelectionForm: FC = () => {
 			name: sceneName,
 			actions: actions,
 		};
-		console.log(scene);
 		scenes.addScene(scene);
 
 		router.push('/groups');
@@ -55,7 +54,7 @@ export const SceneSelectionForm: FC = () => {
 						title="Scene Name"
 						className="h-10 rounded-xl"
 						onChange={(e) => {
-							setSceneName(e.currentTarget.value.trim());
+							setSceneName(e.currentTarget.value);
 						}}
 					/>
 					<div className="text-zinc-700 text-center">Select Devices to Add</div>

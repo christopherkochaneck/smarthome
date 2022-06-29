@@ -56,7 +56,7 @@ export const DeviceForm: FC = () => {
 						values={['RGBW2', 'PlugS']}
 						className="h-10 rounded-xl"
 						onChange={(e) => {
-							setDeviceType(e.currentTarget.value.trim());
+							setDeviceType(e.currentTarget.value);
 						}}
 						value={deviceType}
 					/>
@@ -64,14 +64,14 @@ export const DeviceForm: FC = () => {
 						title="Device Name"
 						className="h-10 rounded-xl"
 						onChange={(e) => {
-							setDeviceName(e.currentTarget.value.trim());
+							setDeviceName(e.currentTarget.value);
 						}}
 					/>
 					<Input
 						title="Device IP"
 						className="h-10 rounded-xl"
 						onChange={(e) => {
-							setDeviceIP(e.currentTarget.value.trim());
+							setDeviceIP(e.currentTarget.value);
 						}}
 					/>
 				</div>

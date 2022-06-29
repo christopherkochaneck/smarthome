@@ -14,11 +14,6 @@ interface Props {
 	onLongPress: () => void;
 }
 
-type Option = {
-	touchAction: string;
-	recognizers: { tap: { pointers: number; time: number; threshold: number } };
-};
-
 export const LightCard: FC<Props> = (props) => {
 	const device = useMemo(() => {
 		return new RGBW2(props.ipAdress, props.id);
@@ -30,16 +25,6 @@ export const LightCard: FC<Props> = (props) => {
 	const [brightness, setBrightness] = useState<number>(100);
 	const [name, setName] = useState<string>(props.name);
 	const [open, setOpen] = useState<boolean>(false);
-	const [options, setOptions] = useState<Option>({
-		touchAction: 'compute',
-		recognizers: {
-			tap: {
-				pointers: 1,
-				time: 300,
-				threshold: 100,
-			},
-		},
-	});
 
 	useEffect(() => {
 		const interval = setInterval(async () => {

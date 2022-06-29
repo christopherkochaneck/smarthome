@@ -11,6 +11,7 @@ import { RGBW2Type } from '../types/RGBW2Type';
 import { PlugSType } from '../types/PlugSType';
 import axios from 'axios';
 import { BASE_URL } from '../config/env';
+import { xml } from 'cheerio/lib/static';
 
 type Device = RGBW2Type | PlugSType;
 
@@ -19,6 +20,7 @@ interface DeviceContextType {
 	setDevices: Dispatch<SetStateAction<Device[]>>;
 	addDevice: (device: Device) => void;
 	updateDevice: (device: Device) => void;
+	deleteDevice: (device: Device) => void;
 }
 
 const DeviceContext = createContext<DeviceContextType>(undefined!);
@@ -49,13 +51,15 @@ export const DeviceProvider: FC = (props) => {
 	}, []);
 
 	const addDevice = async (device: Device) => {
-		await axios({
-			method: 'post',
-			url: `${BASE_URL}/api/${device.type}`,
-			data: device,
-		});
+		try {
+			await axios({
+				method: 'post',
+				url: `${BASE_URL}/api/${device.type}`,
+				data: device,
+			});
 
-		setDevices([...devices, device]);
+			setDevices([...devices, device]);
+		} catch (err) {}
 	};
 
 	const updateDevice = async (device: Device) => {
@@ -64,9 +68,35 @@ export const DeviceProvider: FC = (props) => {
 			url: `${BASE_URL}/api/${device.type}`,
 			data: device,
 		});
+
+		const index = devices.findIndex((x) => x.id === device.id);
+
+		devices[index] = device;
+
+		setDevices([...devices]);
 	};
 
-	const contextValue: DeviceContextType = { devices, setDevices, addDevice, updateDevice };
+	const deleteDevice = async (device: Device) => {
+		const index = devices.findIndex((x) => x.id === device.id);
+
+		devices.splice(index, 1);
+
+		await axios({
+			method: 'delete',
+			url: `${BASE_URL}/api/${device.type}`,
+			data: device,
+		});
+
+		setDevices([...devices]);
+	};
+
+	const contextValue: DeviceContextType = {
+		devices,
+		setDevices,
+		addDevice,
+		updateDevice,
+		deleteDevice,
+	};
 
 	return (
 		<>

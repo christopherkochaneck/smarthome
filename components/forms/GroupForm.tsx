@@ -43,7 +43,7 @@ export const GroupForm: FC = () => {
 						title="Group Name"
 						className="h-10 rounded-xl"
 						onChange={(e) => {
-							setGroupName(e.currentTarget.value.trim());
+							setGroupName(e.currentTarget.value);
 						}}
 					/>
 					<div className="text-zinc-700 text-center">Select Devices to Add</div>

@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
 import * as path from 'path';
+import { RGBW2 } from '../../devices/rgbw2';
 
 const dirName = path.join(process.cwd(), 'data');
 const fileName = path.join(process.cwd(), 'data', 'rgbw2.json');
@@ -54,24 +55,38 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 				const data = fs.readFileSync(fileName).toString();
 
 				const object = JSON.parse(data);
-				const updateIndex = object.findIndex((x: any) => (x.id = req.body.id));
+				const updateIndex = object.findIndex((x: any) => x.id == req.body.id);
 
 				object[updateIndex].title = req.body.title;
 
 				object[updateIndex].ipAdress = req.body.ipAdress;
 
 				// object.push(req.body);
-				// const appendedJson = JSON.stringify(object);
-				// fs.writeFileSync(fileName, appendedJson);
-				// return res.status(200).send(appendedJson);
-				return res.status(200).send('hello');
+				const updatedJson = JSON.stringify(object);
+				fs.writeFileSync(fileName, updatedJson);
+				return res.status(200).send(updatedJson);
 			} catch (err) {
 				console.log(err);
 			}
 
 			break;
 		case 'DELETE':
-			req.body.id;
+			try {
+				const data = fs.readFileSync(fileName).toString();
+
+				const devices: RGBW2[] = JSON.parse(data);
+				const index = devices.findIndex((x: any) => x.id == req.body.id);
+
+				const filteredDevices = devices.filter((x) => x.id !== req.body.id);
+
+				console.log({ filteredDevices });
+
+				const updatedJson = JSON.stringify(filteredDevices);
+				fs.writeFileSync(fileName, updatedJson);
+				return res.status(200).send(updatedJson);
+			} catch (err) {
+				console.log(err);
+			}
 			break;
 		default:
 			res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
