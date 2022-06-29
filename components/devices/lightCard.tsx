@@ -19,8 +19,8 @@ export const LightCard: FC<Props> = (props) => {
 		return new RGBW2(props.ipAdress, props.id);
 	}, [props.id, props.ipAdress]);
 
-	const [color, setColor] = useState<color>({ red: 0, green: 0, blue: 0 });
-	const [selectedColor, setSelectedColor] = useState<color>({ red: 0, green: 0, blue: 0 });
+	const [color, setColor] = useState<color | undefined>();
+	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
 	const [state, setState] = useState<boolean>(false);
 	const [brightness, setBrightness] = useState<number>(100);
 	const [name, setName] = useState<string>(props.name);
@@ -56,6 +56,11 @@ export const LightCard: FC<Props> = (props) => {
 			/>
 			<Hammer
 				onPress={() => props.onLongPress()}
+				onTap={async () => {
+					state ? await device.turnOff() : await device.turnOn();
+					setColor(state ? device.color : device.offColor);
+					setState(device.state);
+				}}
 				options={{
 					touchAction: 'compute',
 					recognizers: {
@@ -66,14 +71,7 @@ export const LightCard: FC<Props> = (props) => {
 					},
 				}}
 			>
-				<div
-					className="h-full w-translate-y-full"
-					onClick={async () => {
-						state ? await device.turnOff() : await device.turnOn();
-						setColor(state ? device.color : device.offColor);
-						setState(device.state);
-					}}
-				>
+				<div className="h-full w-translate-y-full">
 					<Card>
 						<div
 							style={{
