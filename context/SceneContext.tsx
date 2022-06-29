@@ -15,6 +15,8 @@ interface SceneContextType {
 	scenes: SceneType[];
 	setScenes: Dispatch<SetStateAction<SceneType[]>>;
 	addScene: (scene: SceneType) => void;
+	updateScene: (scene: SceneType) => void;
+	deleteScene: (scene: SceneType) => void;
 }
 
 const SceneContext = createContext<SceneContextType>(undefined!);
@@ -45,7 +47,35 @@ export const SceneProvider: FC = (props) => {
 		setScenes([...scenes, scene]);
 	};
 
-	const contextValue: SceneContextType = { scenes, setScenes, addScene };
+	const updateScene = async (scene: SceneType) => {
+		await axios({
+			method: 'patch',
+			url: `${BASE_URL}/api/group`,
+			data: scene,
+		});
+
+		const index = scenes.findIndex((x) => x.id === scene.id);
+
+		scenes[index] = scene;
+
+		setScenes([...scenes]);
+	};
+
+	const deleteScene = async (scene: SceneType) => {
+		const index = scenes.findIndex((x) => x.id === scene.id);
+
+		scenes.splice(index, 1);
+
+		await axios({
+			method: 'delete',
+			url: `${BASE_URL}/api/scene`,
+			data: scene,
+		});
+
+		setScenes([...scenes]);
+	};
+
+	const contextValue: SceneContextType = { scenes, setScenes, addScene, updateScene, deleteScene };
 
 	return (
 		<>

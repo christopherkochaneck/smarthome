@@ -5,11 +5,13 @@ import { PlugS } from '../../devices/plugS';
 import { RGBW2 } from '../../devices/rgbw2';
 import { SceneType } from '../../types/SceneType';
 import { Card } from '../ui/card/card';
+import Hammer from 'react-hammerjs';
 
 interface Props {
 	id?: string;
 	name: string;
 	sceneID: string;
+	onLongPress: () => void;
 }
 
 export const SceneCard: FC<Props> = (props) => {
@@ -62,13 +64,27 @@ export const SceneCard: FC<Props> = (props) => {
 
 	return (
 		<>
-			<div className="h-[179px] w-full" onClick={handleScene}>
-				<Card>
-					<div className="grid items-center">
-						<div className="text-zinc-400">{props.name}</div>
-					</div>
-				</Card>
-			</div>
+			<Hammer
+				onPress={props.onLongPress}
+				onTap={handleScene}
+				options={{
+					touchAction: 'compute',
+					recognizers: {
+						press: {
+							time: 500,
+							threshold: 1000,
+						},
+					},
+				}}
+			>
+				<div className="h-[179px] w-full" onClick={handleScene}>
+					<Card>
+						<div className="grid items-center">
+							<div className="text-zinc-400">{props.name}</div>
+						</div>
+					</Card>
+				</div>
+			</Hammer>
 		</>
 	);
 };

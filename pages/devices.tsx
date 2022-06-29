@@ -46,7 +46,6 @@ const Devices: NextPage = () => {
 					{devices
 						.filter((x) => x.type === 'rgbw2')
 						.map((key) => {
-							console.log(key.title);
 							return (
 								<LightCard
 									id={key.id}
@@ -66,7 +65,16 @@ const Devices: NextPage = () => {
 						.map((key) => {
 							return (
 								<>
-									<PlugCard id={key.id} key={key.id} ipAdress={key.ipAdress} name={key.title} />
+									<PlugCard
+										id={key.id}
+										key={key.id}
+										ipAdress={key.ipAdress}
+										name={key.title}
+										onLongPress={() => {
+											setSelectedId(key.id);
+											setVisible(true);
+										}}
+									/>
 								</>
 							);
 						})}

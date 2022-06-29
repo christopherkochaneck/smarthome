@@ -1,6 +1,8 @@
 import * as fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
 import * as path from 'path';
+import { GroupType } from '../../types/GroupType';
+import groups from '../groups';
 
 const dirName = path.join(process.cwd(), 'data');
 const fileName = path.join(process.cwd(), 'data', 'groups.json');
@@ -57,14 +59,46 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 			}
 			break;
 		case 'PATCH':
-			req.body.id;
+			try {
+				const data = fs.readFileSync(fileName).toString();
+
+				const object = JSON.parse(data);
+				const updateIndex = object.findIndex((x: any) => x.id == req.body.id);
+
+				object[updateIndex].title = req.body.title;
+
+				object[updateIndex].ipAdress = req.body.ipAdress;
+
+				const updatedJson = JSON.stringify(object);
+				fs.writeFileSync(fileName, updatedJson);
+				return res.status(200).send(updatedJson);
+			} catch (err) {
+				console.log(err);
+			}
+
 			break;
 		case 'DELETE':
-			req.body.id;
+			try {
+				const data = fs.readFileSync(fileName).toString();
+
+				const groups: GroupType[] = JSON.parse(data);
+
+				const filteredGroups = groups.filter((x) => x.id !== req.body.id);
+
+				const updatedJson = JSON.stringify(filteredGroups);
+				fs.writeFileSync(fileName, updatedJson);
+				return res.status(200).send(updatedJson);
+			} catch (err) {
+				console.log(err);
+			}
 			break;
 		default:
-			res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
-			res.status(405).end(`Method ${method} Not Allowed`);
+			try {
+				res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
+				return res.status(405).end(`Method ${method} Not Allowed`);
+			} catch (err) {
+				console.log(err);
+			}
 			break;
 	}
 }

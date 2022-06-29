@@ -75,11 +75,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 				const data = fs.readFileSync(fileName).toString();
 
 				const devices: RGBW2[] = JSON.parse(data);
-				const index = devices.findIndex((x: any) => x.id == req.body.id);
 
 				const filteredDevices = devices.filter((x) => x.id !== req.body.id);
-
-				console.log({ filteredDevices });
 
 				const updatedJson = JSON.stringify(filteredDevices);
 				fs.writeFileSync(fileName, updatedJson);
@@ -89,8 +86,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 			}
 			break;
 		default:
-			res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
-			return res.status(405).end(`Method ${method} Not Allowed`);
+			try {
+				res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
+				return res.status(405).end(`Method ${method} Not Allowed`);
+			} catch (err) {
+				console.log(err);
+			}
 			break;
 	}
 }

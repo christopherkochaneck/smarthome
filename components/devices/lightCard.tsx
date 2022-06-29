@@ -55,7 +55,7 @@ export const LightCard: FC<Props> = (props) => {
 				setBrightness={setBrightness}
 			/>
 			<Hammer
-				onPress={() => props.onLongPress()}
+				onPress={props.onLongPress}
 				onTap={async () => {
 					state ? await device.turnOff() : await device.turnOn();
 					setColor(state ? device.color : device.offColor);

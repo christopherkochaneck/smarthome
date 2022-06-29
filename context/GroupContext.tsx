@@ -15,6 +15,8 @@ interface GroupContextType {
 	groups: GroupType[];
 	setGroups: Dispatch<SetStateAction<GroupType[]>>;
 	addGroup: (group: GroupType) => void;
+	updateGroup: (group: GroupType) => void;
+	deleteGroup: (group: GroupType) => void;
 }
 
 const GroupContext = createContext<GroupContextType>(undefined!);
@@ -48,7 +50,35 @@ export const GroupProvider: FC = (props) => {
 		setGroups([...groups, group]);
 	};
 
-	const contextValue: GroupContextType = { groups, setGroups, addGroup };
+	const updateGroup = async (group: GroupType) => {
+		await axios({
+			method: 'patch',
+			url: `${BASE_URL}/api/group`,
+			data: group,
+		});
+
+		const index = groups.findIndex((x) => x.id === group.id);
+
+		groups[index] = group;
+
+		setGroups([...groups]);
+	};
+
+	const deleteGroup = async (group: GroupType) => {
+		const index = groups.findIndex((x) => x.id === group.id);
+
+		groups.splice(index, 1);
+
+		await axios({
+			method: 'delete',
+			url: `${BASE_URL}/api/group`,
+			data: group,
+		});
+
+		setGroups([...groups]);
+	};
+
+	const contextValue: GroupContextType = { groups, setGroups, addGroup, updateGroup, deleteGroup };
 
 	return (
 		<>
