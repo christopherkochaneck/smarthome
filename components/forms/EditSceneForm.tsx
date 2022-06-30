@@ -12,8 +12,8 @@ import { LightActionCard } from '../devices/actionCard/lightActionCard';
 import { useScenes } from '../../context/SceneContext';
 
 export const EditSceneForm: FC = () => {
-	const devices = useDevices();
-	const scenes = useScenes();
+	const { devices } = useDevices();
+	const { scenes, updateScene } = useScenes();
 	const [sceneName, setSceneName] = useState<string>('');
 	const [actions, setActions] = useState<Action[]>([]);
 	const router = useRouter();
@@ -35,14 +35,10 @@ export const EditSceneForm: FC = () => {
 			actions: actions,
 		};
 
-		scenes.updateScene(scene);
+		updateScene(scene);
 
 		router.push('/groups');
 	};
-
-	useEffect(() => {
-		console.log(actions);
-	}, [actions]);
 
 	useEffect(() => {
 		setViewActionPage(false);
@@ -53,7 +49,7 @@ export const EditSceneForm: FC = () => {
 			setSceneId(id.toString());
 		}
 
-		const scene = scenes.scenes.find((x) => x.id == id);
+		const scene = scenes.find((x) => x.id == id);
 
 		if (scene == undefined) {
 			return;
@@ -67,7 +63,7 @@ export const EditSceneForm: FC = () => {
 		});
 
 		setActions([...scene.actions]);
-	}, []);
+	}, [router.query, ids, scenes]);
 
 	return (
 		<>
@@ -82,7 +78,7 @@ export const EditSceneForm: FC = () => {
 						}}
 					/>
 					<div className="text-zinc-700 text-center">Select Devices to Add</div>
-					{devices.devices.map((key) => {
+					{devices.map((key) => {
 						if (key.type === 'rgbw2') {
 							return (
 								<div

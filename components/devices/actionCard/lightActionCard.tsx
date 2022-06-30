@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const LightActionCard: FC<Props> = (props) => {
-	const devices = useDevices();
+	const { devices } = useDevices();
 	const [state, setState] = useState<boolean | undefined>(false);
 	const [open, setOpen] = useState<boolean>(false);
 	const [action, setAction] = useState<Action | undefined>(undefined);
@@ -29,7 +29,7 @@ export const LightActionCard: FC<Props> = (props) => {
 			return;
 		}
 
-		const device = devices.devices.find((x) => x.id === currentAction.id);
+		const device = devices.find((x) => x.id === currentAction.id);
 
 		if (device !== undefined) {
 			setName(device.title);
@@ -37,7 +37,7 @@ export const LightActionCard: FC<Props> = (props) => {
 
 		setColor(currentAction.actions.color);
 		setState(currentAction.actions.state);
-	}, []);
+	}, [devices, props.actions, props.id]);
 
 	useEffect(() => {
 		const currentAction = props.actions.find((x) => x.id === props.id);
@@ -54,7 +54,7 @@ export const LightActionCard: FC<Props> = (props) => {
 		props.actions[index] = currentAction;
 
 		props.setActions([...props.actions]);
-	}, [state, color]);
+	}, [state, color, props]);
 
 	return (
 		<>

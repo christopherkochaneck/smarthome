@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { RGBW2 } from '../../devices/rgbw2';
 
 export const EditDeviceForm: FC = () => {
-	const devices = useDevices();
+	const { devices, updateDevice } = useDevices();
 	const [device, setDevice] = useState<RGBW2Type | PlugSType>();
 	const [deviceType, setDeviceType] = useState<string>('');
 	const [deviceName, setDeviceName] = useState<string>('');
@@ -29,7 +29,7 @@ export const EditDeviceForm: FC = () => {
 					title: deviceName,
 					ipAdress: deviceIP,
 				};
-				return devices.updateDevice(device);
+				return updateDevice(device);
 			}
 			if (deviceType === 'plugs') {
 				device = {
@@ -38,7 +38,7 @@ export const EditDeviceForm: FC = () => {
 					title: deviceName,
 					ipAdress: deviceIP,
 				};
-				return devices.updateDevice(device);
+				return updateDevice(device);
 			}
 		} catch (ex) {
 			console.log(ex);
@@ -56,7 +56,7 @@ export const EditDeviceForm: FC = () => {
 		}
 		setDeviceId(id.toString());
 
-		const foundID = devices.devices.find((x) => x.id === id);
+		const foundID = devices.find((x) => x.id === id);
 
 		if (foundID == undefined) {
 			return;
@@ -65,13 +65,13 @@ export const EditDeviceForm: FC = () => {
 		setDeviceType(foundID.type);
 		setDeviceName(foundID.title);
 		setDeviceIP(foundID.ipAdress);
-	}, []);
+	}, [router.query, devices]);
 
 	useEffect(() => {
-		let foundDevice = devices.devices.find((x) => x.id === deviceId);
+		let foundDevice = devices.find((x) => x.id === deviceId);
 
 		setDevice(foundDevice);
-	}, [deviceId]);
+	}, [deviceId, devices]);
 
 	return (
 		<>

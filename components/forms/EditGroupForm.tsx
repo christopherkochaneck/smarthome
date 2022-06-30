@@ -12,22 +12,21 @@ import DeviceFloppy from '../../res/images/device-floppy.svg';
 
 interface Props {}
 export const EditGroupForm: FC<Props> = (props) => {
-	const groups = useGroups();
+	const { groups, updateGroup } = useGroups();
 	const devices = useDevices();
 	const [groupName, setGroupName] = useState<string>('');
 	const [ids, setIds] = useState<string[]>([]);
 	const [groupId, setGroupId] = useState<string>('');
 
 	useEffect(() => {
-		const query = router.query;
-		const id = query.id;
+		const id = router.query.id;
 
 		if (id == undefined) {
 			return;
 		}
 		setGroupId(id.toString());
 
-		const foundID = groups.groups.find((x) => x.id === id);
+		const foundID = groups.find((x) => x.id === id);
 
 		if (foundID == undefined) {
 			return;
@@ -35,7 +34,7 @@ export const EditGroupForm: FC<Props> = (props) => {
 
 		setGroupName(foundID.name);
 		setIds(foundID.ids);
-	}, []);
+	}, [groups]);
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -44,7 +43,7 @@ export const EditGroupForm: FC<Props> = (props) => {
 			name: groupName,
 			ids: ids,
 		};
-		groups.updateGroup(group);
+		updateGroup(group);
 
 		router.push('/groups');
 	};
