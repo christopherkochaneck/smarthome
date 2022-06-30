@@ -54,15 +54,20 @@ export const GroupForm: FC = () => {
 									onClick={() => {
 										let idArray = ids;
 										if (ids.find((x) => x === key.id)) {
-											idArray.splice(ids.indexOf(key.id));
+											idArray.splice(ids.indexOf(key.id), 1);
 										} else {
 											idArray.push(key.id);
 										}
-										setIds(idArray);
+										setIds([...idArray]);
 									}}
 									key={key.id}
 								>
-									<LightSelectionCard id={key.id} key={key.id} name={key.title} />
+									<LightSelectionCard
+										id={key.id}
+										key={key.id}
+										name={key.title}
+										selected={ids.includes(key.id)}
+									/>
 								</div>
 							);
 						}
@@ -72,14 +77,19 @@ export const GroupForm: FC = () => {
 									onClick={() => {
 										let idArray = ids;
 										if (ids.find((x) => x === key.id)) {
-											idArray.splice(ids.indexOf(key.id));
+											idArray.splice(ids.indexOf(key.id), 1);
 										} else {
 											idArray.push(key.id);
 										}
-										setIds(idArray);
+										setIds([...idArray]);
 									}}
 								>
-									<PlugSelectionCard id={key.id} key={key.id} name={key.title} />
+									<PlugSelectionCard
+										id={key.id}
+										key={key.id}
+										name={key.title}
+										selected={ids.includes(key.id)}
+									/>
 								</div>
 							);
 						}

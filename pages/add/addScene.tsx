@@ -1,13 +1,13 @@
 import { NextPage } from 'next';
 import { LayoutWrapper } from '../../components/layout/layoutWrapper';
-import { SceneSelectionForm } from '../../components/forms/SceneSelectionForm';
+import { SceneForm } from '../../components/forms/SceneForm';
 
 const AddScene: NextPage = () => {
 	function handleSubmit() {}
 
 	return (
 		<LayoutWrapper showAppbar={true} showAppbarIcon={false} appBarTitle="Add Scene">
-			<SceneSelectionForm />
+			<SceneForm />
 		</LayoutWrapper>
 	);
 };

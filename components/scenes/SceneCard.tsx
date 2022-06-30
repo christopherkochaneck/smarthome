@@ -23,6 +23,7 @@ export const SceneCard: FC<Props> = (props) => {
 		if (!scene) {
 			return;
 		}
+
 		scene.actions.map(async (action) => {
 			const device = devices.devices.find((x) => x.id == action.id);
 
@@ -33,14 +34,16 @@ export const SceneCard: FC<Props> = (props) => {
 			if (device.type == 'rgbw2') {
 				const entity = new RGBW2(device.ipAdress, device.id);
 
-				if (action.actions.state == undefined) {
-					if (action.actions.color == undefined) return;
-					await entity.setColor(action.actions.color);
-					if (action.actions.state == true) {
+				if (action.actions.state !== undefined) {
+					if (action.actions.state === true) {
 						await entity.turnOn();
-					} else if (action.actions.state == false) {
+					} else if (action.actions.state === false) {
 						await entity.turnOff();
 					}
+				}
+
+				if (action.actions.color !== undefined) {
+					await entity.setColor(action.actions.color);
 				}
 			} else if (device.type == 'plugS') {
 				const entity = new PlugS(device.ipAdress, device.id);
@@ -51,11 +54,6 @@ export const SceneCard: FC<Props> = (props) => {
 			}
 		});
 	};
-
-	useEffect(() => {
-		const scene = scenes.scenes.find((x) => x.id == props.sceneID);
-		setScene(scene);
-	}, [props.sceneID, scenes]);
 
 	useEffect(() => {
 		const scene = scenes.scenes.find((x) => x.id == props.sceneID);
@@ -77,7 +75,7 @@ export const SceneCard: FC<Props> = (props) => {
 					},
 				}}
 			>
-				<div className="h-[179px] w-full" onClick={handleScene}>
+				<div className="h-[179px] w-full">
 					<Card>
 						<div className="grid items-center">
 							<div className="text-zinc-400">{props.name}</div>

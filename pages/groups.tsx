@@ -22,7 +22,17 @@ const Groups: NextPage = () => {
 				<ContextMenuItem
 					title="Edit"
 					type="contextItem"
-					onClick={() => router.push(`/editGroup/${selectedId}`)}
+					onClick={() => {
+						const group = groups.find((x) => x.id === selectedId);
+						if (group != undefined) {
+							return router.push(`/editGroup/${selectedId}`);
+						}
+
+						const scene = scenes.find((x) => x.id === selectedId);
+						if (scene != undefined) {
+							return router.push(`/editScene/${selectedId}`);
+						}
+					}}
 				/>
 				<ContextMenuItem
 					title="Delete"

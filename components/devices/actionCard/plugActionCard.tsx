@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const PlugActionCard: FC<Props> = (props) => {
-	const [state, setState] = useState<boolean>(false);
+	const [state, setState] = useState<boolean | undefined>(false);
 
 	return (
 		<>

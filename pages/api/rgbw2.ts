@@ -57,9 +57,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 				const object = JSON.parse(data);
 				const updateIndex = object.findIndex((x: any) => x.id == req.body.id);
 
-				object[updateIndex].title = req.body.title;
-
-				object[updateIndex].ipAdress = req.body.ipAdress;
+				object[updateIndex] = req.body;
 
 				// object.push(req.body);
 				const updatedJson = JSON.stringify(object);

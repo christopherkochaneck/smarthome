@@ -1,8 +1,7 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { FC } from 'react';
 
 interface Props {
 	selected: boolean;
-	setSelected: Dispatch<SetStateAction<boolean>>;
 }
 
 export const SelectionIndicator: FC<Props> = (props) => {

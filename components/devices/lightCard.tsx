@@ -21,7 +21,7 @@ export const LightCard: FC<Props> = (props) => {
 
 	const [color, setColor] = useState<color | undefined>();
 	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
-	const [state, setState] = useState<boolean>(false);
+	const [state, setState] = useState<boolean | undefined>(undefined);
 	const [brightness, setBrightness] = useState<number>(100);
 	const [name, setName] = useState<string>(props.name);
 	const [open, setOpen] = useState<boolean>(false);

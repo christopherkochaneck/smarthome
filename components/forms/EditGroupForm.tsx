@@ -1,4 +1,4 @@
-import { FC, FormEvent, useState } from 'react';
+import { FC, FormEvent, useEffect, useState } from 'react';
 import { GroupType } from '../../types/GroupType';
 import { v4 as uuidv4 } from 'uuid';
 import { useGroups } from '../../context/GroupContext';
@@ -16,15 +16,35 @@ export const EditGroupForm: FC<Props> = (props) => {
 	const devices = useDevices();
 	const [groupName, setGroupName] = useState<string>('');
 	const [ids, setIds] = useState<string[]>([]);
+	const [groupId, setGroupId] = useState<string>('');
+
+	useEffect(() => {
+		const query = router.query;
+		const id = query.id;
+
+		if (id == undefined) {
+			return;
+		}
+		setGroupId(id.toString());
+
+		const foundID = groups.groups.find((x) => x.id === id);
+
+		if (foundID == undefined) {
+			return;
+		}
+
+		setGroupName(foundID.name);
+		setIds(foundID.ids);
+	}, []);
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		let group: GroupType = {
-			id: uuidv4(),
+			id: groupId,
 			name: groupName,
 			ids: ids,
 		};
-		groups.addGroup(group);
+		groups.updateGroup(group);
 
 		router.push('/groups');
 	};
@@ -32,15 +52,11 @@ export const EditGroupForm: FC<Props> = (props) => {
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
-				<div className="text-white">
-					<button type="button" onClick={() => router.push('/add/addScene')}>
-						Click here to create a Scene
-					</button>
-				</div>
 				<div className="grid gap-4">
 					<Input
 						title="Group Name"
 						className="h-10 rounded-xl"
+						value={groupName}
 						onChange={(e) => {
 							setGroupName(e.currentTarget.value);
 						}}
@@ -53,15 +69,21 @@ export const EditGroupForm: FC<Props> = (props) => {
 									onClick={() => {
 										let idArray = ids;
 										if (ids.find((x) => x === key.id)) {
-											idArray.splice(ids.indexOf(key.id));
+											idArray.splice(ids.indexOf(key.id), 1);
 										} else {
 											idArray.push(key.id);
 										}
-										setIds(idArray);
+
+										setIds([...idArray]);
 									}}
 									key={key.id}
 								>
-									<LightSelectionCard id={key.id} key={key.id} name={key.title} />
+									<LightSelectionCard
+										id={key.id}
+										key={key.id}
+										name={key.title}
+										selected={ids.includes(key.id)}
+									/>
 								</div>
 							);
 						}
@@ -78,7 +100,12 @@ export const EditGroupForm: FC<Props> = (props) => {
 										setIds(idArray);
 									}}
 								>
-									<PlugSelectionCard id={key.id} key={key.id} name={key.title} />
+									<PlugSelectionCard
+										id={key.id}
+										key={key.id}
+										name={key.title}
+										selected={ids.includes(key.id)}
+									/>
 								</div>
 							);
 						}

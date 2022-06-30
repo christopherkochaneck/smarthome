@@ -23,7 +23,7 @@ export const GroupLightCard: FC<Props> = (props) => {
 	const [lights, setLights] = useState<RGBW2[]>([]);
 	const [color, setColor] = useState<color>();
 	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
-	const [state, setState] = useState<boolean>(false);
+	const [state, setState] = useState<boolean | undefined>(undefined);
 	const [states, setStates] = useState<boolean[]>();
 	const [open, setOpen] = useState<boolean>(false);
 	const [updating, setUpdating] = useState<boolean>(false);

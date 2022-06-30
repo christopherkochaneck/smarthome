@@ -50,7 +50,7 @@ export const SceneProvider: FC = (props) => {
 	const updateScene = async (scene: SceneType) => {
 		await axios({
 			method: 'patch',
-			url: `${BASE_URL}/api/group`,
+			url: `${BASE_URL}/api/scene`,
 			data: scene,
 		});
 

@@ -5,16 +5,13 @@ import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionB
 import ArrowNarrowRight from '../../res/images/arrow-narrow-right.svg';
 import DiskFloppy from '../../res/images/device-floppy.svg';
 import { Action, SceneType } from '../../types/SceneType';
-import { v4 as uuidv4 } from 'uuid';
 import { Input } from '../ui/input/input';
 import { LightSelectionCard } from '../devices/selectionCard/lightSelectionCard';
 import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
-import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
-import color from '../../interfaces/color';
 import { LightActionCard } from '../devices/actionCard/lightActionCard';
 import { useScenes } from '../../context/SceneContext';
 
-export const SceneSelectionForm: FC = () => {
+export const EditSceneForm: FC = () => {
 	const devices = useDevices();
 	const scenes = useScenes();
 	const [sceneName, setSceneName] = useState<string>('');
@@ -22,7 +19,7 @@ export const SceneSelectionForm: FC = () => {
 	const router = useRouter();
 	const [ids, setIds] = useState<string[]>([]);
 	const [viewActionPage, setViewActionPage] = useState<boolean>(false);
-	const [open, setOpen] = useState<boolean>(false);
+	const [sceneId, setSceneId] = useState<string>('');
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -33,17 +30,43 @@ export const SceneSelectionForm: FC = () => {
 		}
 
 		let scene: SceneType = {
-			id: uuidv4(),
+			id: sceneId,
 			name: sceneName,
 			actions: actions,
 		};
-		scenes.addScene(scene);
+
+		scenes.updateScene(scene);
 
 		router.push('/groups');
 	};
 
 	useEffect(() => {
+		console.log(actions);
+	}, [actions]);
+
+	useEffect(() => {
 		setViewActionPage(false);
+
+		const id = router.query.id;
+
+		if (id != undefined) {
+			setSceneId(id.toString());
+		}
+
+		const scene = scenes.scenes.find((x) => x.id == id);
+
+		if (scene == undefined) {
+			return;
+		}
+
+		setSceneName(scene.name);
+
+		scene.actions.map((key) => {
+			ids.push(key.id);
+			setIds([...ids]);
+		});
+
+		setActions([...scene.actions]);
 	}, []);
 
 	return (
@@ -53,6 +76,7 @@ export const SceneSelectionForm: FC = () => {
 					<Input
 						title="Scene Name"
 						className="h-10 rounded-xl"
+						value={sceneName}
 						onChange={(e) => {
 							setSceneName(e.currentTarget.value);
 						}}
@@ -69,11 +93,30 @@ export const SceneSelectionForm: FC = () => {
 										} else {
 											idArray.push(key.id);
 										}
-										setIds(idArray);
+										setIds([...idArray]);
+
+										const action: Action = {
+											id: key.id,
+											type: 'rgbw2',
+											actions: { color: { red: 0, green: 0, blue: 0 }, state: false },
+										};
+
+										if (actions.find((x) => x.id === key.id)) {
+											actions.splice(actions.findIndex((x) => x.id === key.id));
+										} else {
+											actions.push(action);
+										}
+
+										setActions([...actions]);
 									}}
 									key={key.id}
 								>
-									<LightSelectionCard id={key.id} key={key.id} name={key.title} />
+									<LightSelectionCard
+										id={key.id}
+										key={key.id}
+										name={key.title}
+										selected={ids.includes(key.id)}
+									/>
 								</div>
 							);
 						}
@@ -87,10 +130,29 @@ export const SceneSelectionForm: FC = () => {
 										} else {
 											idArray.push(key.id);
 										}
-										setIds(idArray);
+										setIds([...idArray]);
+
+										const action: Action = {
+											id: key.id,
+											type: 'plugS',
+											actions: { state: false },
+										};
+
+										if (actions.find((x) => x.id === key.id)) {
+											actions.splice(actions.findIndex((x) => x.id === key.id));
+										} else {
+											actions.push(action);
+										}
+
+										setActions([...actions]);
 									}}
 								>
-									<PlugSelectionCard id={key.id} key={key.id} name={key.title} />
+									<PlugSelectionCard
+										id={key.id}
+										key={key.id}
+										name={key.title}
+										selected={ids.includes(key.id)}
+									/>
 								</div>
 							);
 						}
@@ -98,15 +160,7 @@ export const SceneSelectionForm: FC = () => {
 				</div>
 				<div className={`grid gap-4 ${!viewActionPage ? 'hidden' : 'block'}`}>
 					{ids.map((key) => {
-						return (
-							<LightActionCard
-								id={key}
-								key={key}
-								name="Name"
-								actions={actions}
-								setActions={setActions}
-							/>
-						);
+						return <LightActionCard id={key} key={key} actions={actions} setActions={setActions} />;
 					})}
 				</div>
 				<FloatingActionButton

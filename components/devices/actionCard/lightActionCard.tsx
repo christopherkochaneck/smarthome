@@ -6,50 +6,65 @@ import color from '../../../interfaces/color';
 import { ToggleSwitch } from '../../ui/toggleSwitch/toggleSwitch';
 import { Action } from '../../../types/SceneType';
 import { RGBW2Modal } from '../../ui/modals/rgbw2Modal/RGBW2Modal';
-import { v4 as uuidv4 } from 'uuid';
+import { useDevices } from '../../../context/DeviceContext';
 
 interface Props {
 	id: string;
-	name: string;
 	actions: Action[];
 	setActions: Dispatch<SetStateAction<Action[]>>;
 }
 
 export const LightActionCard: FC<Props> = (props) => {
-	const [state, setState] = useState<boolean>(false);
+	const devices = useDevices();
+	const [state, setState] = useState<boolean | undefined>(false);
 	const [open, setOpen] = useState<boolean>(false);
-	const [color, setSelectedColor] = useState<color>({ red: 0, green: 0, blue: 0 });
-	const [action, setAction] = useState<Action>({
-		id: uuidv4(),
-		type: 'rgbw2',
-		actions: { color: { red: 0, green: 0, blue: 0 }, state: false },
-	});
+	const [action, setAction] = useState<Action | undefined>(undefined);
+	const [color, setColor] = useState<color | undefined>(undefined);
+	const [name, setName] = useState<string>('');
 
 	useEffect(() => {
-		if (action == undefined) {
+		const currentAction = props.actions.find((x) => x.id === props.id);
+
+		if (currentAction === undefined) {
 			return;
 		}
 
-		setAction({ id: action.id, type: 'rgbw2', actions: { color: color, state: state } });
+		const device = devices.devices.find((x) => x.id === currentAction.id);
 
-		const currentAction = props.actions.find((x) => x.id == action.id);
-		if (currentAction == undefined) {
-			props.setActions([...props.actions, action]);
+		if (device !== undefined) {
+			setName(device.title);
+		}
+
+		setColor(currentAction.actions.color);
+		setState(currentAction.actions.state);
+	}, []);
+
+	useEffect(() => {
+		const currentAction = props.actions.find((x) => x.id === props.id);
+		if (currentAction === undefined) {
 			return;
 		}
-	}, [color, state, props, action]);
+
+		currentAction.actions.color = color;
+		currentAction.actions.state = state;
+		setAction(currentAction);
+
+		const index = props.actions.findIndex((x) => x.id === currentAction.id);
+
+		props.actions[index] = currentAction;
+
+		props.setActions([...props.actions]);
+	}, [state, color]);
 
 	return (
 		<>
-			<RGBW2Modal open={open} setOpen={setOpen} setSelectedColor={setSelectedColor} />
+			<RGBW2Modal open={open} setOpen={setOpen} setSelectedColor={setColor} />
 			<Card>
 				<div className="grid p-[10px] gap-2 grid-cols-3 grid-rows-2 justify-items-center items-center">
 					<div className="co-start-1 row-start-1 row-end-3">
 						<LightIcon />
 					</div>
-					<div className="text-zinc-400 flex-grow col-start-2 row-start-1 row-end-3">
-						{props.name}
-					</div>
+					<div className="text-zinc-400 flex-grow col-start-2 row-start-1 row-end-3">{name}</div>
 					<div onClick={() => setOpen(!open)} className="col-start-3">
 						<ColorIndicator color={color} />
 					</div>

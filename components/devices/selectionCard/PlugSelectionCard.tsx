@@ -6,22 +6,17 @@ import { SelectionIndicator } from './components/selectionIndicator';
 interface Props {
 	id: string;
 	name: string;
+	selected: boolean;
 }
 
 export const PlugSelectionCard: FC<Props> = (props) => {
-	const [name, setName] = useState<string>(props.name);
-	const [selected, setSelected] = useState<boolean>(false);
-
 	return (
 		<>
 			<Card>
-				<div
-					className="flex flex-row items-center p-[10px] gap-x-[10px] content-between"
-					onClick={() => setSelected(!selected)}
-				>
+				<div className="flex flex-row items-center p-[10px] gap-x-[10px] content-between">
 					<PlugIcon />
 					<div className="text-zinc-400 flex-grow">{props.name}</div>
-					<SelectionIndicator selected={selected} setSelected={setSelected} />
+					<SelectionIndicator selected={props.selected} />
 				</div>
 			</Card>
 		</>

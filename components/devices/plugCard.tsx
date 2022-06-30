@@ -17,7 +17,7 @@ export const PlugCard: FC<Props> = (props) => {
 		return new PlugS(props.ipAdress, props.id);
 	}, [props.id, props.ipAdress]);
 
-	const [state, setState] = useState<boolean>(false);
+	const [state, setState] = useState<boolean | undefined>(undefined);
 	const [power, setPower] = useState<number>(0);
 	const [name, setName] = useState<string>(props.name);
 
