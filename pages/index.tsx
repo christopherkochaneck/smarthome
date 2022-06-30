@@ -3,7 +3,6 @@ import type { GetServerSideProps, NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
 import { WeatherForeCast } from '../components/weatherForeCast/weatherForeCast';
-import { SignIn } from '../components/auth/signIn';
 
 interface Weather {
 	name: string;
