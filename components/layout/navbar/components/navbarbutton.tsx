@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 
 interface Props {
 	href: string | undefined;
+	children?: React.ReactNode;
 }
 
 export const NavbarButton: FC<Props> = (props) => {

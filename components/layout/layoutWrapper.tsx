@@ -7,6 +7,7 @@ interface Props {
 	showAppbar: boolean;
 	showAppbarIcon: boolean;
 	href?: string;
+	children?: React.ReactNode;
 }
 export const LayoutWrapper: FC<Props> = (props) => {
 	return (

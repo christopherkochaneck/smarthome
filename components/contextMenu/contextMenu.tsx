@@ -2,6 +2,7 @@ import { FC } from 'react';
 
 interface Props {
 	visible: boolean;
+	children?: React.ReactNode;
 }
 
 export const ContextMenu: FC<Props> = (props) => {

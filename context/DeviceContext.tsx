@@ -11,7 +11,6 @@ import { RGBW2Type } from '../types/RGBW2Type';
 import { PlugSType } from '../types/PlugSType';
 import axios from 'axios';
 import { BASE_URL } from '../config/env';
-import { xml } from 'cheerio/lib/static';
 
 type Device = RGBW2Type | PlugSType;
 
@@ -23,13 +22,17 @@ interface DeviceContextType {
 	deleteDevice: (device: Device) => void;
 }
 
+interface Props {
+	children?: React.ReactNode;
+}
+
 const DeviceContext = createContext<DeviceContextType>(undefined!);
 
 export function useDevices() {
 	return useContext(DeviceContext);
 }
 
-export const DeviceProvider: FC = (props) => {
+export const DeviceProvider: FC<Props> = (props) => {
 	const [devices, setDevices] = useState<Device[]>([]);
 
 	const fetchData = async () => {

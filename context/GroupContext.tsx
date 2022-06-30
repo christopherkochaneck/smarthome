@@ -19,13 +19,17 @@ interface GroupContextType {
 	deleteGroup: (group: GroupType) => void;
 }
 
+interface Props {
+	children?: React.ReactNode;
+}
+
 const GroupContext = createContext<GroupContextType>(undefined!);
 
 export function useGroups() {
 	return useContext(GroupContext);
 }
 
-export const GroupProvider: FC = (props) => {
+export const GroupProvider: FC<Props> = (props) => {
 	const [groups, setGroups] = useState<GroupType[]>([]);
 
 	const fetchData = async () => {

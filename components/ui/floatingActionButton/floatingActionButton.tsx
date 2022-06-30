@@ -3,6 +3,7 @@ import { FC } from 'react';
 interface Props {
 	className?: string;
 	type?: 'submit' | 'reset' | 'button' | undefined;
+	children?: React.ReactNode;
 }
 
 export const FloatingActionButton: FC<Props> = (props) => {

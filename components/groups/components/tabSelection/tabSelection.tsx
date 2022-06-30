@@ -1,6 +1,8 @@
 import { FC } from 'react';
 
-interface Props {}
+interface Props {
+	children?: React.ReactNode;
+}
 
 export const TabSelection: FC<Props> = (props) => {
 	return (

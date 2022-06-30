@@ -19,13 +19,17 @@ interface SceneContextType {
 	deleteScene: (scene: SceneType) => void;
 }
 
+interface Props {
+	children?: React.ReactNode;
+}
+
 const SceneContext = createContext<SceneContextType>(undefined!);
 
 export function useScenes() {
 	return useContext(SceneContext);
 }
 
-export const SceneProvider: FC = (props) => {
+export const SceneProvider: FC<Props> = (props) => {
 	const [scenes, setScenes] = useState<SceneType[]>([]);
 
 	const fetchData = async () => {
