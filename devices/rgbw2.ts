@@ -67,8 +67,11 @@ export class RGBW2 {
 		}
 	}
 
-	public async setColor(color: color): Promise<void> {
+	public async setColor(color: color | undefined): Promise<void> {
 		try {
+			if (color === undefined) {
+				return;
+			}
 			await axios.get(
 				`http://${this.ipAddress}/color/0?red=${color.red}&green=${color.green}&blue=${color.blue}`
 			);

@@ -19,7 +19,7 @@ export const LightCard: FC<Props> = (props) => {
 		return new RGBW2(props.ipAdress, props.id);
 	}, [props.id, props.ipAdress]);
 
-	const [color, setColor] = useState<color | undefined>();
+	const [color, setColor] = useState<color | undefined>(undefined);
 	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
 	const [state, setState] = useState<boolean | undefined>(undefined);
 	const [brightness, setBrightness] = useState<number>(100);
@@ -41,7 +41,7 @@ export const LightCard: FC<Props> = (props) => {
 
 	useEffect(() => {
 		if (device) {
-			device.setColor(selectedColor!);
+			device.setColor(selectedColor);
 		}
 	}, [selectedColor, device]);
 
