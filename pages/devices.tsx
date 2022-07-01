@@ -6,6 +6,7 @@ import { ContextMenu } from '../components/contextMenu/contextMenu';
 import { LightCard } from '../components/devices/lightCard';
 import { PlugCard } from '../components/devices/plugCard';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
+import { Backdrop } from '../components/ui/backdrop/Backdrop';
 import { useDevices } from '../context/DeviceContext';
 
 const Devices: NextPage = () => {
@@ -15,6 +16,7 @@ const Devices: NextPage = () => {
 
 	return (
 		<>
+			<Backdrop visible={visible} onClick={() => setVisible(false)} />
 			<ContextMenu visible={visible}>
 				<ContextMenuItem
 					title="Edit"

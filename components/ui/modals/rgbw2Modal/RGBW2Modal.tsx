@@ -1,7 +1,8 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { Dialog } from '@headlessui/react';
 import { RGBW2 } from '../../../../devices/rgbw2';
 import color from '../../../../interfaces/color';
+import { Backdrop } from '../../backdrop/Backdrop';
 
 interface Props {
 	open: boolean;
@@ -26,7 +27,9 @@ export const RGBW2Modal: FC<Props> = (props) => {
 			className="fixed inset-0 z-10 overflow-y-auto grid justify-items-center"
 		>
 			<div className="flex flex-col gap-y-10 items-center justify-center h-screen">
-				<Dialog.Overlay className="fixed inset-0 bg-black opacity-40" />
+				<Dialog.Overlay className="fixed inset-0">
+					<Backdrop visible={true} onClick={() => props.setOpen(false)} />
+				</Dialog.Overlay>
 				<div
 					className="relative rounded w-max h-max"
 					style={{
