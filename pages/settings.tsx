@@ -3,18 +3,10 @@ import { LayoutWrapper } from '../components/layout/layoutWrapper';
 
 const Settings: NextPage = () => {
 	return (
-		<LayoutWrapper showAppbar={true} showAppbarIcon={false}>
+		<LayoutWrapper showAppbar={true} showAppbarIcon={false} appBarTitle="Settings">
 			<>
-				<div className="flex flex-col gap-4">
-					<div className="grid grid-cols-2 gap-4 text-zinc-600 ">
-						<div>E-Mail:</div>
-					</div>
-					<button onClick={() => null} className="text-white bg-zinc-800 p-2 rounded-lg">
-						Logout
-					</button>
-				</div>
+				<div className="text-white">Coming soon</div>
 			</>
-			{/* ) : null} */}
 		</LayoutWrapper>
 	);
 };
