@@ -33,7 +33,7 @@ export const LightCard: FC<Props> = (props) => {
 			setState(device.state);
 			setBrightness(device.brightness);
 			setName(props.name);
-		}, 150);
+		}, 400);
 		return () => {
 			clearInterval(interval);
 		};

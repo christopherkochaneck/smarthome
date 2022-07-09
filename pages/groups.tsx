@@ -4,6 +4,7 @@ import router from 'next/router';
 import { useState } from 'react';
 import { ContextMenuItem } from '../components/contextMenu/components/contextMenuItem';
 import { ContextMenu } from '../components/contextMenu/contextMenu';
+import { GroupCard } from '../components/groups/GroupCard';
 import { GroupLightCard } from '../components/groups/GroupLightCard';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
 import { SceneCard } from '../components/scenes/SceneCard';
@@ -69,7 +70,7 @@ const Groups: NextPage = () => {
 					<div className="text-zinc-500 text-center">Groups</div>
 					{groups.map((key) => {
 						return (
-							<GroupLightCard
+							<GroupCard
 								groupID={key.id}
 								groupName={key.name}
 								title={key.name}

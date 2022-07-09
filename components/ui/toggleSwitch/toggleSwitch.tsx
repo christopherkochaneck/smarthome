@@ -10,7 +10,9 @@ export const ToggleSwitch: FC<Props> = (props) => {
 	return (
 		<Switch
 			checked={props.state!}
-			onChange={() => {}}
+			onChange={() => {
+				props.state ? props.setState(!props.state) : props.setState(props.state);
+			}}
 			className={`${
 				props.state ? 'bg-zinc-900' : 'bg-zinc-700'
 			} relative inline-flex items-center h-6 rounded-full w-11`}

@@ -27,7 +27,7 @@ export const PlugCard: FC<Props> = (props) => {
 			setState(device.state);
 			setPower(device.power);
 			setName(props.name);
-		}, 150);
+		}, 400);
 		return () => {
 			clearInterval(interval);
 		};

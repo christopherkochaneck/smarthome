@@ -8,6 +8,7 @@ import { Card } from '../ui/card/card';
 import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 import Hammer from 'react-hammerjs';
+import { PlugS } from '../../devices/plugS';
 
 interface Props {
 	groupID: string;
@@ -16,11 +17,11 @@ interface Props {
 	onLongPress: () => void;
 }
 
-export const GroupLightCard: FC<Props> = (props) => {
+export const GroupCard: FC<Props> = (props) => {
 	const devices = useDevices();
 	const groups = useGroups();
 
-	const [lights, setLights] = useState<RGBW2[]>([]);
+	const [entities, setEntities] = useState<any[]>([]);
 	const [color, setColor] = useState<color>();
 	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
 	const [state, setState] = useState<boolean | undefined>(undefined);
@@ -29,7 +30,7 @@ export const GroupLightCard: FC<Props> = (props) => {
 	const [updating, setUpdating] = useState<boolean>(false);
 
 	async function handleGroupTap() {
-		if (!lights) {
+		if (!entities) {
 			return;
 		}
 
@@ -37,7 +38,7 @@ export const GroupLightCard: FC<Props> = (props) => {
 			try {
 				setUpdating(true);
 				Promise.all(
-					lights.map(async (device: RGBW2) => {
+					entities.map(async (device: RGBW2 | PlugS) => {
 						return await device.turnOff();
 					})
 				);
@@ -51,7 +52,7 @@ export const GroupLightCard: FC<Props> = (props) => {
 			try {
 				setUpdating(true);
 				Promise.all(
-					lights.map(async (device: RGBW2) => {
+					entities.map(async (device: RGBW2 | PlugS) => {
 						return await device.turnOn();
 					})
 				);
@@ -64,7 +65,7 @@ export const GroupLightCard: FC<Props> = (props) => {
 		}
 
 		let stateArray: boolean[] = [];
-		lights.map((device: RGBW2) => {
+		entities.forEach((device: RGBW2 | PlugS) => {
 			stateArray.push(device.state);
 		});
 		setStates([...stateArray]);
@@ -78,20 +79,25 @@ export const GroupLightCard: FC<Props> = (props) => {
 			return;
 		}
 
-		let lightArray: RGBW2[] = [];
 		let stateArray: boolean[] = [];
 		let colorArray: color[] = [];
 
-		group.ids.map((id) => {
+		group.ids.forEach((id) => {
 			const res = devices.devices.find((x) => x.id == id);
 
 			if (res == undefined) {
 				return;
 			}
 
-			const device = new RGBW2(res.ipAdress, res.id);
+			let device: RGBW2 | PlugS | undefined;
+			if (res.type === 'rgbw2') {
+				device = new RGBW2(res.ipAdress, res.id);
+			}
+			if (res.type === 'plugS') {
+				device = new PlugS(res.ipAdress, res.id);
+			}
 
-			lightArray.push(device);
+			entities.push(device);
 		});
 
 		const interval = setInterval(async () => {
@@ -102,12 +108,14 @@ export const GroupLightCard: FC<Props> = (props) => {
 				return;
 			}
 
-			lightArray.map((device: RGBW2) => {
-				console.log(device);
+			entities.forEach((device: RGBW2 | PlugS) => {
 				device.fetchCurrentDeviceData();
 
 				stateArray.push(device.state);
-				colorArray.push(device.color);
+
+				if (device instanceof RGBW2) {
+					colorArray.push(device.color);
+				}
 			});
 
 			if (stateArray.includes(true)) {
@@ -118,22 +126,24 @@ export const GroupLightCard: FC<Props> = (props) => {
 				setState(false);
 			}
 
-			setLights(lightArray);
+			setEntities(entities);
 			setColor(colorArray[0]);
 		}, 400);
 		return () => {
 			clearInterval(interval);
 		};
-	}, [devices.devices, groups.groups, props.groupID, updating]);
+	}, [devices.devices, groups.groups, props.groupID]);
 
 	useEffect(() => {
-		if (!lights) {
+		if (!entities) {
 			return;
 		}
-		lights.map((device: RGBW2) => {
-			device.setColor(selectedColor!);
+		entities.forEach((device: RGBW2 | PlugS) => {
+			if (device instanceof RGBW2) {
+				device.setColor(selectedColor!);
+			}
 		});
-	}, [selectedColor, lights]);
+	}, [selectedColor, entities]);
 
 	return (
 		<>

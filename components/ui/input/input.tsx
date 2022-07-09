@@ -13,8 +13,8 @@ export const Input: FC<Props> = (props) => {
 			<div className="text-zinc-700">{props.title}</div>
 			<input
 				className={`${props.className} bg-zinc-700 p-2`}
-				onChange={props.onChange ? props.onChange : undefined}
-				value={props.value ? props.value : undefined}
+				onChange={props.onChange}
+				value={props.value ?? ''}
 			/>
 		</div>
 	);
