@@ -4,6 +4,7 @@ import { useGroups } from '../../context/GroupContext';
 import { RGBW2 } from '../../devices/rgbw2';
 import color from '../../interfaces/color';
 import LightIcon from '../../res/images/bulb.svg';
+import PlugIcon from '../../res/images/plug.svg';
 import { Card } from '../ui/card/card';
 import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
@@ -180,7 +181,7 @@ export const GroupCard: FC<Props> = (props) => {
 									setOpen(!open);
 								}}
 							>
-								<LightIcon />
+								{entities.some((device) => device instanceof RGBW2) ? <LightIcon /> : <PlugIcon />}
 							</div>
 							<div className="text-zinc-400 text-left">{props.title}</div>
 							<div

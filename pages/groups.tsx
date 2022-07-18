@@ -1,11 +1,9 @@
-import { Tab } from '@headlessui/react';
 import type { NextPage } from 'next';
 import router from 'next/router';
 import { useState } from 'react';
 import { ContextMenuItem } from '../components/contextMenu/components/contextMenuItem';
 import { ContextMenu } from '../components/contextMenu/contextMenu';
 import { GroupCard } from '../components/groups/GroupCard';
-import { GroupLightCard } from '../components/groups/GroupLightCard';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
 import { SceneCard } from '../components/scenes/SceneCard';
 import { useGroups } from '../context/GroupContext';
