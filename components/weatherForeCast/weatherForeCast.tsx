@@ -1,13 +1,9 @@
 import { FC } from 'react';
 import { useRouter } from 'next/router';
-
-interface Weather {
-	name: string;
-	main: { temp: string };
-}
+import { WeatherData } from '../../interfaces/weather';
 
 interface Props {
-	weatherData: Weather;
+	weatherData: WeatherData;
 }
 
 export const WeatherForeCast: FC<Props> = ({ weatherData }) => {
@@ -21,8 +17,8 @@ export const WeatherForeCast: FC<Props> = ({ weatherData }) => {
 				router.push('https://www.wetter.com/deutschland/st-ingbert/sankt-ingbert/DE0009233.html');
 			}}
 		>
-			<div className="text-3xl">{weatherData.name}</div>
-			<div className="text-2xl">{weatherData.main.temp}°</div>
+			<div className="text-3xl">{weatherData.location.name}</div>
+			<div className="text-2xl">{weatherData.current.temp_c}°</div>
 		</div>
 	);
 };
