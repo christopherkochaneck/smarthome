@@ -122,7 +122,7 @@ export interface Forecast {
 }
 
 export interface DailyForecastData {
-	location: Location;
-	current: Current;
-	forecast: Forecast;
+	location: Partial<Location>;
+	current: Partial<Current>;
+	forecast: Partial<Forecast>;
 }

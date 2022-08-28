@@ -3,8 +3,8 @@ import type { GetServerSideProps, NextPage } from 'next';
 import { DailyForecast } from '../components/dailyForecast/dailyForecast';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
 import { WeatherForeCast } from '../components/weatherForeCast/weatherForeCast';
-import { DailyForecastData, WeatherData } from '../interfaces/weather';
-
+import { WeatherData } from '../interfaces/weather';
+import { DailyForecastData } from '../interfaces/dailyForecast';
 interface Props {
 	weatherData: WeatherData;
 	dailyForecastData: DailyForecastData;
@@ -21,12 +21,16 @@ const Home: NextPage<Props> = ({ weatherData, dailyForecastData }) => {
 	return (
 		<>
 			<LayoutWrapper showAppbar={false} showAppbarIcon={true}>
-				<div className="p-10 flex flex-col gap-10">
-					<div className="text-zinc-400 text-3xl text-center">
+				<div className="flex flex-col gap-10">
+					<div className="p-5 text-zinc-400 text-3xl text-center">
 						Hey Chris, here&apos;s whats up for today.
 					</div>
-					<WeatherForeCast weatherData={weatherData} />
-					<DailyForecast dailyForecastData={dailyForecastData} />
+					<div className="p-5">
+						<WeatherForeCast weatherData={weatherData} />
+					</div>
+					<div className="mx-auto">
+						<DailyForecast dailyForecastData={dailyForecastData} />
+					</div>
 				</div>
 			</LayoutWrapper>
 		</>
@@ -56,6 +60,6 @@ async function getDailyForecast(): Promise<DailyForecastData> {
 
 		return res.data;
 	} catch (err) {
-		return { name: 'test' };
+		return Promise.reject();
 	}
 }

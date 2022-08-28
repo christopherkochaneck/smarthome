@@ -7,8 +7,11 @@ interface Props {
 }
 
 export const DailyForecast: FC<Props> = ({ dailyForecastData }) => {
+	if (dailyForecastData.forecast.forecastday == undefined) {
+		return <></>;
+	}
 	return (
-		<div className="h-max w-full rounded-xl flex flex-row text-white text-center gap-5">
+		<div className="h-max w-full rounded-xl flex flex-row text-white text-center gap-x-5">
 			{dailyForecastData.forecast.forecastday.map((key: Forecastday) => {
 				return (
 					<div>
