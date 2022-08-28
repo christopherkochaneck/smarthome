@@ -17,7 +17,7 @@ export const ContextMenu: FC<Props> = (props) => {
 		} else {
 			setBottom(0);
 		}
-	}, [props.visible]);
+	}, [props.visible, ref]);
 
 	return (
 		<>

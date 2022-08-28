@@ -14,7 +14,7 @@ export const DailyForecast: FC<Props> = ({ dailyForecastData }) => {
 		<div className="h-max w-full rounded-xl flex flex-row text-white text-center gap-x-5">
 			{dailyForecastData.forecast.forecastday.map((key: Forecastday) => {
 				return (
-					<div>
+					<div key={key.date}>
 						<DailyForecastWidget date={key.date} temperature={key.day.maxtemp_c} />
 					</div>
 				);
