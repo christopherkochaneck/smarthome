@@ -14,7 +14,7 @@ export const Input: FC<Props> = (props) => {
 			<input
 				className={`${props.className} bg-zinc-700 p-2`}
 				onChange={props.onChange}
-				value={props.value ?? ''}
+				value={props.value || undefined}
 			/>
 		</div>
 	);
