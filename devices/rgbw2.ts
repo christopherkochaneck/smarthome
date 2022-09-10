@@ -11,6 +11,7 @@ export class RGBW2 {
 	hostname?: string;
 	offColor: color = { red: 0, green: 0, blue: 0 };
 	isConnected: boolean = false;
+	power: number = 0;
 
 	constructor(ipAddress: string, id: string) {
 		this.ipAddress = ipAddress;
@@ -20,6 +21,16 @@ export class RGBW2 {
 	public async getSettings(): Promise<any> {
 		try {
 			const res = await axios.get(`http://${this.ipAddress}/settings`);
+
+			return res.data;
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	public async getStatus(): Promise<any> {
+		try {
+			const res = await axios.get(`http://${this.ipAddress}/status`);
 
 			return res.data;
 		} catch (error) {
@@ -43,13 +54,17 @@ export class RGBW2 {
 		return this.name;
 	}
 
+	public async getPower() {
+		return this.power;
+	}
+
 	public getDevice() {
 		return this;
 	}
 
 	public async fetchCurrentDeviceData() {
 		try {
-			const res = await this.getSettings();
+			let res = await this.getSettings();
 
 			this.hostname = res.device.hostname;
 
@@ -62,6 +77,9 @@ export class RGBW2 {
 			this.color = color;
 
 			this.brightness = res.lights[0].gain;
+
+			res = await this.getStatus();
+			this.power = res.meters[0].power;
 		} catch (error) {
 			console.error(error);
 		}

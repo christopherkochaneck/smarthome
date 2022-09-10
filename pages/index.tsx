@@ -5,6 +5,7 @@ import { LayoutWrapper } from '../components/layout/layoutWrapper';
 import { WeatherForeCast } from '../components/weatherForeCast/weatherForeCast';
 import { WeatherData } from '../interfaces/weather';
 import { DailyForecastData } from '../interfaces/dailyForecast';
+import { PowerUsage } from '../components/powerUsage/PowerUsage';
 interface Props {
 	weatherData: WeatherData;
 	dailyForecastData: DailyForecastData;
@@ -30,6 +31,9 @@ const Home: NextPage<Props> = ({ weatherData, dailyForecastData }) => {
 					</div>
 					<div className="mx-auto">
 						<DailyForecast dailyForecastData={dailyForecastData} />
+					</div>
+					<div className="mx-auto">
+						<PowerUsage />
 					</div>
 				</div>
 			</LayoutWrapper>
