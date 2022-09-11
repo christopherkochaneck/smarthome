@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useDevices } from '../../context/DeviceContext';
 import { PlugS } from '../../devices/plugS';
 import { RGBW2 } from '../../devices/rgbw2';
@@ -9,8 +9,12 @@ export const PowerUsage: FC = () => {
 	const devices = useDevices();
 	const [entities, setEntities] = useState<any[]>([]);
 	const [power, setPower] = useState<number>(0);
+
 	useEffect(() => {
-		console.log('here');
+		if (devices.devices.length === 0) {
+			return;
+		}
+
 		devices.devices.forEach((device: RGBW2Type | PlugSType) => {
 			if (device.type === 'plugS') {
 				entities.push(new PlugS(device.ipAdress, device.id));
@@ -31,7 +35,7 @@ export const PowerUsage: FC = () => {
 		return () => {
 			clearInterval(interval);
 		};
-	}, []);
+	}, [devices.devices, entities]);
 
 	return (
 		<div className="h-full w-full bg-zinc-700 rounded-xl p-4 text-white flex flex-col">
