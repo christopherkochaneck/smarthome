@@ -6,12 +6,9 @@ import { useDevices } from '../../context/DeviceContext';
 import { useRouter } from 'next/router';
 import { RGBW2Type } from '../../types/RGBW2Type';
 import { PlugSType } from '../../types/PlugSType';
-import { v4 as uuidv4 } from 'uuid';
-import { RGBW2 } from '../../devices/rgbw2';
 
 export const EditDeviceForm: FC = () => {
 	const { devices, updateDevice } = useDevices();
-	const [device, setDevice] = useState<RGBW2Type | PlugSType>();
 	const [deviceType, setDeviceType] = useState<string>('');
 	const [deviceName, setDeviceName] = useState<string>('');
 	const [deviceIP, setDeviceIP] = useState<string>('');
@@ -66,12 +63,6 @@ export const EditDeviceForm: FC = () => {
 		setDeviceName(foundID.title);
 		setDeviceIP(foundID.ipAdress);
 	}, [router.query, devices]);
-
-	useEffect(() => {
-		let foundDevice = devices.find((x) => x.id === deviceId);
-
-		setDevice(foundDevice);
-	}, [deviceId, devices]);
 
 	return (
 		<>

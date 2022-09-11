@@ -1,6 +1,5 @@
 import { FC, FormEvent, useEffect, useState } from 'react';
 import { GroupType } from '../../types/GroupType';
-import { v4 as uuidv4 } from 'uuid';
 import { useGroups } from '../../context/GroupContext';
 import router from 'next/router';
 import { Input } from '../ui/input/input';
@@ -86,7 +85,7 @@ export const EditGroupForm: FC<Props> = (props) => {
 								</div>
 							);
 						}
-						if ((key.type = 'plugS')) {
+						if (key.type === 'plugS') {
 							return (
 								<div
 									onClick={() => {

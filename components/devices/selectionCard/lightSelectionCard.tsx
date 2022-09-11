@@ -1,5 +1,4 @@
-import { FC, useEffect, useState } from 'react';
-import { RGBW2 } from '../../../devices/rgbw2';
+import { FC } from 'react';
 import LightIcon from '../../../res/images/bulb.svg';
 import { Card } from '../../ui/card/card';
 import { SelectionIndicator } from './components/selectionIndicator';

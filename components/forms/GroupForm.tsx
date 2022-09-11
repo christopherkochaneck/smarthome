@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { FC, FormEvent, useEffect, useState } from 'react';
+import { FC, FormEvent, useState } from 'react';
 import { useDevices } from '../../context/DeviceContext';
 import { useGroups } from '../../context/GroupContext';
 import { GroupType } from '../../types/GroupType';
@@ -15,7 +15,6 @@ export const GroupForm: FC = () => {
 	const groups = useGroups();
 	const [groupName, setGroupName] = useState<string>('');
 	const [ids, setIds] = useState<string[]>([]);
-	const [selectedTab, setSelectedTab] = useState<string>('group');
 	const router = useRouter();
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -71,7 +70,7 @@ export const GroupForm: FC = () => {
 								</div>
 							);
 						}
-						if ((key.type = 'plugS')) {
+						if (key.type === 'plugS') {
 							return (
 								<div
 									onClick={() => {

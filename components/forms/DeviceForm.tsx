@@ -1,7 +1,6 @@
-import { FC } from 'react';
+import { FC, FormEvent, useState } from 'react';
 import { Select } from '../ui/select/select';
 import { useRouter } from 'next/router';
-import { FormEvent, useState } from 'react';
 import { FloatingActionButton } from '../../components/ui/floatingActionButton/floatingActionButton';
 import { Input } from '../../components/ui/input/input';
 import DiskFloppy from '../../res/images/device-floppy.svg';

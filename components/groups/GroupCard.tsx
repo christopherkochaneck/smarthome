@@ -40,7 +40,7 @@ export const GroupCard: FC<Props> = (props) => {
 				setUpdating(true);
 				Promise.all(
 					entities.map(async (device: RGBW2 | PlugS) => {
-						return await device.turnOff();
+						await device.turnOff();
 					})
 				);
 				setState(false);
@@ -54,7 +54,7 @@ export const GroupCard: FC<Props> = (props) => {
 				setUpdating(true);
 				Promise.all(
 					entities.map(async (device: RGBW2 | PlugS) => {
-						return await device.turnOn();
+						await device.turnOn();
 					})
 				);
 				setState(false);
@@ -123,7 +123,7 @@ export const GroupCard: FC<Props> = (props) => {
 				setState(true);
 			}
 
-			if (stateArray.every((x) => x == false)) {
+			if (stateArray.every((x) => x === false)) {
 				setState(false);
 			}
 

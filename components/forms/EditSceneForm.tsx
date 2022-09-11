@@ -57,7 +57,7 @@ export const EditSceneForm: FC = () => {
 
 		setSceneName(scene.name);
 
-		scene.actions.map((key) => {
+		scene.actions.forEach((key) => {
 			ids.push(key.id);
 			setIds([...ids]);
 		});
@@ -116,7 +116,7 @@ export const EditSceneForm: FC = () => {
 								</div>
 							);
 						}
-						if ((key.type = 'plugS')) {
+						if (key.type === 'plugS') {
 							return (
 								<div
 									onClick={() => {
