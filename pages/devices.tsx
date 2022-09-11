@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import router from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ContextMenuItem } from '../components/contextMenu/components/contextMenuItem';
 import { ContextMenu } from '../components/contextMenu/contextMenu';
 import { LightCard } from '../components/devices/lightCard';
@@ -22,6 +22,17 @@ const Devices: NextPage = () => {
 					title="Edit"
 					type="contextItem"
 					onClick={() => router.push(`/editDevice/${selectedId}`)}
+				/>
+				<ContextMenuItem
+					title="Go to Device Page"
+					type="contextItem"
+					onClick={() => {
+						const device = devices.find((x) => x.id === selectedId);
+						if (device === undefined) {
+							return;
+						}
+						router.push(`http://${device.ipAdress}`);
+					}}
 				/>
 				<ContextMenuItem
 					title="Delete"
