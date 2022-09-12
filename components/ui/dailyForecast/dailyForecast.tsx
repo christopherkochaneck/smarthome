@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { DailyForecastData, Forecastday } from '../../interfaces/dailyForecast';
+import { DailyForecastData, Forecastday } from '../../../interfaces/dailyForecast';
 import { DailyForecastWidget } from './components/dailyForecastWidget';
 
 interface Props {

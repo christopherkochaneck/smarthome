@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from 'react';
-import { useDevices } from '../../context/DeviceContext';
-import { PlugS } from '../../devices/plugS';
-import { RGBW2 } from '../../devices/rgbw2';
-import { PlugSType } from '../../types/PlugSType';
-import { RGBW2Type } from '../../types/RGBW2Type';
+import { useDevices } from '../../../context/DeviceContext';
+import { PlugS } from '../../../devices/plugS';
+import { RGBW2 } from '../../../devices/rgbw2';
+import { PlugSType } from '../../../types/PlugSType';
+import { RGBW2Type } from '../../../types/RGBW2Type';
 
 export const PowerUsage: FC = () => {
 	const devices = useDevices();

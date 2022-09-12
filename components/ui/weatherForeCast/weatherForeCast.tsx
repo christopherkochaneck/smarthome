@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useRouter } from 'next/router';
-import { WeatherData } from '../../interfaces/weather';
+import { WeatherData } from '../../../interfaces/weather';
 
 interface Props {
 	weatherData: WeatherData;

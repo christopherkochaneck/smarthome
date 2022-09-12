@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
 import router from 'next/router';
 import { useState } from 'react';
-import { ContextMenuItem } from '../components/contextMenu/components/contextMenuItem';
-import { ContextMenu } from '../components/contextMenu/contextMenu';
+import { ContextMenuItem } from '../components/ui/contextMenu/components/contextMenuItem';
+import { ContextMenu } from '../components/ui/contextMenu/contextMenu';
 import { LightCard } from '../components/devices/lightCard';
 import { PlugCard } from '../components/devices/plugCard';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';

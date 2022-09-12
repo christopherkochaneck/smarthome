@@ -1,11 +1,11 @@
 import axios from 'axios';
 import type { GetServerSideProps, NextPage } from 'next';
-import { DailyForecast } from '../components/dailyForecast/dailyForecast';
+import { DailyForecast } from '../components/ui/dailyForecast/dailyForecast';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
-import { WeatherForeCast } from '../components/weatherForeCast/weatherForeCast';
+import { WeatherForeCast } from '../components/ui/weatherForeCast/weatherForeCast';
 import { WeatherData } from '../interfaces/weather';
 import { DailyForecastData } from '../interfaces/dailyForecast';
-import { PowerUsage } from '../components/powerUsage/PowerUsage';
+import { PowerUsage } from '../components/ui/powerUsage/PowerUsage';
 interface Props {
 	weatherData: WeatherData;
 	dailyForecastData: DailyForecastData;
