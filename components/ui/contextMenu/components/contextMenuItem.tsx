@@ -18,7 +18,7 @@ export const ContextMenuItem: FC<Props> = (props) => {
 	return (
 		<>
 			<div
-				className={`w-full h-max text-center p-4 bg-zinc-800 rounded-xl hover:cursor-pointer`}
+				className="w-full h-max text-center p-4 bg-zinc-800 rounded-xl hover:cursor-pointer"
 				style={{ color: getType() }}
 				onClick={props.onClick}
 			>
