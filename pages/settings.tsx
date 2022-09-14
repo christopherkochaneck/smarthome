@@ -7,12 +7,6 @@ import { ListTile } from '../components/ui/list/components/listTile/ListTile';
 import { BASE_URL } from '../config/env';
 
 const Settings: NextPage = () => {
-	async function onClick() {
-		await axios({
-			method: 'get',
-			url: `${BASE_URL}/api/serverData`,
-		});
-	}
 	return (
 		<LayoutWrapper showAppbar={true} showAppbarIcon={false} appBarTitle="Settings">
 			<div className="flex flex-col">

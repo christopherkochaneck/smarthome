@@ -52,8 +52,6 @@ const Groups: NextPage = () => {
 
 							return;
 						}
-
-						return;
 					}}
 				/>
 				<ContextMenuItem title="Cancel" type="cancel" onClick={() => setVisible(false)} />
