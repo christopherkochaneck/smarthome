@@ -6,13 +6,12 @@ interface Props {
 }
 
 export const UsageBar: FC<Props> = (props) => {
-	const value = props.maxValue - props.currentValue;
-
+	let percentage = props.currentValue / props.maxValue;
 	return (
 		<div className="border border-black h-full w-full bg-zinc-600 rounded-3xl">
 			<div
-				className={`h-full  bg-zinc-800 rounded-3xl text-right`}
-				style={{ width: `${value * 100}%` }}
+				className={`h-full  bg-zinc-800 rounded-3xl`}
+				style={{ width: `${percentage * 100}%` }}
 			/>
 		</div>
 	);
