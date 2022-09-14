@@ -16,7 +16,9 @@ export const Usage: FC<Props> = (props) => {
 				<UsageBar currentValue={props.currentValue} maxValue={props.maxValue} />
 			</div>
 			<div>{props.title}</div>
-			<div>{`${props.currentValue} ${props.unit} / ${props.maxValue} ${props.unit}`}</div>
+			<div>{`${props.currentValue.toFixed(1)} ${props.unit} / ${props.maxValue.toFixed(1)} ${
+				props.unit
+			}`}</div>
 		</Card>
 	);
 };

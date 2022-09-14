@@ -39,7 +39,7 @@ export const AdminPanel: FC = () => {
 						<div style={{ gridArea: '1/1/2/3' }}>
 							<Usage
 								title="RAM Usage"
-								currentValue={1}
+								currentValue={(totalMemory - freeMemory) / (1024 * 1024 * 1024)}
 								maxValue={totalMemory / (1024 * 1024 * 1024)}
 								unit="GB"
 							/>
