@@ -26,16 +26,16 @@ export const EditDeviceForm: FC = () => {
 					title: deviceName,
 					ipAdress: deviceIP,
 				};
-				return updateDevice(device);
+				return await updateDevice(device);
 			}
-			if (deviceType === 'plugs') {
+			if (deviceType === 'plugS') {
 				device = {
 					type: 'plugS',
 					id: deviceId,
 					title: deviceName,
 					ipAdress: deviceIP,
 				};
-				return updateDevice(device);
+				return await updateDevice(device);
 			}
 		} catch (ex) {
 			console.log(ex);

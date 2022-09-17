@@ -77,18 +77,16 @@ const Devices: NextPage = () => {
 						.filter((x) => x.type === 'plugS')
 						.map((key) => {
 							return (
-								<>
-									<PlugCard
-										id={key.id}
-										key={key.id}
-										ipAdress={key.ipAdress}
-										name={key.title}
-										onLongPress={() => {
-											setSelectedId(key.id);
-											setVisible(true);
-										}}
-									/>
-								</>
+								<PlugCard
+									id={key.id}
+									key={key.id}
+									ipAdress={key.ipAdress}
+									name={key.title}
+									onLongPress={() => {
+										setSelectedId(key.id);
+										setVisible(true);
+									}}
+								/>
 							);
 						})}
 				</div>

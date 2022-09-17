@@ -64,7 +64,7 @@ export const PlugCard: FC<Props> = (props) => {
 							className='flex flex-col w-full justify-between"'
 						>
 							<div className="text-zinc-400 text-left">
-								{name ? name : 'DeviceTitle unavailable'}
+								{device ? name : 'DeviceTitle unavailable'}
 							</div>
 							<div className="text-zinc-400 text-left">{`Load: ${power} W`}</div>
 						</div>
