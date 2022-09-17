@@ -133,15 +133,6 @@ export const RGBW2Modal: FC<Props> = (props) => {
 						}}
 					/>
 				</div>
-				<input
-					type="range"
-					className="relative rounded-xl"
-					min="0"
-					max="100"
-					step="1"
-					value={props.brightness}
-					onChange={(e) => props.setBrightness!(parseInt(e.target.value))}
-				/>
 			</div>
 		</Dialog>
 	);
