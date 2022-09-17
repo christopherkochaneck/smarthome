@@ -56,11 +56,6 @@ export const LightCard: FC<Props> = (props) => {
 			/>
 			<Hammer
 				onPress={props.onLongPress}
-				onTap={async () => {
-					state ? await device.turnOff() : await device.turnOn();
-					setColor(state ? device.color : device.offColor);
-					setState(device.state);
-				}}
 				options={{
 					touchAction: 'compute',
 					recognizers: {
@@ -72,19 +67,13 @@ export const LightCard: FC<Props> = (props) => {
 				}}
 			>
 				<div className="h-full w-translate-y-full">
-					<Card>
+					<Card className="flex flex-row gap-x-3 p-3">
 						<div
 							style={{
 								color: color && state ? `rgb(${color.red},${color.green}, ${color.blue})` : '#000',
-								display: 'grid',
-								gridTemplateColumns: 'max-content 1fr max-content',
-								gridTemplateRows: 'repeat(2, max-content)',
-								columnGap: '10px',
-								padding: '10px',
 							}}
 						>
 							<div
-								style={{ gridArea: '1 / 1 / 3 / 2' }}
 								onClick={(e) => {
 									e.stopPropagation();
 									setOpen(!open);
@@ -92,18 +81,22 @@ export const LightCard: FC<Props> = (props) => {
 							>
 								<LightIcon />
 							</div>
+						</div>
+						<div
+							onClick={async () => {
+								state ? await device.turnOff() : await device.turnOn();
+								setColor(state ? device.color : device.offColor);
+								setState(device.state);
+							}}
+							className="flex flex-col w-full justify-between"
+						>
 							<div className="text-zinc-400 text-left">
 								{device ? name : 'DeviceTitle unavailable'}
 							</div>
-							<div
-								style={{
-									gridArea: '1 / 3 / 3 / 4',
-									alignSelf: 'center',
-								}}
-							>
-								<ToggleSwitch state={state} setState={setState} />
-							</div>
 							<div className="text-zinc-400 text-left">{`Brightness: ${brightness}%`}</div>
+						</div>
+						<div className="self-center">
+							<ToggleSwitch state={state} setState={setState} />
 						</div>
 					</Card>
 				</div>

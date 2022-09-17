@@ -37,10 +37,6 @@ export const PlugCard: FC<Props> = (props) => {
 		<>
 			<Hammer
 				onPress={props.onLongPress}
-				onTap={async () => {
-					state ? await device.turnOff() : await device.turnOn();
-					setState(device.state);
-				}}
 				options={{
 					touchAction: 'compute',
 					recognizers: {
@@ -52,39 +48,28 @@ export const PlugCard: FC<Props> = (props) => {
 				}}
 			>
 				<div className="h-full w-translate-y-full">
-					<Card>
+					<Card className="flex flex-row gap-x-3 p-3">
 						<div
 							style={{
-								display: 'grid',
-								gridTemplateColumns: 'max-content 1fr max-content',
-								gridTemplateRows: 'repeat(2, max-content)',
-								columnGap: '10px',
-								padding: '10px',
+								color: state ? 'white' : 'black',
 							}}
 						>
-							<div
-								style={{
-									gridArea: '1 / 1 / 3 / 2',
-									color: state ? 'white' : 'black',
-								}}
-								onClick={(e) => {
-									e.stopPropagation();
-								}}
-							>
-								<PlugIcon />
-							</div>
+							<PlugIcon />
+						</div>
+						<div
+							onClick={async () => {
+								state ? await device.turnOff() : await device.turnOn();
+								setState(device.state);
+							}}
+							className='flex flex-col w-full justify-between"'
+						>
 							<div className="text-zinc-400 text-left">
 								{name ? name : 'DeviceTitle unavailable'}
 							</div>
-							<div
-								style={{
-									gridArea: '1 / 3 / 3 / 4',
-									alignSelf: 'center',
-								}}
-							>
-								<ToggleSwitch state={state} setState={setState} />
-							</div>
 							<div className="text-zinc-400 text-left">{`Load: ${power} W`}</div>
+						</div>
+						<div className="self-center">
+							<ToggleSwitch state={state} setState={setState} />
 						</div>
 					</Card>
 				</div>

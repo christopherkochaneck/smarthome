@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { FC, useEffect, useState } from 'react';
+import { NextPage } from 'next';
+import { useEffect, useState } from 'react';
 import { LayoutWrapper } from '../../components/layout/layoutWrapper';
 import { Card } from '../../components/ui/card/card';
 import { Usage } from '../../components/ui/usage/Usage';
 import { BASE_URL } from '../../config/env';
 
-export const AdminPanel: FC = () => {
+export const AdminPanel: NextPage = () => {
 	const [freeMemory, setFreeMemory] = useState<number>(0);
 	const [totalMemory, setTotalMemory] = useState<number>(0);
 	const [architecture, setArchitecture] = useState<string>('');
