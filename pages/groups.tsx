@@ -8,6 +8,7 @@ import { LayoutWrapper } from '../components/layout/layoutWrapper';
 import { SceneCard } from '../components/scenes/SceneCard';
 import { useGroups } from '../context/GroupContext';
 import { useScenes } from '../context/SceneContext';
+import { Backdrop } from '../components/ui/backdrop/Backdrop';
 
 const Groups: NextPage = () => {
 	const { groups, deleteGroup } = useGroups();
@@ -17,6 +18,7 @@ const Groups: NextPage = () => {
 
 	return (
 		<>
+			<Backdrop visible={visible} onClick={() => setVisible(false)} />
 			<ContextMenu visible={visible}>
 				<ContextMenuItem
 					title="Edit"
