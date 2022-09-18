@@ -20,6 +20,7 @@ export const SceneCard: FC<Props> = (props) => {
 
 	const [scene, setScene] = useState<SceneType>();
 	const handleScene = async () => {
+		console.log('tapped');
 		if (!scene) {
 			return;
 		}
@@ -76,10 +77,8 @@ export const SceneCard: FC<Props> = (props) => {
 				}}
 			>
 				<div className="h-[179px] w-full">
-					<Card>
-						<div className="grid items-center">
-							<div className="text-zinc-400">{props.name}</div>
-						</div>
+					<Card className="flex justify-center items-center">
+						<div className="text-zinc-400 h-max w-max">{props.name}</div>
 					</Card>
 				</div>
 			</Hammer>
