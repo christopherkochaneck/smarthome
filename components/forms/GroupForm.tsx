@@ -57,7 +57,7 @@ export const GroupForm: FC = () => {
 										} else {
 											idArray.push(key.id);
 										}
-										setIds([...idArray]);
+										setIds(idArray);
 									}}
 									key={key.id}
 								>
@@ -80,7 +80,7 @@ export const GroupForm: FC = () => {
 										} else {
 											idArray.push(key.id);
 										}
-										setIds([...idArray]);
+										setIds(idArray);
 									}}
 								>
 									<PlugSelectionCard
