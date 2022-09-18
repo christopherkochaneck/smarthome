@@ -19,8 +19,8 @@ interface Props {
 }
 
 export const GroupCard: FC<Props> = (props) => {
-	const devices = useDevices();
-	const groups = useGroups();
+	const { devices } = useDevices();
+	const { groups } = useGroups();
 
 	const [entities, setEntities] = useState<any[]>([]);
 	const [color, setColor] = useState<color>();
@@ -74,7 +74,7 @@ export const GroupCard: FC<Props> = (props) => {
 	}
 
 	useEffect(() => {
-		const group = groups.groups.find((x) => x.id == props.groupID);
+		const group = groups.find((x) => x.id == props.groupID);
 
 		if (group == undefined) {
 			return;
@@ -84,7 +84,7 @@ export const GroupCard: FC<Props> = (props) => {
 		let colorArray: color[] = [];
 
 		group.ids.forEach((id) => {
-			const res = devices.devices.find((x) => x.id == id);
+			const res = devices.find((x) => x.id == id);
 
 			if (res == undefined) {
 				return;
@@ -133,7 +133,7 @@ export const GroupCard: FC<Props> = (props) => {
 		return () => {
 			clearInterval(interval);
 		};
-	}, [devices.devices, groups.groups, props.groupID, entities, updating]);
+	}, [devices, groups, props.groupID, entities, updating]);
 
 	useEffect(() => {
 		if (!entities) {

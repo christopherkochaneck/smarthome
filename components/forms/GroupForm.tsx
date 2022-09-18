@@ -11,8 +11,8 @@ import DeviceFloppy from '../../res/images/device-floppy.svg';
 import { v4 as uuidv4 } from 'uuid';
 
 export const GroupForm: FC = () => {
-	const devices = useDevices();
-	const groups = useGroups();
+	const { devices } = useDevices();
+	const { addGroup } = useGroups();
 	const [groupName, setGroupName] = useState<string>('');
 	const [ids, setIds] = useState<string[]>([]);
 	const router = useRouter();
@@ -24,7 +24,7 @@ export const GroupForm: FC = () => {
 			name: groupName,
 			ids: ids,
 		};
-		groups.addGroup(group);
+		addGroup(group);
 
 		router.push('/groups');
 	};
@@ -46,7 +46,7 @@ export const GroupForm: FC = () => {
 						}}
 					/>
 					<div className="text-zinc-700 text-center">Select Devices to Add</div>
-					{devices.devices.map((key) => {
+					{devices.map((key) => {
 						if (key.type === 'rgbw2') {
 							return (
 								<div

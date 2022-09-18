@@ -6,16 +6,16 @@ import { PlugSType } from '../../../types/PlugSType';
 import { RGBW2Type } from '../../../types/RGBW2Type';
 
 export const PowerUsage: FC = () => {
-	const devices = useDevices();
+	const { devices } = useDevices();
 	const [power, setPower] = useState<number>(0);
 
 	useEffect(() => {
-		if (devices.devices.length === 0) {
+		if (devices.length === 0) {
 			return;
 		}
 		const entities: any = [];
 
-		devices.devices.forEach((device: RGBW2Type | PlugSType) => {
+		devices.forEach((device: RGBW2Type | PlugSType) => {
 			if (device.type === 'plugS') {
 				entities.push(new PlugS(device.ipAdress, device.id));
 			}
@@ -35,7 +35,7 @@ export const PowerUsage: FC = () => {
 		return () => {
 			clearInterval(interval);
 		};
-	}, [devices.devices]);
+	}, [devices]);
 
 	return (
 		<div className="h-full w-full bg-zinc-700 rounded-xl p-4 text-white flex flex-col">

@@ -15,8 +15,8 @@ interface Props {
 }
 
 export const SceneCard: FC<Props> = (props) => {
-	const scenes = useScenes();
-	const devices = useDevices();
+	const { scenes } = useScenes();
+	const { devices } = useDevices();
 
 	const [scene, setScene] = useState<SceneType>();
 	const handleScene = async () => {
@@ -25,7 +25,7 @@ export const SceneCard: FC<Props> = (props) => {
 		}
 
 		scene.actions.map(async (action) => {
-			const device = devices.devices.find((x) => x.id == action.id);
+			const device = devices.find((x) => x.id == action.id);
 
 			if (!device) {
 				return;
@@ -56,7 +56,7 @@ export const SceneCard: FC<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		const scene = scenes.scenes.find((x) => x.id == props.sceneID);
+		const scene = scenes.find((x) => x.id == props.sceneID);
 		setScene(scene);
 	}, [props.sceneID, scenes]);
 

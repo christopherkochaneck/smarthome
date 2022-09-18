@@ -12,7 +12,7 @@ import DeviceFloppy from '../../res/images/device-floppy.svg';
 interface Props {}
 export const EditGroupForm: FC<Props> = (props) => {
 	const { groups, updateGroup } = useGroups();
-	const devices = useDevices();
+	const { devices } = useDevices();
 	const [groupName, setGroupName] = useState<string>('');
 	const [ids, setIds] = useState<string[]>([]);
 	const [groupId, setGroupId] = useState<string>('');
@@ -60,7 +60,7 @@ export const EditGroupForm: FC<Props> = (props) => {
 						}}
 					/>
 					<div className="text-zinc-700 text-center">Select Devices to Add</div>
-					{devices.devices.map((key) => {
+					{devices.map((key) => {
 						if (key.type === 'rgbw2') {
 							return (
 								<div

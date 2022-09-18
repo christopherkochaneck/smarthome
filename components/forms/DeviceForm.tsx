@@ -10,7 +10,7 @@ import { RGBW2Type } from '../../types/RGBW2Type';
 import { PlugSType } from '../../types/PlugSType';
 
 export const DeviceForm: FC = () => {
-	const devices = useDevices();
+	const { addDevice } = useDevices();
 	const [deviceType, setDeviceType] = useState<string>('rgbw2');
 	const [deviceName, setDeviceName] = useState<string>('');
 	const [deviceIP, setDeviceIP] = useState<string>('');
@@ -27,7 +27,7 @@ export const DeviceForm: FC = () => {
 					title: deviceName,
 					ipAdress: deviceIP,
 				};
-				devices.addDevice(device);
+				addDevice(device);
 			}
 			if (deviceType === 'plugs') {
 				device = {
@@ -36,7 +36,7 @@ export const DeviceForm: FC = () => {
 					title: deviceName,
 					ipAdress: deviceIP,
 				};
-				devices.addDevice(device);
+				addDevice(device);
 				return;
 			}
 		} catch (ex) {

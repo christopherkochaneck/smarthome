@@ -13,8 +13,8 @@ import { LightActionCard } from '../devices/actionCard/lightActionCard';
 import { useScenes } from '../../context/SceneContext';
 
 export const SceneForm: FC = () => {
-	const devices = useDevices();
-	const scenes = useScenes();
+	const { devices } = useDevices();
+	const { scenes, addScene } = useScenes();
 	const [sceneName, setSceneName] = useState<string>('');
 	const [actions, setActions] = useState<Action[]>([]);
 	const router = useRouter();
@@ -34,7 +34,7 @@ export const SceneForm: FC = () => {
 			name: sceneName,
 			actions: actions,
 		};
-		scenes.addScene(scene);
+		addScene(scene);
 
 		router.push('/groups');
 	};
@@ -55,7 +55,7 @@ export const SceneForm: FC = () => {
 						}}
 					/>
 					<div className="text-zinc-700 text-center">Select Devices to Add</div>
-					{devices.devices.map((key) => {
+					{devices.map((key) => {
 						if (key.type === 'rgbw2') {
 							return (
 								<div
