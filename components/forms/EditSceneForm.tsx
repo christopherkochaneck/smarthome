@@ -58,12 +58,11 @@ export const EditSceneForm: FC = () => {
 		setSceneName(scene.name);
 
 		scene.actions.forEach((key) => {
-			ids.push(key.id);
-			setIds([...ids]);
+			setIds((prev) => [...prev, key.id]);
 		});
 
 		setActions([...scene.actions]);
-	}, [router.query, ids, scenes]);
+	}, [router.query, scenes]);
 
 	return (
 		<>
@@ -85,16 +84,16 @@ export const EditSceneForm: FC = () => {
 									onClick={() => {
 										let idArray = ids;
 										if (ids.find((x) => x === key.id)) {
-											idArray.splice(ids.indexOf(key.id));
+											ids.splice(ids.indexOf(key.id));
 										} else {
-											idArray.push(key.id);
+											ids.push(key.id);
 										}
 										setIds([...idArray]);
 
 										const action: Action = {
 											id: key.id,
 											type: 'rgbw2',
-											actions: { color: { red: 0, green: 0, blue: 0 }, state: false },
+											actions: { color: { red: 100, green: 0, blue: 0 }, state: true },
 										};
 
 										if (actions.find((x) => x.id === key.id)) {

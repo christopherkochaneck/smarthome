@@ -37,24 +37,24 @@ export const LightActionCard: FC<Props> = (props) => {
 
 		setColor(currentAction.actions.color);
 		setState(currentAction.actions.state);
-	}, [devices, props.actions, props.id]);
+	}, [devices, props.id]);
 
-	// useEffect(() => {
-	// 	const currentAction = props.actions.find((x) => x.id === props.id);
-	// 	if (currentAction === undefined) {
-	// 		return;
-	// 	}
+	useEffect(() => {
+		const currentAction = props.actions.find((x) => x.id === props.id);
+		if (currentAction === undefined) {
+			return;
+		}
 
-	// 	currentAction.actions.color = color;
-	// 	currentAction.actions.state = state;
-	// 	setAction(currentAction);
+		currentAction.actions.color = color;
+		currentAction.actions.state = state;
+		setAction(currentAction);
 
-	// 	const index = props.actions.findIndex((x) => x.id === currentAction.id);
+		const index = props.actions.findIndex((x) => x.id === currentAction.id);
 
-	// 	props.actions[index] = currentAction;
+		props.actions[index] = currentAction;
 
-	// 	props.setActions([...props.actions]);
-	// }, [state, color, props]);
+		props.setActions([...props.actions]);
+	}, [color, state]);
 
 	return (
 		<>
