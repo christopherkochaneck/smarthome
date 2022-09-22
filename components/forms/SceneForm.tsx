@@ -13,7 +13,7 @@ import { ArrowNarrowRight, DeviceFloppy } from 'tabler-icons-react';
 
 export const SceneForm: FC = () => {
 	const { devices } = useDevices();
-	const { scenes, addScene } = useScenes();
+	const { addScene } = useScenes();
 	const [sceneName, setSceneName] = useState<string>('');
 	const [actions, setActions] = useState<Action[]>([]);
 	const router = useRouter();
@@ -93,7 +93,7 @@ export const SceneForm: FC = () => {
 								</div>
 							);
 						}
-						if ((key.type = 'plugS')) {
+						if (key.type === 'plugS') {
 							return (
 								<div
 									onClick={() => {

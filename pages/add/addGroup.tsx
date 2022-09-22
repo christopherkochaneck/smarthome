@@ -4,7 +4,7 @@ import { GroupForm } from '../../components/forms/GroupForm';
 
 const AddGroup: NextPage = () => {
 	return (
-		<LayoutWrapper showAppbar appBarTitle="Add Group">
+		<LayoutWrapper showAppbar showBackButton appBarTitle="Add Group">
 			<GroupForm />
 		</LayoutWrapper>
 	);

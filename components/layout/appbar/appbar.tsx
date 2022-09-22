@@ -16,7 +16,7 @@ export const Appbar: FC<Props> = (props) => {
 			{props.showAppbar ? (
 				<div className="flex bg-black w-screen h-16 items-center p-4 gap-x-2">
 					{props.showBackButton ? (
-						<div className="text-white" onClick={() => history.back()}>
+						<div className="text-white hover:cursor-pointer" onClick={() => history.back()}>
 							<ArrowNarrowLeft className="h-8 w-8" />
 						</div>
 					) : (

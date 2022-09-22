@@ -14,7 +14,7 @@ export const PlugActionCard: FC<Props> = (props) => {
 	return (
 		<>
 			<Card>
-				<div className="flex flex-row items-center p-[10px] gap-x-[10px] content-between items-center">
+				<div className="flex flex-row items-center p-[10px] gap-x-[10px] content-between">
 					<Plug className="h-10 w-10" />
 					<div className="text-white flex-grow">{props.name}</div>
 					<div onClick={() => setState(!state)}>
