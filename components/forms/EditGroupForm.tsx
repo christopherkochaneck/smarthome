@@ -97,6 +97,7 @@ export const EditGroupForm: FC<Props> = (props) => {
 										}
 										setIds(idArray);
 									}}
+									key={key.id}
 								>
 									<PlugSelectionCard
 										id={key.id}

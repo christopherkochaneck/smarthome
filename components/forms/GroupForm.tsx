@@ -82,6 +82,7 @@ export const GroupForm: FC = () => {
 										}
 										setIds(idArray);
 									}}
+									key={key.id}
 								>
 									<PlugSelectionCard
 										id={key.id}
