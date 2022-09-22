@@ -119,6 +119,7 @@ export const SceneForm: FC = () => {
 
 										setActions([...actions]);
 									}}
+									key={key.id}
 								>
 									<PlugSelectionCard
 										id={key.id}
