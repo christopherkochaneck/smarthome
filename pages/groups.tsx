@@ -65,7 +65,7 @@ const Groups: NextPage = () => {
 				href="/add/addGroup"
 			>
 				<div className="grid gap-4">
-					<div className="text-zinc-500 text-center">Groups</div>
+					<div className="text-white text-center">Groups</div>
 					{groups.map((key) => {
 						return (
 							<GroupCard
@@ -80,7 +80,7 @@ const Groups: NextPage = () => {
 							/>
 						);
 					})}
-					<div className="text-zinc-500 text-center">Scenes</div>
+					<div className="text-white text-center">Scenes</div>
 					<div className="grid grid-cols-2 gap-4">
 						{scenes.map((key) => {
 							return (

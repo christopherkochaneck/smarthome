@@ -23,7 +23,7 @@ const Home: NextPage<Props> = ({ weatherData, dailyForecastData }) => {
 		<>
 			<LayoutWrapper showAppbar={false} showAppbarIcon={true}>
 				<div className="flex flex-col gap-10">
-					<div className="p-5 text-zinc-400 text-3xl text-center">
+					<div className="p-5 text-white text-3xl text-center">
 						Hey Chris, here&apos;s whats up for today.
 					</div>
 					<div className="p-5">

@@ -55,7 +55,7 @@ const Devices: NextPage = () => {
 				href="/add/addDevice"
 			>
 				<div className="grid gap-4">
-					<div className="text-zinc-500 text-center">Lights</div>
+					<div className="text-white text-center">Lights</div>
 					{devices
 						.filter((x) => x.type === 'rgbw2')
 						.map((key) => {
@@ -72,7 +72,7 @@ const Devices: NextPage = () => {
 								/>
 							);
 						})}
-					<div className="text-zinc-500 text-center">Plugs</div>
+					<div className="text-white text-center">Plugs</div>
 					{devices
 						.filter((x) => x.type === 'plugS')
 						.map((key) => {

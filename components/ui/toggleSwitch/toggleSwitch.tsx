@@ -4,6 +4,7 @@ import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 interface Props {
 	state: boolean | undefined;
 	setState: Dispatch<SetStateAction<boolean | undefined>>;
+	className?: string;
 }
 
 export const ToggleSwitch: FC<Props> = (props) => {
@@ -15,7 +16,7 @@ export const ToggleSwitch: FC<Props> = (props) => {
 			}}
 			className={`${
 				props.state ? 'bg-zinc-900' : 'bg-zinc-700'
-			} relative inline-flex items-center h-6 rounded-full w-11`}
+			} relative inline-flex items-center h-6 rounded-full w-11 ${props.className}`}
 		>
 			<span
 				className={`${

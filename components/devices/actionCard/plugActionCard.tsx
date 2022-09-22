@@ -16,9 +16,9 @@ export const PlugActionCard: FC<Props> = (props) => {
 			<Card>
 				<div className="flex flex-row items-center p-[10px] gap-x-[10px] content-between">
 					<PlugIcon />
-					<div className="text-zinc-400 flex-grow">{props.name}</div>
+					<div className="text-white flex-grow">{props.name}</div>
 					<div onClick={() => setState(!state)}>
-						<ToggleSwitch state={state} setState={setState} />
+						<ToggleSwitch state={state} setState={setState} className="border border-black" />
 					</div>
 				</div>
 			</Card>

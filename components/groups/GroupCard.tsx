@@ -183,8 +183,8 @@ export const GroupCard: FC<Props> = (props) => {
 							onClick={handleGroupTap}
 							className="flex flex-row place-content-between items-center w-full"
 						>
-							<div className="text-zinc-400 text-left">Test</div>
-							<ToggleSwitch state={state} setState={setState} />
+							<div className="text-white text-left">Test</div>
+							<ToggleSwitch state={state} setState={setState} className="border border-black" />
 						</div>
 					</Card>
 				</div>

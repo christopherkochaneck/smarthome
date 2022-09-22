@@ -64,7 +64,7 @@ export const LightActionCard: FC<Props> = (props) => {
 					<div className="co-start-1 row-start-1 row-end-3">
 						<LightIcon />
 					</div>
-					<div className="text-zinc-400 flex-grow col-start-2 row-start-1 row-end-3">{name}</div>
+					<div className="text-white flex-grow col-start-2 row-start-1 row-end-3">{name}</div>
 					<div onClick={() => setOpen(!open)} className="col-start-3">
 						<ColorIndicator color={color} />
 					</div>
@@ -74,7 +74,7 @@ export const LightActionCard: FC<Props> = (props) => {
 							setState(!state);
 						}}
 					>
-						<ToggleSwitch state={state} setState={setState} />
+						<ToggleSwitch state={state} setState={setState} className="border border-black" />
 					</div>
 				</div>
 			</Card>

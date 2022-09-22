@@ -14,7 +14,7 @@ export const Tab: FC<Props> = (props) => {
 					props.onClick;
 					setSelected(true);
 				}}
-				className={`${selected ? 'border-b-2 border-zinc-700' : ''} text-zinc-700`}
+				className={`${selected ? 'border-b-2 border-zinc-700' : ''} text-white`}
 			>
 				{props.title}
 			</div>

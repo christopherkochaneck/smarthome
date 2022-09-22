@@ -75,7 +75,7 @@ export const DeviceForm: FC = () => {
 					/>
 				</div>
 				<FloatingActionButton
-					className="bg-black absolute right-4 bottom-20 text-zinc-700"
+					className="bg-black absolute right-4 bottom-20 text-white"
 					type="submit"
 				>
 					<DiskFloppy />

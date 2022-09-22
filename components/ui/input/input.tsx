@@ -10,9 +10,9 @@ interface Props {
 export const Input: FC<Props> = (props) => {
 	return (
 		<div className="grid gap-2">
-			<div className="text-zinc-700">{props.title}</div>
+			<div className="text-white">{props.title}</div>
 			<input
-				className={`${props.className} bg-zinc-700 p-2`}
+				className={`${props.className} bg-grey text-white p-2`}
 				onChange={props.onChange}
 				value={props.value || undefined}
 			/>

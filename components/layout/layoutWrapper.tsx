@@ -11,7 +11,7 @@ interface Props {
 }
 export const LayoutWrapper: FC<Props> = (props) => {
 	return (
-		<div className="flex flex-col h-screen bg-[#121212]">
+		<div className="flex flex-col h-screen bg-darkgrey">
 			<header>
 				<Appbar
 					href={props.href}

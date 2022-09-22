@@ -11,7 +11,7 @@ export const WeatherForeCast: FC<Props> = ({ weatherData }) => {
 
 	return (
 		<div
-			className="h-max w-full bg-zinc-700 rounded-xl grid text-white text-center gap-y-2 p-5 hover:cursor-pointer"
+			className="h-max w-full bg-grey rounded-xl grid text-white text-center gap-y-2 p-5 hover:cursor-pointer"
 			onClick={(e) => {
 				e.preventDefault();
 				router.push('https://www.wetter.com/deutschland/st-ingbert/sankt-ingbert/DE0009233.html');

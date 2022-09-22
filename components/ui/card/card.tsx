@@ -8,7 +8,7 @@ interface Props {
 export const Card: FC<Props> = (props) => {
 	return (
 		<div
-			className={`bg-zinc-800 text-center hover:cursor-pointer w-full h-full rounded-xl ${props.className}`}
+			className={`bg-grey text-center hover:cursor-pointer w-full h-full rounded-xl ${props.className}`}
 		>
 			{props.children}
 		</div>

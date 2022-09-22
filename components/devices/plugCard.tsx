@@ -63,13 +63,13 @@ export const PlugCard: FC<Props> = (props) => {
 							}}
 							className='flex flex-col w-full justify-between"'
 						>
-							<div className="text-zinc-400 text-left">
+							<div className="text-white text-left">
 								{device ? name : 'DeviceTitle unavailable'}
 							</div>
-							<div className="text-zinc-400 text-left">{`Load: ${power} W`}</div>
+							<div className="text-white text-left">{`Load: ${power} W`}</div>
 						</div>
 						<div className="self-center">
-							<ToggleSwitch state={state} setState={setState} />
+							<ToggleSwitch state={state} setState={setState} className="border border-black" />
 						</div>
 					</Card>
 				</div>
