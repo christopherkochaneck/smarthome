@@ -2,14 +2,13 @@ import { useRouter } from 'next/router';
 import { FC, FormEvent, useEffect, useState } from 'react';
 import { useDevices } from '../../context/DeviceContext';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
-import ArrowNarrowRight from '../../res/images/arrow-narrow-right.svg';
-import DiskFloppy from '../../res/images/device-floppy.svg';
 import { Action, SceneType } from '../../types/SceneType';
 import { Input } from '../ui/input/input';
 import { LightSelectionCard } from '../devices/selectionCard/lightSelectionCard';
 import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
 import { LightActionCard } from '../devices/actionCard/lightActionCard';
 import { useScenes } from '../../context/SceneContext';
+import { ArrowNarrowRight, DeviceFloppy } from 'tabler-icons-react';
 
 export const EditSceneForm: FC = () => {
 	const { devices } = useDevices();
@@ -162,7 +161,11 @@ export const EditSceneForm: FC = () => {
 					className="bg-black absolute right-4 bottom-20 text-white"
 					type="submit"
 				>
-					{viewActionPage ? <DiskFloppy /> : <ArrowNarrowRight />}
+					{viewActionPage ? (
+						<DeviceFloppy className="h-8 w-8" />
+					) : (
+						<ArrowNarrowRight className="h-8 w-8" />
+					)}
 				</FloatingActionButton>
 			</form>
 		</>

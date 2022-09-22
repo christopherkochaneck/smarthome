@@ -3,13 +3,12 @@ import { useDevices } from '../../context/DeviceContext';
 import { useGroups } from '../../context/GroupContext';
 import { RGBW2 } from '../../devices/rgbw2';
 import color from '../../interfaces/color';
-import LightIcon from '../../res/images/bulb.svg';
-import PlugIcon from '../../res/images/plug.svg';
 import { Card } from '../ui/card/card';
 import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 import Hammer from 'react-hammerjs';
 import { PlugS } from '../../devices/plugS';
+import { Bulb, Plug } from 'tabler-icons-react';
 
 interface Props {
 	groupID: string;
@@ -176,7 +175,11 @@ export const GroupCard: FC<Props> = (props) => {
 									}
 								}}
 							>
-								{entities.some((device) => device instanceof RGBW2) ? <LightIcon /> : <PlugIcon />}
+								{entities.some((device) => device instanceof RGBW2) ? (
+									<Bulb className="h-10 w-10" />
+								) : (
+									<Plug className="h-10 w-10" />
+								)}
 							</div>
 						</div>
 						<div

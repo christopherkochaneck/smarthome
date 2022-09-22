@@ -29,6 +29,7 @@
 		"react-google-button": "^0.7.2",
 		"react-hammerjs": "^1.0.1",
 		"sass": "^1.53.0",
+		"tabler-icons-react": "^1.55.0",
 		"uuid": "^8.3.2",
 		"yarn": "^1.22.19"
 	},

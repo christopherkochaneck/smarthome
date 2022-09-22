@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import LightIcon from '../../../res/images/bulb.svg';
+import { Bulb } from 'tabler-icons-react';
 import { Card } from '../../ui/card/card';
 import { SelectionIndicator } from './components/selectionIndicator';
 
@@ -14,7 +14,7 @@ export const LightSelectionCard: FC<Props> = (props) => {
 		<>
 			<Card>
 				<div className="flex flex-row items-center p-[10px] gap-x-[10px] content-between">
-					<LightIcon />
+					<Bulb className="h-10 w-10" />
 					<div className="text-white flex-grow">{props.name}</div>
 					<SelectionIndicator selected={props.selected} />
 				</div>

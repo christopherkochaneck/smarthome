@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 const Home: NextPage<Props> = ({ weatherData, dailyForecastData }) => {
 	return (
 		<>
-			<LayoutWrapper showAppbar={false} showAppbarIcon={true}>
+			<LayoutWrapper showAppbarIcon>
 				<div className="flex flex-col gap-10">
 					<div className="p-5 text-white text-3xl text-center">
 						Hey Chris, here&apos;s whats up for today.

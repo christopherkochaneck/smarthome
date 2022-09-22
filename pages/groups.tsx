@@ -58,12 +58,7 @@ const Groups: NextPage = () => {
 				/>
 				<ContextMenuItem title="Cancel" type="cancel" onClick={() => setVisible(false)} />
 			</ContextMenu>
-			<LayoutWrapper
-				showAppbar={true}
-				showAppbarIcon={true}
-				appBarTitle="Groups"
-				href="/add/addGroup"
-			>
+			<LayoutWrapper showAppbar showAppbarIcon appBarTitle="Groups" href="/add/addGroup">
 				<div className="grid gap-4">
 					<div className="text-white text-center">Groups</div>
 					{groups.map((key) => {

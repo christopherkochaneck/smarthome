@@ -1,11 +1,11 @@
 import { FC, useEffect, useMemo, useState } from 'react';
 import { RGBW2 } from '../../devices/rgbw2';
 import color from '../../interfaces/color';
-import LightIcon from '../../res/images/bulb.svg';
 import { Card } from '../ui/card/card';
 import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 import Hammer from 'react-hammerjs';
+import { Bulb } from 'tabler-icons-react';
 
 interface Props {
 	id: string;
@@ -67,7 +67,7 @@ export const LightCard: FC<Props> = (props) => {
 				}}
 			>
 				<div className="h-full w-translate-y-full">
-					<Card className="flex flex-row gap-x-3 p-3">
+					<Card className="flex flex-row gap-x-3 p-3 items-center">
 						<div
 							style={{
 								color: color && state ? `rgb(${color.red},${color.green}, ${color.blue})` : '#000',
@@ -79,7 +79,7 @@ export const LightCard: FC<Props> = (props) => {
 									setOpen(!open);
 								}}
 							>
-								<LightIcon />
+								<Bulb className="h-10 w-10" />
 							</div>
 						</div>
 						<div

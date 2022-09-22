@@ -6,7 +6,7 @@ const AddScene: NextPage = () => {
 	function handleSubmit() {}
 
 	return (
-		<LayoutWrapper showAppbar={true} showAppbarIcon={false} appBarTitle="Add Scene">
+		<LayoutWrapper showAppbar appBarTitle="Add Scene">
 			<SceneForm />
 		</LayoutWrapper>
 	);

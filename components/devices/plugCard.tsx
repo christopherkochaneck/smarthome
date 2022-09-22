@@ -1,9 +1,9 @@
 import { FC, useEffect, useMemo, useState } from 'react';
 import { PlugS } from '../../devices/plugS';
-import PlugIcon from '../../res/images/plug.svg';
 import { Card } from '../ui/card/card';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 import Hammer from 'react-hammerjs';
+import { Plug } from 'tabler-icons-react';
 
 interface Props {
 	id: string;
@@ -48,13 +48,13 @@ export const PlugCard: FC<Props> = (props) => {
 				}}
 			>
 				<div className="h-full w-translate-y-full">
-					<Card className="flex flex-row gap-x-3 p-3">
+					<Card className="flex flex-row gap-x-3 p-3 items-center">
 						<div
 							style={{
 								color: state ? 'white' : 'black',
 							}}
 						>
-							<PlugIcon />
+							<Plug className="h-10 w-10" />
 						</div>
 						<div
 							onClick={async () => {

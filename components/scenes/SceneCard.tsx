@@ -19,13 +19,14 @@ export const SceneCard: FC<Props> = (props) => {
 	const { devices } = useDevices();
 
 	const [scene, setScene] = useState<SceneType>();
-	const handleScene = async () => {
+	const handleScene = async (e: any) => {
+		e.preventDefault();
 		console.log('tapped');
 		if (!scene) {
 			return;
 		}
 
-		scene.actions.map(async (action) => {
+		scene.actions.forEach(async (action) => {
 			const device = devices.find((x) => x.id == action.id);
 
 			if (!device) {
@@ -67,18 +68,20 @@ export const SceneCard: FC<Props> = (props) => {
 				onPress={props.onLongPress}
 				onTap={handleScene}
 				options={{
+					domEvents: true,
 					touchAction: 'compute',
 					recognizers: {
 						press: {
 							time: 500,
 							threshold: 1000,
 						},
+						tap: { event: 'tap' },
 					},
 				}}
 			>
 				<div className="h-[179px] w-full">
 					<Card className="flex justify-center items-center">
-						<div className="text-zinc-400 h-max w-max">{props.name}</div>
+						<div className="text-white h-max w-max">{props.name}</div>
 					</Card>
 				</div>
 			</Hammer>

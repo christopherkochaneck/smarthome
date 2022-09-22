@@ -3,11 +3,11 @@ import { Select } from '../ui/select/select';
 import { useRouter } from 'next/router';
 import { FloatingActionButton } from '../../components/ui/floatingActionButton/floatingActionButton';
 import { Input } from '../../components/ui/input/input';
-import DiskFloppy from '../../res/images/device-floppy.svg';
 import { v4 as uuidv4 } from 'uuid';
 import { useDevices } from '../../context/DeviceContext';
 import { RGBW2Type } from '../../types/RGBW2Type';
 import { PlugSType } from '../../types/PlugSType';
+import { DeviceFloppy } from 'tabler-icons-react';
 
 export const DeviceForm: FC = () => {
 	const { addDevice } = useDevices();
@@ -78,7 +78,7 @@ export const DeviceForm: FC = () => {
 					className="bg-black absolute right-4 bottom-20 text-white"
 					type="submit"
 				>
-					<DiskFloppy />
+					<DeviceFloppy className="h-8 w-8" />
 				</FloatingActionButton>
 			</form>
 		</>

@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import ArrowNarrowRight from '../../../../../res/images/arrow-narrow-right.svg';
+import { ArrowNarrowRight } from 'tabler-icons-react';
 
 interface Props {
-	title: String;
+	title: string;
 	onClick(): void;
 }
 export const ListTile: FC<Props> = (props) => {

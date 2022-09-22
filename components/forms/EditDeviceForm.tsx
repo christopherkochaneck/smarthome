@@ -1,11 +1,11 @@
 import { FC, FormEvent, useEffect, useState } from 'react';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
 import { Input } from '../ui/input/input';
-import DeviceFloppy from '../../res/images/device-floppy.svg';
 import { useDevices } from '../../context/DeviceContext';
 import { useRouter } from 'next/router';
 import { RGBW2Type } from '../../types/RGBW2Type';
 import { PlugSType } from '../../types/PlugSType';
+import { DeviceFloppy } from 'tabler-icons-react';
 
 export const EditDeviceForm: FC = () => {
 	const { devices, updateDevice } = useDevices();
@@ -89,7 +89,7 @@ export const EditDeviceForm: FC = () => {
 					className="bg-black absolute right-4 bottom-20 text-white"
 					type="submit"
 				>
-					<DeviceFloppy />
+					<DeviceFloppy className="h-8 w-8" />
 				</FloatingActionButton>
 			</form>
 		</>

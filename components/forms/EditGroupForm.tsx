@@ -7,7 +7,7 @@ import { useDevices } from '../../context/DeviceContext';
 import { LightSelectionCard } from '../devices/selectionCard/lightSelectionCard';
 import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
-import DeviceFloppy from '../../res/images/device-floppy.svg';
+import { DeviceFloppy } from 'tabler-icons-react';
 
 interface Props {}
 export const EditGroupForm: FC<Props> = (props) => {
@@ -113,7 +113,7 @@ export const EditGroupForm: FC<Props> = (props) => {
 					className="bg-black absolute right-4 bottom-20 text-white"
 					type="submit"
 				>
-					<DeviceFloppy />
+					<DeviceFloppy className="h-8 w-8" />
 				</FloatingActionButton>
 			</form>
 		</>

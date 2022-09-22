@@ -34,7 +34,7 @@ export const AdminPanel: NextPage = () => {
 	}, []);
 	return (
 		<>
-			<LayoutWrapper showAppbar={true} showAppbarIcon={false} appBarTitle="Admin Panel">
+			<LayoutWrapper showAppbar showBackButton appBarTitle="Admin Panel">
 				<div className="p-4">
 					<div className="h-max w-full grid grid-cols-2 gap-4">
 						<div style={{ gridArea: '1/1/2/3' }}>

@@ -1,5 +1,4 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
-import LightIcon from '../../../res/images/bulb.svg';
 import { Card } from '../../ui/card/card';
 import { ColorIndicator } from './components/colorIndicator';
 import color from '../../../interfaces/color';
@@ -7,6 +6,7 @@ import { ToggleSwitch } from '../../ui/toggleSwitch/toggleSwitch';
 import { Action } from '../../../types/SceneType';
 import { RGBW2Modal } from '../../ui/modals/rgbw2Modal/RGBW2Modal';
 import { useDevices } from '../../../context/DeviceContext';
+import { Bulb } from 'tabler-icons-react';
 
 interface Props {
 	id: string;
@@ -62,7 +62,7 @@ export const LightActionCard: FC<Props> = (props) => {
 			<Card>
 				<div className="grid p-[10px] gap-2 grid-cols-3 grid-rows-2 justify-items-center items-center">
 					<div className="co-start-1 row-start-1 row-end-3">
-						<LightIcon />
+						<Bulb className="h-10 w-10" />
 					</div>
 					<div className="text-white flex-grow col-start-2 row-start-1 row-end-3">{name}</div>
 					<div onClick={() => setOpen(!open)} className="col-start-3">

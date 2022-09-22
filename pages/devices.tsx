@@ -48,12 +48,7 @@ const Devices: NextPage = () => {
 				/>
 				<ContextMenuItem title="Cancel" type="cancel" onClick={() => setVisible(false)} />
 			</ContextMenu>
-			<LayoutWrapper
-				showAppbar={true}
-				showAppbarIcon={true}
-				appBarTitle="Devices"
-				href="/add/addDevice"
-			>
+			<LayoutWrapper showAppbar showAppbarIcon appBarTitle="Devices" href="/add/addDevice">
 				<div className="grid gap-4">
 					<div className="text-white text-center">Lights</div>
 					{devices

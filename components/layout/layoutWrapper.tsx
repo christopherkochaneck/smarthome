@@ -4,10 +4,11 @@ import { Navbar } from './navbar/navbar';
 
 interface Props {
 	appBarTitle?: string;
-	showAppbar: boolean;
-	showAppbarIcon: boolean;
+	showAppbar?: boolean;
+	showAppbarIcon?: boolean;
 	href?: string;
 	children?: React.ReactNode;
+	showBackButton?: boolean;
 }
 export const LayoutWrapper: FC<Props> = (props) => {
 	return (
@@ -18,6 +19,7 @@ export const LayoutWrapper: FC<Props> = (props) => {
 					showAppbar={props.showAppbar}
 					title={props.appBarTitle}
 					showAddIcon={props.showAppbarIcon}
+					showBackButton={props.showBackButton}
 				/>
 			</header>
 			<main className="flex-1">

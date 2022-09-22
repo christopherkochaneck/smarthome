@@ -7,8 +7,8 @@ import { LightSelectionCard } from '../devices/selectionCard/lightSelectionCard'
 import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
 import { Input } from '../ui/input/input';
-import DeviceFloppy from '../../res/images/device-floppy.svg';
 import { v4 as uuidv4 } from 'uuid';
+import { DeviceFloppy } from 'tabler-icons-react';
 
 export const GroupForm: FC = () => {
 	const { devices } = useDevices();
@@ -98,7 +98,7 @@ export const GroupForm: FC = () => {
 					className="bg-black absolute right-4 bottom-20 text-white"
 					type="submit"
 				>
-					<DeviceFloppy />
+					<DeviceFloppy className="h-8 w-8" />
 				</FloatingActionButton>
 			</form>
 		</>

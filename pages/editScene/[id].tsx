@@ -4,7 +4,7 @@ import { LayoutWrapper } from '../../components/layout/layoutWrapper';
 
 const EditScene: NextPage = () => {
 	return (
-		<LayoutWrapper showAppbar={true} showAppbarIcon={false} appBarTitle="Edit Scene">
+		<LayoutWrapper showAppbar appBarTitle="Edit Scene">
 			<EditSceneForm />
 		</LayoutWrapper>
 	);
