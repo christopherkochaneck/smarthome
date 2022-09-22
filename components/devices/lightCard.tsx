@@ -88,15 +88,21 @@ export const LightCard: FC<Props> = (props) => {
 								setColor(state ? device.color : device.offColor);
 								setState(device.state);
 							}}
-							className="flex flex-col w-full justify-between"
+							className="flex flex-row w-full justify-between"
 						>
-							<div className="text-white text-left">
-								{device ? name : 'DeviceTitle unavailable'}
+							<div className="flex flex-col">
+								<div className="text-white text-left">
+									{device ? name : 'DeviceTitle unavailable'}
+								</div>
+								<div className="text-white text-left">{`Brightness: ${brightness}%`}</div>
 							</div>
-							<div className="text-white text-left">{`Brightness: ${brightness}%`}</div>
-						</div>
-						<div className="self-center">
-							<ToggleSwitch state={state} setState={setState} className="border border-darkgrey" />
+							<div className="self-center">
+								<ToggleSwitch
+									state={state}
+									setState={setState}
+									className="border border-darkgrey"
+								/>
+							</div>
 						</div>
 					</Card>
 				</div>
