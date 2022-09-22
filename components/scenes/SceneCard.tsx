@@ -21,7 +21,6 @@ export const SceneCard: FC<Props> = (props) => {
 	const [scene, setScene] = useState<SceneType>();
 	const handleScene = async (e: any) => {
 		e.preventDefault();
-		console.log('tapped');
 		if (!scene) {
 			return;
 		}
@@ -66,7 +65,6 @@ export const SceneCard: FC<Props> = (props) => {
 		<>
 			<Hammer
 				onPress={props.onLongPress}
-				onTap={handleScene}
 				options={{
 					domEvents: true,
 					touchAction: 'compute',
@@ -79,7 +77,7 @@ export const SceneCard: FC<Props> = (props) => {
 					},
 				}}
 			>
-				<div className="h-[179px] w-full">
+				<div className="h-[179px] w-full" onClick={handleScene}>
 					<Card className="flex justify-center items-center">
 						<div className="text-white h-max w-max">{props.name}</div>
 					</Card>
