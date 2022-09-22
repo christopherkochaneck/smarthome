@@ -151,7 +151,6 @@ export const GroupCard: FC<Props> = (props) => {
 			<RGBW2Modal open={open} setOpen={setOpen} setSelectedColor={setSelectedColor} />
 			<Hammer
 				onPress={props.onLongPress}
-				onTap={handleGroupTap}
 				options={{
 					touchAction: 'compute',
 					recognizers: {
@@ -162,36 +161,30 @@ export const GroupCard: FC<Props> = (props) => {
 					},
 				}}
 			>
-				<div className="h-full w-translate-y-full">
-					<Card>
+				<div className="h-full w-translate-y-full items-center">
+					<Card className="flex flex-row gap-x-3 p-3">
 						<div
 							style={{
 								color: state && color ? `rgb(${color.red}, ${color.green}, ${color.blue})` : '#000',
-								display: 'grid',
-								gridTemplateColumns: 'max-content 1fr max-content',
-								gridTemplateRows: 'repeat(2, max-content)',
-								columnGap: '10px',
-								padding: '10px',
 							}}
 						>
 							<div
-								style={{ gridArea: '1 / 1 / 3 / 2' }}
 								onClick={(e) => {
 									e.stopPropagation();
-									setOpen(!open);
+									if (entities.some((device) => device instanceof RGBW2)) {
+										setOpen(!open);
+									}
 								}}
 							>
 								{entities.some((device) => device instanceof RGBW2) ? <LightIcon /> : <PlugIcon />}
 							</div>
-							<div className="text-zinc-400 text-left">{props.title}</div>
-							<div
-								style={{
-									gridArea: '1 / 3 / 3 / 4',
-									alignSelf: 'center',
-								}}
-							>
-								<ToggleSwitch state={state} setState={setState} />
-							</div>
+						</div>
+						<div
+							onClick={handleGroupTap}
+							className="flex flex-row place-content-between items-center w-full"
+						>
+							<div className="text-zinc-400 text-left">Test</div>
+							<ToggleSwitch state={state} setState={setState} />
 						</div>
 					</Card>
 				</div>
