@@ -8,9 +8,10 @@ interface Props {
 }
 
 export const ToggleSwitch: FC<Props> = (props) => {
+	const [checked, setChecked] = useState<boolean>(false);
 	return (
 		<Switch
-			checked={props.state!}
+			checked={props.state}
 			onChange={() => {
 				props.state ? props.setState(!props.state) : props.setState(props.state);
 			}}
