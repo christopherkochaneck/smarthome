@@ -184,7 +184,7 @@ export const GroupCard: FC<Props> = (props) => {
 							className="flex flex-row place-content-between items-center w-full"
 						>
 							<div className="text-white text-left">Test</div>
-							<ToggleSwitch state={state} setState={setState} className="border border-black" />
+							<ToggleSwitch state={state} setState={setState} className="border border-darkgrey" />
 						</div>
 					</Card>
 				</div>

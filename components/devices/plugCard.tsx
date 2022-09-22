@@ -69,7 +69,7 @@ export const PlugCard: FC<Props> = (props) => {
 							<div className="text-white text-left">{`Load: ${power} W`}</div>
 						</div>
 						<div className="self-center">
-							<ToggleSwitch state={state} setState={setState} className="border border-black" />
+							<ToggleSwitch state={state} setState={setState} className="border border-darkgrey" />
 						</div>
 					</Card>
 				</div>

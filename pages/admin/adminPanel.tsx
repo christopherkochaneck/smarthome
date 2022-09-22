@@ -45,21 +45,21 @@ export const AdminPanel: NextPage = () => {
 								unit="GB"
 							/>
 						</div>
-						<Card className="flex flex-col p-4 gap-y-4">
-							<div>System Architecture</div>
-							<Card className="border border-black">{architecture}</Card>
+						<Card className="flex flex-col p-4 gap-y-4 text-white">
+							<div className="text-white">System Architecture</div>
+							<Card className="border border-darkgrey">{architecture}</Card>
 						</Card>
-						<Card className="flex flex-col p-4 gap-y-4">
-							<div>Hostname</div>
-							<Card className="border border-black">{hostName}</Card>
+						<Card className="flex flex-col p-4 gap-y-4 text-white">
+							<div className="text-white">Hostname</div>
+							<Card className="border border-darkgrey">{hostName}</Card>
 						</Card>
-						<Card className="flex flex-col p-4 gap-y-4">
-							<div>Platform</div>
-							<Card className="border border-black">{platform}</Card>
+						<Card className="flex flex-col p-4 gap-y-4 text-white">
+							<div className="text-white">Platform</div>
+							<Card className="border border-darkgrey">{platform}</Card>
 						</Card>
-						<Card className="flex flex-col p-4 gap-y-4">
-							<div>Uptime</div>
-							<Card className="border border-black">{(uptime / 86400).toFixed(0)} Days</Card>
+						<Card className="flex flex-col p-4 gap-y-4 text-white">
+							<div className="text-white">Uptime</div>
+							<Card className="border border-darkgrey">{(uptime / 86400).toFixed(0)} Days</Card>
 						</Card>
 					</div>
 				</div>

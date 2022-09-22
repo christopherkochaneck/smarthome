@@ -96,7 +96,7 @@ export const LightCard: FC<Props> = (props) => {
 							<div className="text-white text-left">{`Brightness: ${brightness}%`}</div>
 						</div>
 						<div className="self-center">
-							<ToggleSwitch state={state} setState={setState} className="border border-black" />
+							<ToggleSwitch state={state} setState={setState} className="border border-darkgrey" />
 						</div>
 					</Card>
 				</div>

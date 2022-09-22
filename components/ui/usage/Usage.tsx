@@ -15,10 +15,10 @@ export const Usage: FC<Props> = (props) => {
 			<div style={{ gridArea: '1/1/2/3' }}>
 				<UsageBar currentValue={props.currentValue} maxValue={props.maxValue} />
 			</div>
-			<div>{props.title}</div>
-			<div>{`${props.currentValue.toFixed(1)} ${props.unit} / ${props.maxValue.toFixed(1)} ${
+			<div className="text-white">{props.title}</div>
+			<div className="text-white">{`${props.currentValue.toFixed(1)} ${
 				props.unit
-			}`}</div>
+			} / ${props.maxValue.toFixed(1)} ${props.unit}`}</div>
 		</Card>
 	);
 };

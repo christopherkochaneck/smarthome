@@ -10,7 +10,7 @@ export const SelectionIndicator: FC<Props> = (props) => {
 			<div
 				className={`rounded-full h-10 w-10 ${
 					props.selected ? 'bg-black' : 'bg-transparent'
-				} border border-black`}
+				} border border-darkgrey`}
 			/>
 		</>
 	);

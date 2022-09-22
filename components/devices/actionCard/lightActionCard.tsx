@@ -74,7 +74,7 @@ export const LightActionCard: FC<Props> = (props) => {
 							setState(!state);
 						}}
 					>
-						<ToggleSwitch state={state} setState={setState} className="border border-black" />
+						<ToggleSwitch state={state} setState={setState} className="border border-darkgrey" />
 					</div>
 				</div>
 			</Card>
