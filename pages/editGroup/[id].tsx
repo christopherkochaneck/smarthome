@@ -4,7 +4,7 @@ import { LayoutWrapper } from '../../components/layout/layoutWrapper';
 
 const EditGroup: NextPage = () => {
 	return (
-		<LayoutWrapper showAppbar appBarTitle="Edit Group">
+		<LayoutWrapper showAppbar showBackButton appBarTitle="Edit Group">
 			<EditGroupForm />
 		</LayoutWrapper>
 	);

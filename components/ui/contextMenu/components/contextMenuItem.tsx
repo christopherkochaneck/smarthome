@@ -11,7 +11,7 @@ export const ContextMenuItem: FC<Props> = (props) => {
 		if (props.type == 'cancel') {
 			return 'red';
 		} else {
-			return 'black';
+			return 'white';
 		}
 	};
 
