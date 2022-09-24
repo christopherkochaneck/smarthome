@@ -8,7 +8,7 @@ import { LightSelectionCard } from '../devices/selectionCard/lightSelectionCard'
 import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
 import { LightActionCard } from '../devices/actionCard/lightActionCard';
 import { useScenes } from '../../context/SceneContext';
-import { ArrowNarrowRight, DeviceFloppy } from 'tabler-icons-react';
+import { ArrowNarrowLeft, ArrowNarrowRight, DeviceFloppy } from 'tabler-icons-react';
 
 export const EditSceneForm: FC = () => {
 	const { devices } = useDevices();
@@ -158,6 +158,18 @@ export const EditSceneForm: FC = () => {
 						return <LightActionCard id={key} key={key} actions={actions} setActions={setActions} />;
 					})}
 				</div>
+				{viewActionPage ? (
+					<FloatingActionButton
+						className="bg-black absolute left-4 bottom-20 text-white"
+						type="button"
+						onClick={() => setViewActionPage(false)}
+					>
+						<ArrowNarrowLeft className="h-8 w-8" />
+					</FloatingActionButton>
+				) : (
+					<></>
+				)}
+
 				<FloatingActionButton
 					className="bg-black absolute right-4 bottom-20 text-white"
 					type="submit"
