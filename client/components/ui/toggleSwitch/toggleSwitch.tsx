@@ -1,5 +1,5 @@
 import { Switch } from '@headlessui/react';
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 
 interface Props {
 	state: boolean | undefined;
@@ -8,7 +8,6 @@ interface Props {
 }
 
 export const ToggleSwitch: FC<Props> = (props) => {
-	const [checked, setChecked] = useState<boolean>(false);
 	return (
 		<Switch
 			checked={props.state}

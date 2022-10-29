@@ -1,8 +1,8 @@
 import { FC, FormEvent, useState } from 'react';
 import { Select } from '../ui/select/select';
 import { useRouter } from 'next/router';
-import { FloatingActionButton } from '../../components/ui/floatingActionButton/floatingActionButton';
-import { Input } from '../../components/ui/input/input';
+import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
+import { Input } from '../ui/input/input';
 import { v4 as uuidv4 } from 'uuid';
 import { useDevices } from '../../context/DeviceContext';
 import { RGBW2Type } from '../../types/RGBW2Type';
