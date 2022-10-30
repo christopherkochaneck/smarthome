@@ -10,6 +10,8 @@ const Settings: NextPage = () => {
 			<div className="flex flex-col">
 				<ListTile title="Open Admin Panel" onClick={() => router.push('/admin/adminPanel')} />
 				<Divider />
+				<ListTile title="Show Power Log" onClick={() => router.push('/powerLog')} />
+				<Divider />
 			</div>
 		</LayoutWrapper>
 	);

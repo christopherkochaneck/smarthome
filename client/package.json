@@ -1,5 +1,5 @@
 {
-	"name": "smarthome",
+	"name": "smarthome-frontend",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
