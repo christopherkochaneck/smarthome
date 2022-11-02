@@ -38,7 +38,7 @@ export const PowerUsage: FC = () => {
 	}, [devices]);
 
 	return (
-		<div className="h-full w-full bg-grey rounded-xl p-4 text-white flex flex-col">
+		<div className="h-full w-full bg-grey rounded-xl p-4 text-white flex flex-col items-center">
 			<div>Current Load</div>
 			<div>{`${power.toFixed(2)} W`}</div>
 		</div>

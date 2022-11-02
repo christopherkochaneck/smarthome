@@ -1,3 +1,4 @@
+import { PowerLogEntry } from './../../types/powerLogEntry';
 import { RGBW2 } from './../../../client/devices/rgbw2';
 import { PlugS } from './../../../client/devices/plugS';
 import * as fs from 'fs';
@@ -84,6 +85,40 @@ router.get('/', async (req, res) => {
     const data = fs.readFileSync(fileName).toString();
 
     return res.status(200).send(data);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
+  }
+});
+
+router.delete('/', async (req, res) => {
+  try {
+    const data = fs.readFileSync(fileName).toString();
+    let object: any[] = JSON.parse(data);
+    let itemsToFilterOut: any[] = [];
+
+    const days = req.query.days;
+
+    if (typeof days !== 'string') {
+      return res.sendStatus(500);
+    }
+
+    object.forEach((powerLogEntry: PowerLogEntry) => {
+      const dateOfPowerLogEntry = new Date(powerLogEntry.date);
+
+      const reqDaysInMillis = parseInt(days) * 24 * 60 * 60 * 1000;
+      const timeStampXDaysAgo = new Date().getTime() - reqDaysInMillis;
+
+      if (timeStampXDaysAgo > dateOfPowerLogEntry.getTime()) {
+        itemsToFilterOut.push(powerLogEntry);
+      }
+    });
+
+    object = object.filter((item) => !itemsToFilterOut.includes(item));
+
+    const stringifiedObject = JSON.stringify(object);
+    fs.writeFileSync(fileName, stringifiedObject);
+    return res.status(200).send(stringifiedObject);
   } catch (err) {
     console.log(err);
     return res.sendStatus(500);

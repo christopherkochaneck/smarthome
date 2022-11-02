@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 interface Props {
 	className?: string;
-	title: string;
+	title?: string;
 	values: string[];
 	onChange?: (params: any) => void;
 	value: any;
