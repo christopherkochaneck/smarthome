@@ -19,9 +19,9 @@ export const LightCard: FC<Props> = (props) => {
 		return new RGBW2(props.ipAdress, props.id);
 	}, [props.id, props.ipAdress]);
 
-	const [color, setColor] = useState<color | undefined>(undefined);
+	const [color, setColor] = useState<color>({ red: 0, green: 0, blue: 0 });
 	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
-	const [state, setState] = useState<boolean | undefined>(undefined);
+	const [state, setState] = useState<boolean>(false);
 	const [brightness, setBrightness] = useState<number>(100);
 	const [name, setName] = useState<string>(props.name);
 	const [open, setOpen] = useState<boolean>(false);

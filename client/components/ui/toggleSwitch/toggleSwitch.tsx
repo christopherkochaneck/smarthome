@@ -2,8 +2,8 @@ import { Switch } from '@headlessui/react';
 import { Dispatch, FC, SetStateAction } from 'react';
 
 interface Props {
-	state: boolean | undefined;
-	setState: Dispatch<SetStateAction<boolean | undefined>>;
+	state: boolean;
+	setState: Dispatch<SetStateAction<boolean>>;
 	className?: string;
 }
 
