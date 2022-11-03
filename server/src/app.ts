@@ -5,7 +5,7 @@ import group from './routes/group';
 import plugS from './routes/plugS';
 import rgbw2 from './routes/rgbw2';
 import scene from './routes/scene';
-import serverData from './routes/scene';
+import serverData from './routes/serverData';
 import powerLog from './routes/powerLog';
 
 const app = express();

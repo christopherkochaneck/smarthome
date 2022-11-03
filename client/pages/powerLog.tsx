@@ -44,7 +44,7 @@ export const PowerLog: NextPage<Props> = ({ powerData }) => {
 	function getPowerUsageforDay(date: string) {
 		let powerUsedOnDay: number = 0;
 		let entriesOfDay = 0;
-		powerData.forEach((powerLogEntry) => {
+		powerData.forEach((powerLogEntry: PowerLogEntry) => {
 			const currentDate = new Date(powerLogEntry.date);
 			const dateToCompare = new Date(date);
 
@@ -64,7 +64,7 @@ export const PowerLog: NextPage<Props> = ({ powerData }) => {
 		const currentDate = new Date(moment.now());
 		const pastDates: Date[] = [];
 
-		for (let i = 0; i < 6; i++) {
+		for (let i = 0; i <= 6; i++) {
 			const dayXAgo = currentDate.getTime() - i * 24 * 60 * 60 * 1000;
 			pastDates.push(new Date(dayXAgo));
 		}

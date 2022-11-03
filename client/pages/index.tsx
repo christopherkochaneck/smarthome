@@ -45,7 +45,6 @@ export default Home;
 
 async function getWeatherData(): Promise<WeatherData> {
 	try {
-		console.log();
 		const res = await axios.get(
 			`http://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_API_KEY}&q=Sankt%20Ingbert&aqi=no`
 		);
