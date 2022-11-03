@@ -27,10 +27,8 @@ export const Appbar: FC<Props> = (props) => {
 					</div>
 					{props.showAddIcon ? (
 						<div className="text-center hover:cursor-pointer w-min justify-self-center">
-							<Link href={props.href ? props.href : ''}>
-								<a className="text-white " href="/add">
-									<Plus className="h-8 w-8" />
-								</a>
+							<Link className="text-white " href={props.href ? props.href : ''}>
+								<Plus className="h-8 w-8" />
 							</Link>
 						</div>
 					) : (
