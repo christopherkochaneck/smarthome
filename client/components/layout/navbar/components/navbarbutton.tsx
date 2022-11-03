@@ -16,8 +16,8 @@ export const NavbarButton: FC<Props> = (props) => {
 	return (
 		<div className="grid h-full w-full">
 			<div className="self-center text-center hover:cursor-pointer w-min justify-self-center">
-				<Link href={props.href!}>
-					<a className={textColor}>{props.children}</a>
+				<Link href={props.href ? props.href : ''} className={textColor}>
+					{props.children}
 				</Link>
 			</div>
 		</div>
