@@ -38,7 +38,11 @@ async function logPower() {
 
   const data = fs.readFileSync(fileName).toString();
   const object = JSON.parse(data);
-  const currentDate = new Date();
+
+  const timeOffset = Math.abs(new Date().getTimezoneOffset()) * 60000;
+  const currentTimeStamp = new Date().getTime();
+  const currentDate = new Date(currentTimeStamp + timeOffset);
+
   object.push({
     date: currentDate.toISOString(),
     power: power.toFixed(2),
@@ -84,6 +88,7 @@ router.get('/', async (req, res) => {
   try {
     const data = fs.readFileSync(fileName).toString();
 
+    logPower();
     return res.status(200).send(data);
   } catch (err) {
     console.log(err);
@@ -107,7 +112,14 @@ router.delete('/', async (req, res) => {
       const dateOfPowerLogEntry = new Date(powerLogEntry.date);
 
       const reqDaysInMillis = parseInt(days) * 24 * 60 * 60 * 1000;
-      const timeStampXDaysAgo = new Date().getTime() - reqDaysInMillis;
+
+      const timeOffset = Math.abs(new Date().getTimezoneOffset()) * 60000;
+      const currentTimeStamp = new Date().getTime();
+      const currentDate = new Date(currentTimeStamp + timeOffset);
+
+      const timeStampXDaysAgo = new Date(
+        currentDate.getTime() - reqDaysInMillis
+      ).getTime();
 
       if (timeStampXDaysAgo > dateOfPowerLogEntry.getTime()) {
         itemsToFilterOut.push(powerLogEntry);
