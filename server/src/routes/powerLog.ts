@@ -45,7 +45,7 @@ async function logPower() {
 
   object.push({
     date: currentDate.toISOString(),
-    power: power.toFixed(2),
+    power: parseInt(power.toFixed(2)),
   });
 
   const appendedJson = JSON.stringify(object);
@@ -88,7 +88,6 @@ router.get('/', async (req, res) => {
   try {
     const data = fs.readFileSync(fileName).toString();
 
-    logPower();
     return res.status(200).send(data);
   } catch (err) {
     console.log(err);

@@ -51,7 +51,7 @@ export const PowerLog: NextPage<Props> = ({ powerData }) => {
 			if (currentDate.getDate() == dateToCompare.getDate()) {
 				if (currentDate.getMonth() == dateToCompare.getMonth()) {
 					if (currentDate.getFullYear() == dateToCompare.getFullYear()) {
-						powerUsedOnDay += parseInt(powerLogEntry.power);
+						powerUsedOnDay = powerUsedOnDay + powerLogEntry.power;
 						entriesOfDay += 1;
 					}
 				}
@@ -80,6 +80,9 @@ export const PowerLog: NextPage<Props> = ({ powerData }) => {
 			dates.push({ UIdate: UIDate, realDate: date });
 		});
 
+		const powerData = dates.map((date) => getPowerUsageforDay(date.realDate));
+		console.log(powerData);
+
 		const data = {
 			labels,
 			datasets: [
@@ -95,7 +98,7 @@ export const PowerLog: NextPage<Props> = ({ powerData }) => {
 	}
 
 	return (
-		<LayoutWrapper showAppbar showAppbarIcon showBackButton appBarTitle="Power Log">
+		<LayoutWrapper showAppbar showBackButton appBarTitle="Power Log">
 			<div className="p-4 flex flex-col gap-6">
 				<Bar data={getChartData()} />
 				<form onSubmit={onFormSubmit} className="flex flex-col items-center gap-5">
