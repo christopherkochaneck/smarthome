@@ -129,7 +129,7 @@ export const EditSceneForm: FC = () => {
 										const action: Action = {
 											id: key.id,
 											type: 'plugS',
-											actions: { state: false },
+											actions: { color: { red: 100, green: 0, blue: 0 }, state: false },
 										};
 
 										if (actions.find((x) => x.id === key.id)) {

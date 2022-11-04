@@ -44,7 +44,7 @@ export const SceneCard: FC<Props> = (props) => {
 				}
 
 				if (action.actions.color !== undefined) {
-					await entity.setColor(action.actions.color);
+					await entity.setColor(action.actions.color ?? entity.color);
 				}
 			} else if (device.type == 'plugS') {
 				const entity = new PlugS(device.ipAdress, device.id);

@@ -23,8 +23,8 @@ export const GroupCard: FC<Props> = (props) => {
 
 	const [entities, setEntities] = useState<any[]>([]);
 	const [color, setColor] = useState<color>();
-	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
-	const [state, setState] = useState<boolean | undefined>(undefined);
+	const [selectedColor, setSelectedColor] = useState<color | null>(null);
+	const [state, setState] = useState<boolean | null>(false);
 	const [states, setStates] = useState<boolean[]>();
 	const [open, setOpen] = useState<boolean>(false);
 	const [updating, setUpdating] = useState<boolean>(false);
