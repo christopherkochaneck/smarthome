@@ -1,4 +1,4 @@
-import { PlugS } from './../../../client/devices/plugS';
+import { PlugS } from '../../devices/plugS';
 import * as fs from 'fs';
 import * as path from 'path';
 import express from 'express';

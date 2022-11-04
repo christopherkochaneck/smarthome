@@ -1,4 +1,4 @@
-import { RGBW2 } from './../../../client/devices/rgbw2';
+import { RGBW2 } from '../../devices/rgbw2';
 import * as fs from 'fs';
 import * as path from 'path';
 import express from 'express';

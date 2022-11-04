@@ -1,11 +1,11 @@
-import { PowerLogEntry } from './../../types/powerLogEntry';
-import { RGBW2 } from './../../../client/devices/rgbw2';
-import { PlugS } from './../../../client/devices/plugS';
+import { PowerLogEntry } from '../../types/powerLogEntry';
+import { RGBW2 } from '../../devices/rgbw2';
+import { PlugS } from '../../devices/plugS';
 import * as fs from 'fs';
 import * as path from 'path';
 import express from 'express';
-import { RGBW2Type } from '../../../client/types/RGBW2Type';
-import { PlugSType } from '../../../client/types/PlugSType';
+import { RGBW2Type } from '../../types/RGBW2Type';
+import { PlugSType } from '../../types/PlugSType';
 const router = express.Router();
 
 const dirName = path.join(process.cwd(), 'data');

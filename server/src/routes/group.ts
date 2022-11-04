@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { GroupType } from '../../../client/types/GroupType';
+import { GroupType } from '../../types/GroupType';
 import express from 'express';
 const router = express.Router();
 

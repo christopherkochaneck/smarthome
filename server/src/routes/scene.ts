@@ -1,4 +1,4 @@
-import { SceneType } from './../../../client/types/SceneType';
+import { SceneType } from '../../types/SceneType';
 import * as fs from 'fs';
 import * as path from 'path';
 import express from 'express';
