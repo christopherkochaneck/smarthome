@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "node dist/app.ts",
+    "start": "node dist/src/app.js",
     "dev": "nodemon src/app.ts",
     "debug": "nodemon --inspect src/app.ts",
     "lint": "tsc --noEmit && eslint '*/**/*.{js,ts}' --quiet --fix",
