@@ -4,8 +4,8 @@ export type Action = {
 	id: string;
 	type: 'rgbw2' | 'plugS';
 	actions: {
-		state: boolean;
-		color: color;
+		state: boolean | null;
+		color: color | null;
 	};
 };
 

@@ -16,10 +16,10 @@ interface Props {
 
 export const LightActionCard: FC<Props> = (props) => {
 	const { devices } = useDevices();
-	const [state, setState] = useState<boolean | undefined>(false);
+	const [state, setState] = useState<boolean | null>(false);
 	const [open, setOpen] = useState<boolean>(false);
-	const [action, setAction] = useState<Action | undefined>(undefined);
-	const [color, setColor] = useState<color | undefined>(undefined);
+	const [action, setAction] = useState<Action>();
+	const [color, setColor] = useState<color | null>(null);
 	const [name, setName] = useState<string>('');
 
 	useEffect(() => {
@@ -45,8 +45,13 @@ export const LightActionCard: FC<Props> = (props) => {
 			return;
 		}
 
-		currentAction.actions.color = color;
-		currentAction.actions.state = state;
+		if (currentAction.actions.color !== null) {
+			currentAction.actions.color = color;
+		}
+
+		if (currentAction.actions.state !== null) {
+			currentAction.actions.state = state;
+		}
 		setAction(currentAction);
 
 		const index = props.actions.findIndex((x) => x.id === currentAction.id);

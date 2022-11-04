@@ -7,7 +7,7 @@ import { Backdrop } from '../../backdrop/Backdrop';
 interface Props {
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
-	setSelectedColor: Dispatch<SetStateAction<color | undefined>>;
+	setSelectedColor: Dispatch<SetStateAction<color | null>>;
 	device?: RGBW2;
 	devices?: RGBW2[];
 	brightness?: number;

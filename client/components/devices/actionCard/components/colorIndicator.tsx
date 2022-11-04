@@ -2,7 +2,7 @@ import { FC } from 'react';
 import color from '../../../../interfaces/color';
 
 interface Props {
-	color: color | undefined;
+	color: color | null;
 }
 export const ColorIndicator: FC<Props> = (props) => {
 	return (

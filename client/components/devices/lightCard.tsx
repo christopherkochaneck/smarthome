@@ -20,8 +20,8 @@ export const LightCard: FC<Props> = (props) => {
 	}, [props.id, props.ipAdress]);
 
 	const [color, setColor] = useState<color>({ red: 0, green: 0, blue: 0 });
-	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
-	const [state, setState] = useState<boolean>(false);
+	const [selectedColor, setSelectedColor] = useState<color | null>(null);
+	const [state, setState] = useState<boolean | null>(false);
 	const [brightness, setBrightness] = useState<number>(100);
 	const [name, setName] = useState<string>(props.name);
 	const [open, setOpen] = useState<boolean>(false);
@@ -41,7 +41,7 @@ export const LightCard: FC<Props> = (props) => {
 
 	useEffect(() => {
 		if (device) {
-			device.setColor(selectedColor);
+			if (selectedColor !== null) device.setColor(selectedColor);
 		}
 	}, [selectedColor, device]);
 

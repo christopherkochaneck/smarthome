@@ -2,15 +2,15 @@ import { Switch } from '@headlessui/react';
 import { Dispatch, FC, SetStateAction } from 'react';
 
 interface Props {
-	state: boolean;
-	setState: Dispatch<SetStateAction<boolean>>;
+	state: boolean | null;
+	setState: Dispatch<SetStateAction<boolean | null>>;
 	className?: string;
 }
 
 export const ToggleSwitch: FC<Props> = (props) => {
 	return (
 		<Switch
-			checked={props.state}
+			checked={props.state ?? false}
 			onChange={() => {
 				props.state ? props.setState(!props.state) : props.setState(props.state);
 			}}
