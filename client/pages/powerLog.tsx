@@ -81,7 +81,6 @@ export const PowerLog: NextPage<Props> = ({ powerData }) => {
 		});
 
 		const powerData = dates.map((date) => getPowerUsageforDay(date.realDate));
-		console.log(powerData);
 
 		const data = {
 			labels,
