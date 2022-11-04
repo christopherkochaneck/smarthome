@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  frontend:
+    container_name: smarthome-backend
+    image: chris-smarthome
+    build: .
+    command: npm start
+    restart: unless-stopped
+    ports:
+      - '3001:3001'
+    environment:
+      TZ: Europe/Berlin
+      NODE-ENV: production
