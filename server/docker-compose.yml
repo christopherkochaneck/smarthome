@@ -3,7 +3,7 @@ version: '3'
 services:
   frontend:
     container_name: smarthome-backend
-    image: chris-smarthome
+    image: smarthome-backend
     build: .
     command: npm start
     restart: unless-stopped
