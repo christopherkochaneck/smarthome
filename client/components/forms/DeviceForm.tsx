@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useDevices } from '../../context/DeviceContext';
 import { RGBW2Type } from '../../types/RGBW2Type';
 import { PlugSType } from '../../types/PlugSType';
+import { HTType } from '../../types/HTType';
 import { DeviceFloppy } from 'tabler-icons-react';
 
 export const DeviceForm: FC = () => {
@@ -19,7 +20,7 @@ export const DeviceForm: FC = () => {
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		try {
-			let device: RGBW2Type | PlugSType;
+			let device: RGBW2Type | PlugSType | HTType;
 			if (deviceType === 'rgbw2') {
 				device = {
 					type: 'rgbw2',
@@ -32,6 +33,16 @@ export const DeviceForm: FC = () => {
 			if (deviceType === 'plugs') {
 				device = {
 					type: 'plugS',
+					id: uuidv4(),
+					title: deviceName,
+					ipAdress: deviceIP,
+				};
+				addDevice(device);
+				return;
+			}
+			if (deviceType === 'ht') {
+				device = {
+					type: 'ht',
 					id: uuidv4(),
 					title: deviceName,
 					ipAdress: deviceIP,
@@ -52,7 +63,7 @@ export const DeviceForm: FC = () => {
 				<div className="grid gap-4">
 					<Select
 						title="Device Type"
-						values={['RGBW2', 'PlugS']}
+						values={['RGBW2', 'PlugS', 'HT']}
 						className="h-10 rounded-xl"
 						onChange={(e) => {
 							setDeviceType(e.currentTarget.value);

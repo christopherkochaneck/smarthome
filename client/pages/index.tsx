@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import type { GetServerSideProps, NextPage } from 'next';
 import { DailyForecast } from '../components/ui/dailyForecast/dailyForecast';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
@@ -6,6 +6,10 @@ import { WeatherForeCast } from '../components/ui/weatherForeCast/weatherForeCas
 import { WeatherData } from '../interfaces/weather';
 import { DailyForecastData } from '../interfaces/dailyForecast';
 import { PowerUsage } from '../components/ui/powerUsage/PowerUsage';
+import { ClimateData } from '../components/ui/climateData/ClimateData';
+import { useEffect, useState } from 'react';
+import { HT } from '../devices/ht';
+
 interface Props {
 	weatherData: WeatherData;
 	dailyForecastData: DailyForecastData;
@@ -19,6 +23,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 };
 
 const Home: NextPage<Props> = ({ weatherData, dailyForecastData }) => {
+	const [humidity, setHumidity] = useState<number>(0);
+	const [temperature, setTemperature] = useState<number>(0);
+
 	return (
 		<>
 			<LayoutWrapper showAppbarIcon>
@@ -30,7 +37,11 @@ const Home: NextPage<Props> = ({ weatherData, dailyForecastData }) => {
 						<WeatherForeCast weatherData={weatherData} />
 					</div>
 					<div className="mx-auto">
+						<div className="text-white text-xl text-center pb-5">Forecast for the next 3 Days</div>
 						<DailyForecast dailyForecastData={dailyForecastData} />
+					</div>
+					<div className="mx-auto">
+						<ClimateData humidity={humidity} temperature={temperature} />
 					</div>
 					<div className="mx-auto">
 						<PowerUsage />

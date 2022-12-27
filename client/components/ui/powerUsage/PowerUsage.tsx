@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { useDevices } from '../../../context/DeviceContext';
 import { PlugS } from '../../../devices/plugS';
 import { RGBW2 } from '../../../devices/rgbw2';
+import { HTType } from '../../../types/HTType';
 import { PlugSType } from '../../../types/PlugSType';
 import { RGBW2Type } from '../../../types/RGBW2Type';
 
@@ -15,7 +16,7 @@ export const PowerUsage: FC = () => {
 		}
 		const entities: any = [];
 
-		devices.forEach((device: RGBW2Type | PlugSType) => {
+		devices.forEach((device: RGBW2Type | PlugSType | HTType) => {
 			if (device.type === 'plugS') {
 				entities.push(new PlugS(device.ipAdress, device.id));
 			}
@@ -39,7 +40,7 @@ export const PowerUsage: FC = () => {
 
 	return (
 		<div className="h-full w-full bg-grey rounded-xl p-4 text-white flex flex-col items-center">
-			<div>Current Load</div>
+			<div>Current Consumption</div>
 			<div>{`${power.toFixed(2)} W`}</div>
 		</div>
 	);
