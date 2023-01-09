@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { RGBW2Type } from '../../types/RGBW2Type';
 import { PlugSType } from '../../types/PlugSType';
 import { DeviceFloppy } from 'tabler-icons-react';
+import React from 'react';
 
 export const EditDeviceForm: FC = () => {
 	const { devices, updateDevice } = useDevices();
@@ -22,7 +23,7 @@ export const EditDeviceForm: FC = () => {
 			if (deviceType === 'rgbw2') {
 				device = {
 					type: 'rgbw2',
-					id: deviceId,
+					_id: deviceId,
 					title: deviceName,
 					ipAdress: deviceIP,
 				};
@@ -31,7 +32,7 @@ export const EditDeviceForm: FC = () => {
 			if (deviceType === 'plugS') {
 				device = {
 					type: 'plugS',
-					id: deviceId,
+					_id: deviceId,
 					title: deviceName,
 					ipAdress: deviceIP,
 				};
@@ -53,7 +54,7 @@ export const EditDeviceForm: FC = () => {
 		}
 		setDeviceId(id.toString());
 
-		const foundID = devices.find((x) => x.id === id);
+		const foundID = devices.find((x) => x._id === id);
 
 		if (foundID == undefined) {
 			return;

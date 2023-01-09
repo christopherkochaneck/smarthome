@@ -9,6 +9,7 @@ import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionB
 import { Input } from '../ui/input/input';
 import { v4 as uuidv4 } from 'uuid';
 import { DeviceFloppy } from 'tabler-icons-react';
+import React from 'react';
 
 export const GroupForm: FC = () => {
 	const { devices } = useDevices();
@@ -20,7 +21,7 @@ export const GroupForm: FC = () => {
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		let group: GroupType = {
-			id: uuidv4(),
+			_id: '',
 			name: groupName,
 			ids: ids,
 		};
@@ -52,20 +53,20 @@ export const GroupForm: FC = () => {
 								<div
 									onClick={() => {
 										let idArray = ids;
-										if (ids.find((x) => x === key.id)) {
-											idArray.splice(ids.indexOf(key.id), 1);
+										if (ids.find((x) => x === key._id)) {
+											idArray.splice(ids.indexOf(key._id!), 1);
 										} else {
-											idArray.push(key.id);
+											idArray.push(key._id!);
 										}
 										setIds(idArray);
 									}}
-									key={key.id}
+									key={key._id}
 								>
 									<LightSelectionCard
-										id={key.id}
-										key={key.id}
+										id={key._id!}
+										key={key._id}
 										name={key.title}
-										selected={ids.includes(key.id)}
+										selected={ids.includes(key._id!)}
 									/>
 								</div>
 							);
@@ -75,20 +76,20 @@ export const GroupForm: FC = () => {
 								<div
 									onClick={() => {
 										let idArray = ids;
-										if (ids.find((x) => x === key.id)) {
-											idArray.splice(ids.indexOf(key.id), 1);
+										if (ids.find((x) => x === key._id)) {
+											idArray.splice(ids.indexOf(key._id!), 1);
 										} else {
-											idArray.push(key.id);
+											idArray.push(key._id!);
 										}
 										setIds(idArray);
 									}}
-									key={key.id}
+									key={key._id}
 								>
 									<PlugSelectionCard
-										id={key.id}
-										key={key.id}
+										id={key._id!}
+										key={key._id}
 										name={key.title}
-										selected={ids.includes(key.id)}
+										selected={ids.includes(key._id!)}
 									/>
 								</div>
 							);

@@ -1,4 +1,5 @@
 import { createRef, FC, useEffect, useState } from 'react';
+import React from 'react';
 
 interface Props {
 	visible: boolean;

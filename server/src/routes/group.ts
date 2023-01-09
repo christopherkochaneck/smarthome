@@ -1,92 +1,72 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import { GroupType } from '../../types/GroupType';
 import express from 'express';
+import { Group } from '../../models/group';
 const router = express.Router();
-
-const dirName = path.join(process.cwd(), 'data');
-const fileName = path.join(process.cwd(), 'data', 'groups.json');
-
-function createFileIfNotExists() {
-  if (!fs.existsSync(dirName)) {
-    try {
-      fs.mkdirSync(dirName);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  if (!fs.existsSync(fileName)) {
-    try {
-      fs.writeFileSync(fileName, '[]');
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  if (!fs.existsSync(fileName)) {
-    try {
-      fs.writeFileSync(fileName, '[]');
-    } catch (err) {
-      console.log(err);
-    }
-  }
-}
-
-createFileIfNotExists();
 
 router.get('/', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
-    return res.status(200).send(JSON.parse(data));
-  } catch (err) {
-    console.log(err);
+    const groups = await Group.find();
+    res.status(200).send(groups);
+  } catch (error) {
+    res.status(500).send(error);
   }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id);
+
+    if (!group)
+      return res.status(404).send('The Group with the given ID was not found.');
+
+    res.send(group);
+  } catch (error) {}
 });
 
 router.post('/', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
-    const object = JSON.parse(data);
-    object.push(req.body);
-    const appendedJson = JSON.stringify(object);
-    fs.writeFileSync(fileName, appendedJson);
-    return res.status(200).send(JSON.parse(appendedJson));
-  } catch (err) {
-    console.log(err);
+    let group = new Group({
+      id: req.body.id,
+      name: req.body.name,
+      ids: req.body.ids,
+    });
+    group = await group.save();
+    res.status(200).send(group);
+  } catch (error) {
+    console.error(error);
   }
 });
 
-router.patch('/', async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
+    let group = await Group.findByIdAndUpdate(
+      req.params.id,
+      {
+        id: req.body.id,
+        name: req.body.name,
+        ids: req.body.ids,
+      },
+      { new: true }
+    );
 
-    const object = JSON.parse(data);
-    const updateIndex = object.findIndex((x: any) => x.id == req.body.id);
+    if (!group)
+      return res.status(404).send('The Group with the given ID was not found.');
 
-    object[updateIndex] = req.body;
-
-    const updatedJson = JSON.stringify(object);
-    fs.writeFileSync(fileName, updatedJson);
-    return res.status(200).send(updatedJson);
-  } catch (err) {
-    console.log(err);
+    res.send(group);
+  } catch (error) {
+    console.error(error);
   }
 });
 
-router.delete('/', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
+    const group = await Group.findByIdAndRemove(req.params.id);
 
-    const groups: GroupType[] = JSON.parse(data);
+    if (!group)
+      return res.status(404).send('The Group with the given ID was not found.');
 
-    const filteredGroups = groups.filter((x) => x.id !== req.body.id);
-
-    const updatedJson = JSON.stringify(filteredGroups);
-    fs.writeFileSync(fileName, updatedJson);
-    return res.status(200).send(updatedJson);
-  } catch (err) {
-    console.log(err);
+    res.send(group);
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 

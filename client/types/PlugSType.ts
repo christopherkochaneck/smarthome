@@ -1,6 +1,6 @@
 export type PlugSType = {
 	type: 'plugS';
-	id: string;
+	_id?: string;
 	title: string;
 	ipAdress: string;
 };

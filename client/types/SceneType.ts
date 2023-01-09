@@ -1,7 +1,7 @@
 import color from '../interfaces/color';
 
 export type Action = {
-	id: string;
+	_id: string;
 	type: 'rgbw2' | 'plugS';
 	actions: {
 		state: boolean | null;
@@ -10,7 +10,7 @@ export type Action = {
 };
 
 export type SceneType = {
-	id: string;
+	_id: string;
 	name: string;
 	actions: Action[];
 };

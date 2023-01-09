@@ -8,6 +8,7 @@ import { LightSelectionCard } from '../devices/selectionCard/lightSelectionCard'
 import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
 import { DeviceFloppy } from 'tabler-icons-react';
+import React from 'react';
 
 interface Props {}
 export const EditGroupForm: FC<Props> = (props) => {
@@ -18,14 +19,14 @@ export const EditGroupForm: FC<Props> = (props) => {
 	const [groupId, setGroupId] = useState<string>('');
 
 	useEffect(() => {
-		const id = router.query.id;
+		const _id = router.query._id!;
 
-		if (id == undefined) {
+		if (_id == undefined) {
 			return;
 		}
-		setGroupId(id.toString());
+		setGroupId(_id!.toString());
 
-		const foundID = groups.find((x) => x.id === id);
+		const foundID = groups.find((x) => x._id === _id);
 
 		if (foundID == undefined) {
 			return;
@@ -38,7 +39,7 @@ export const EditGroupForm: FC<Props> = (props) => {
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		let group: GroupType = {
-			id: groupId,
+			_id: groupId,
 			name: groupName,
 			ids: ids,
 		};
@@ -66,21 +67,21 @@ export const EditGroupForm: FC<Props> = (props) => {
 								<div
 									onClick={() => {
 										let idArray = ids;
-										if (ids.find((x) => x === key.id)) {
-											idArray.splice(ids.indexOf(key.id), 1);
+										if (ids.find((x) => x === key._id!)) {
+											idArray.splice(ids.indexOf(key._id!!), 1);
 										} else {
-											idArray.push(key.id);
+											idArray.push(key._id!!);
 										}
 
 										setIds(idArray);
 									}}
-									key={key.id}
+									key={key._id!}
 								>
 									<LightSelectionCard
-										id={key.id}
-										key={key.id}
+										id={key._id!}
+										key={key._id!}
 										name={key.title}
-										selected={ids.includes(key.id)}
+										selected={ids.includes(key._id!)}
 									/>
 								</div>
 							);
@@ -90,20 +91,20 @@ export const EditGroupForm: FC<Props> = (props) => {
 								<div
 									onClick={() => {
 										let idArray = ids;
-										if (ids.find((x) => x === key.id)) {
-											idArray.splice(ids.indexOf(key.id), 1);
+										if (ids.find((x) => x === key._id!)) {
+											idArray.splice(ids.indexOf(key._id!), 1);
 										} else {
-											idArray.push(key.id);
+											idArray.push(key._id!);
 										}
 										setIds(idArray);
 									}}
-									key={key.id}
+									key={key._id!}
 								>
 									<PlugSelectionCard
-										id={key.id}
-										key={key.id}
+										id={key._id!}
+										key={key._id!}
 										name={key.title}
-										selected={ids.includes(key.id)}
+										selected={ids.includes(key._id!)}
 									/>
 								</div>
 							);

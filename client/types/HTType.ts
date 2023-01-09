@@ -1,6 +1,6 @@
 export type HTType = {
 	type: 'ht';
-	id: string;
+	_id?: string;
 	title: string;
 	ipAdress: string;
 };

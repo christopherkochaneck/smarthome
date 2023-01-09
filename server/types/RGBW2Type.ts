@@ -1,6 +1,6 @@
 export type RGBW2Type = {
-	type: 'rgbw2';
-	id: string;
-	title: string;
-	ipAdress: string;
+  type: 'rgbw2';
+  _id: string;
+  title: string;
+  ipAdress: string;
 };

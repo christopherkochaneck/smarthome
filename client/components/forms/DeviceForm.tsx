@@ -9,6 +9,7 @@ import { RGBW2Type } from '../../types/RGBW2Type';
 import { PlugSType } from '../../types/PlugSType';
 import { HTType } from '../../types/HTType';
 import { DeviceFloppy } from 'tabler-icons-react';
+import React from 'react';
 
 export const DeviceForm: FC = () => {
 	const { addDevice } = useDevices();
@@ -24,7 +25,6 @@ export const DeviceForm: FC = () => {
 			if (deviceType === 'rgbw2') {
 				device = {
 					type: 'rgbw2',
-					id: uuidv4(),
 					title: deviceName,
 					ipAdress: deviceIP,
 				};
@@ -33,7 +33,6 @@ export const DeviceForm: FC = () => {
 			if (deviceType === 'plugs') {
 				device = {
 					type: 'plugS',
-					id: uuidv4(),
 					title: deviceName,
 					ipAdress: deviceIP,
 				};
@@ -43,7 +42,6 @@ export const DeviceForm: FC = () => {
 			if (deviceType === 'ht') {
 				device = {
 					type: 'ht',
-					id: uuidv4(),
 					title: deviceName,
 					ipAdress: deviceIP,
 				};

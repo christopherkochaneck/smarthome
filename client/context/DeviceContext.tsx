@@ -13,6 +13,7 @@ import { HTType } from '../types/HTType';
 
 import axios from 'axios';
 import { BASE_URL } from '../config/env';
+import React from 'react';
 
 type Device = RGBW2Type | PlugSType | HTType;
 
@@ -46,11 +47,9 @@ export const DeviceProvider: FC<Props> = (props) => {
 			method: 'get',
 			url: `${BASE_URL}/api/plugS`,
 		});
-		const ht = await axios({ method: 'get', url: `${BASE_URL}/api/ht` });
 		setDevices([
 			...rgbw2.data.map((x: any) => ({ type: 'rgbw2', ...x })),
 			...plugS.data.map((x: any) => ({ type: 'plugS', ...x })),
-			...ht.data.map((x: any) => ({ type: 'ht', ...x })),
 		]);
 	};
 	useEffect(() => {
@@ -59,24 +58,31 @@ export const DeviceProvider: FC<Props> = (props) => {
 
 	const addDevice = async (device: Device) => {
 		try {
-			await axios({
+			const res = await axios({
 				method: 'post',
 				url: `${BASE_URL}/api/${device.type}`,
 				data: device,
 			});
 
-			setDevices([...devices, device]);
+			let createdDevice: RGBW2Type | PlugSType | HTType = {
+				_id: res.data._id,
+				type: device.type,
+				ipAdress: res.data.ipAdress,
+				title: res.data.title,
+			};
+
+			setDevices([...devices, createdDevice]);
 		} catch (err) {}
 	};
 
 	const updateDevice = async (device: Device) => {
 		await axios({
 			method: 'patch',
-			url: `${BASE_URL}/api/${device.type}`,
+			url: `${BASE_URL}/api/${device.type}/${device._id}`,
 			data: device,
 		});
 
-		const index = devices.findIndex((x) => x.id === device.id);
+		const index = devices.findIndex((x) => x._id === device._id);
 
 		devices[index] = device;
 
@@ -84,14 +90,13 @@ export const DeviceProvider: FC<Props> = (props) => {
 	};
 
 	const deleteDevice = async (device: Device) => {
-		const index = devices.findIndex((x) => x.id === device.id);
+		const index = devices.findIndex((x) => x._id === device._id);
 
 		devices.splice(index, 1);
 
 		await axios({
 			method: 'delete',
-			url: `${BASE_URL}/api/${device.type}`,
-			data: device,
+			url: `${BASE_URL}/api/${device.type}/${device._id}`,
 		});
 
 		setDevices([...devices]);
