@@ -24,12 +24,12 @@ const Groups: NextPage = () => {
 					title="Edit"
 					type="contextItem"
 					onClick={() => {
-						const group = groups.find((x) => x.id === selectedId);
+						const group = groups.find((x) => x._id === selectedId);
 						if (group != undefined) {
 							return router.push(`/editGroup/${selectedId}`);
 						}
 
-						const scene = scenes.find((x) => x.id === selectedId);
+						const scene = scenes.find((x) => x._id === selectedId);
 						if (scene != undefined) {
 							return router.push(`/editScene/${selectedId}`);
 						}
@@ -39,7 +39,7 @@ const Groups: NextPage = () => {
 					title="Delete"
 					type="cancel"
 					onClick={() => {
-						const group = groups.find((x) => x.id === selectedId);
+						const group = groups.find((x) => x._id === selectedId);
 						if (group != undefined) {
 							deleteGroup(group);
 							setVisible(false);
@@ -47,7 +47,7 @@ const Groups: NextPage = () => {
 							return;
 						}
 
-						const scene = scenes.find((x) => x.id === selectedId);
+						const scene = scenes.find((x) => x._id === selectedId);
 						if (scene != undefined) {
 							deleteScene(scene);
 							setVisible(false);
@@ -64,13 +64,13 @@ const Groups: NextPage = () => {
 					{groups.map((key) => {
 						return (
 							<GroupCard
-								groupID={key.id}
+								groupID={key._id}
 								groupName={key.name}
 								title={key.name}
 								key={key.name}
 								onLongPress={() => {
 									setVisible(true);
-									setSelectedId(key.id);
+									setSelectedId(key._id);
 								}}
 							/>
 						);
@@ -81,11 +81,11 @@ const Groups: NextPage = () => {
 							return (
 								<SceneCard
 									name={key.name}
-									sceneID={key.id}
-									key={key.id}
+									sceneID={key._id!}
+									key={key._id}
 									onLongPress={() => {
 										setVisible(true);
-										setSelectedId(key.id);
+										setSelectedId(key._id!);
 									}}
 								/>
 							);

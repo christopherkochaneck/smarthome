@@ -10,7 +10,7 @@ export type Action = {
 };
 
 export type SceneType = {
-	_id: string;
+	_id?: string;
 	name: string;
 	actions: Action[];
 };
