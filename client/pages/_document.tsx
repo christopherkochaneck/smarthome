@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import { Html, Head, Main, NextScript } from 'next/document';
+import React from 'react';
 
 export const MyDocument: NextPage = () => {
 	return (

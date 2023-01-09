@@ -6,6 +6,7 @@ import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 import Hammer from 'react-hammerjs';
 import { Bulb } from 'tabler-icons-react';
+import React from 'react';
 
 interface Props {
 	id: string;
