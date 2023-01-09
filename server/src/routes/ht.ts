@@ -1,92 +1,72 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import { HTType } from './../../../client/types/HTType';
 import express from 'express';
+import { HT } from '../../models/ht';
 const router = express.Router();
-
-const dirName = path.join(process.cwd(), 'data');
-const fileName = path.join(process.cwd(), 'data', 'ht.json');
-
-function createFileIfNotExists() {
-  if (!fs.existsSync(dirName)) {
-    try {
-      fs.mkdirSync(dirName);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  if (!fs.existsSync(fileName)) {
-    try {
-      fs.writeFileSync(fileName, '[]');
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  if (!fs.existsSync(fileName)) {
-    try {
-      fs.writeFileSync(fileName, '[]');
-    } catch (err) {
-      console.log(err);
-    }
-  }
-}
-
-createFileIfNotExists();
 
 router.get('/', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
-    return res.status(200).send(JSON.parse(data));
-  } catch (err) {
-    console.log(err);
+    const ht = await HT.find();
+    res.status(200).send(ht);
+  } catch (error) {
+    res.status(500).send(error);
   }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const ht = await HT.findById(req.params.id);
+
+    if (!ht)
+      return res.status(404).send('The HT with the given ID was not found.');
+
+    res.send(ht);
+  } catch (error) {}
 });
 
 router.post('/', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
-    const object = JSON.parse(data);
-    object.push(req.body);
-    const appendedJson = JSON.stringify(object);
-    fs.writeFileSync(fileName, appendedJson);
-    return res.status(200).send(JSON.parse(appendedJson));
-  } catch (err) {
-    console.log(err);
+    let ht = new HT({
+      id: req.body.id,
+      ipAdress: req.body.ipAdress,
+      title: req.body.title,
+    });
+    ht = await ht.save();
+    res.status(200).send(ht);
+  } catch (error) {
+    console.error(error);
   }
 });
 
-router.patch('/', async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
+    let ht = await HT.findByIdAndUpdate(
+      req.params.id,
+      {
+        ipAdress: req.body.ipAdress,
+        title: req.body.title,
+      },
+      { new: true }
+    );
 
-    const object = JSON.parse(data);
-    const updateIndex = object.findIndex((x: any) => x.id == req.body.id);
+    if (!ht)
+      return res.status(404).send('The HT with the given ID was not found.');
 
-    object[updateIndex] = req.body;
-
-    const updatedJson = JSON.stringify(object);
-    fs.writeFileSync(fileName, updatedJson);
-    return res.status(200).send(updatedJson);
-  } catch (err) {
-    console.log(err);
+    res.send(ht);
+  } catch (error) {
+    console.error(error);
   }
 });
 
-router.delete('/', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
+    const ht = await HT.findByIdAndRemove(req.params.id);
+    if (!ht) {
+      console.log('Not found');
+      return res.status(404).send('The HT with the given ID was not found.');
+    }
 
-    const hts: HTType[] = JSON.parse(data);
-
-    const filteredGroups = hts.filter((x) => x.id !== req.body.id);
-
-    const updatedJson = JSON.stringify(filteredGroups);
-    fs.writeFileSync(fileName, updatedJson);
-    return res.status(200).send(updatedJson);
-  } catch (err) {
-    console.log(err);
+    res.send(ht);
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 
