@@ -1,92 +1,72 @@
-import { RGBW2 } from './../../../client/devices/rgbw2';
-import * as fs from 'fs';
-import * as path from 'path';
 import express from 'express';
+import { RGBW2 } from '../../models/rgbw2';
 const router = express.Router();
-
-const dirName = path.join(process.cwd(), 'data');
-const fileName = path.join(process.cwd(), 'data', 'rgbw2.json');
-
-function createFileIfNotExists() {
-  if (!fs.existsSync(dirName)) {
-    try {
-      fs.mkdirSync(dirName);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  if (!fs.existsSync(fileName)) {
-    try {
-      fs.writeFileSync(fileName, '[]');
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  if (!fs.existsSync(fileName)) {
-    try {
-      fs.writeFileSync(fileName, '[]');
-    } catch (err) {
-      console.log(err);
-    }
-  }
-}
-
-createFileIfNotExists();
 
 router.get('/', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
-    return res.status(200).send(JSON.parse(data));
-  } catch (err) {
-    console.log(err);
+    const rgbw2 = await RGBW2.find();
+    res.status(200).send(rgbw2);
+  } catch (error) {
+    res.status(500).send(error);
   }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const rgbw2 = await RGBW2.findById(req.params.id);
+
+    if (!rgbw2)
+      return res.status(404).send('The RGBW2 with the given ID was not found.');
+
+    res.send(rgbw2);
+  } catch (error) {}
 });
 
 router.post('/', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
-    const object = JSON.parse(data);
-    object.push(req.body);
-    const appendedJson = JSON.stringify(object);
-    fs.writeFileSync(fileName, appendedJson);
-    return res.status(200).send(appendedJson);
-  } catch (err) {
-    console.log(err);
+    let rgbw2 = new RGBW2({
+      id: req.body.id,
+      ipAdress: req.body.ipAdress,
+      title: req.body.title,
+    });
+    rgbw2 = await rgbw2.save();
+    res.status(200).send(rgbw2);
+  } catch (error) {
+    console.error(error);
   }
 });
 
-router.patch('/', async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
+    let rgbw2 = await RGBW2.findByIdAndUpdate(
+      req.params.id,
+      {
+        ipAdress: req.body.ipAdress,
+        title: req.body.title,
+      },
+      { new: true }
+    );
 
-    const object = JSON.parse(data);
-    const updateIndex = object.findIndex((x: any) => x.id == req.body.id);
+    if (!rgbw2)
+      return res.status(404).send('The RGBW2 with the given ID was not found.');
 
-    object[updateIndex] = req.body;
-
-    const updatedJson = JSON.stringify(object);
-    fs.writeFileSync(fileName, updatedJson);
-    return res.status(200).send(updatedJson);
-  } catch (err) {
-    console.log(err);
+    res.send(rgbw2);
+  } catch (error) {
+    console.error(error);
   }
 });
 
-router.delete('/', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
+    const rgbw2 = await RGBW2.findByIdAndRemove(req.params.id);
+    if (!rgbw2) {
+      console.log('Not found');
+      return res.status(404).send('The RGBW2 with the given ID was not found.');
+    }
 
-    const devices: RGBW2[] = JSON.parse(data);
-
-    const filteredDevices = devices.filter((x) => x.id !== req.body.id);
-
-    const updatedJson = JSON.stringify(filteredDevices);
-    fs.writeFileSync(fileName, updatedJson);
-    return res.status(200).send(updatedJson);
-  } catch (err) {
-    console.log(err);
+    res.send(rgbw2);
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 

@@ -1,93 +1,71 @@
-import { PlugS } from './../../../client/devices/plugS';
-import * as fs from 'fs';
-import * as path from 'path';
 import express from 'express';
+import { PlugS } from '../../models/plugS';
 const router = express.Router();
-
-const dirName = path.join(process.cwd(), 'data');
-const fileName = path.join(process.cwd(), 'data', 'plugS.json');
-
-function createFileIfNotExists() {
-  if (!fs.existsSync(dirName)) {
-    try {
-      fs.mkdirSync(dirName);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  if (!fs.existsSync(fileName)) {
-    try {
-      fs.writeFileSync(fileName, '[]');
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  if (!fs.existsSync(fileName)) {
-    try {
-      fs.writeFileSync(fileName, '[]');
-    } catch (err) {
-      console.log(err);
-    }
-  }
-}
-
-createFileIfNotExists();
 
 router.get('/', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
-    return res.status(200).send(JSON.parse(data));
-  } catch (err) {
-    console.log(err);
+    const plugS = await PlugS.find();
+    res.status(200).send(plugS);
+  } catch (error) {
+    res.status(500).send(error);
   }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const plugS = await PlugS.findById(req.params.id);
+
+    if (!plugS)
+      return res.status(404).send('The PlugS with the given ID was not found.');
+
+    res.send(plugS);
+  } catch (error) {}
 });
 
 router.post('/', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
-    const object = JSON.parse(data);
-    object.push(req.body);
-    const appendedJson = JSON.stringify(object);
-
-    fs.writeFileSync(fileName, appendedJson);
-    return res.status(200).send(appendedJson);
-  } catch (err) {
-    console.log(err);
+    let group = new PlugS({
+      id: req.body.id,
+      ipAdress: req.body.ipAdress,
+      title: req.body.title,
+    });
+    group = await group.save();
+    res.status(200).send(group);
+  } catch (error) {
+    console.error(error);
   }
 });
 
-router.patch('/', async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
+    let plugS = await PlugS.findByIdAndUpdate(
+      req.params.id,
+      {
+        ipAdress: req.body.ipAdress,
+        title: req.body.title,
+      },
+      { new: true }
+    );
 
-    const object = JSON.parse(data);
-    const updateIndex = object.findIndex((x: any) => x.id == req.body.id);
+    if (!plugS)
+      return res.status(404).send('The PlugS with the given ID was not found.');
 
-    object[updateIndex] = req.body;
-
-    const updatedJson = JSON.stringify(object);
-    fs.writeFileSync(fileName, updatedJson);
-    return res.status(200).send(updatedJson);
-  } catch (err) {
-    console.log(err);
+    res.send(plugS);
+  } catch (error) {
+    console.error(error);
   }
 });
 
-router.delete('/', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
+    const plugS = await PlugS.findByIdAndRemove(req.params.id);
 
-    const devices: PlugS[] = JSON.parse(data);
+    if (!plugS)
+      return res.status(404).send('The PlugS with the given ID was not found.');
 
-    const filteredDevices = devices.filter((x) => x.id !== req.body.id);
-
-    const updatedJson = JSON.stringify(filteredDevices);
-    fs.writeFileSync(fileName, updatedJson);
-    return res.status(200).send(updatedJson);
-  } catch (err) {
-    console.log(err);
+    res.send(plugS);
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 

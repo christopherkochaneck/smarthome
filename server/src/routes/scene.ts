@@ -1,92 +1,72 @@
-import { SceneType } from './../../../client/types/SceneType';
-import * as fs from 'fs';
-import * as path from 'path';
 import express from 'express';
+import { Scene } from '../../models/scene';
 const router = express.Router();
-
-const dirName = path.join(process.cwd(), 'data');
-const fileName = path.join(process.cwd(), 'data', 'scenes.json');
-
-function createFileIfNotExists() {
-  if (!fs.existsSync(dirName)) {
-    try {
-      fs.mkdirSync(dirName);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  if (!fs.existsSync(fileName)) {
-    try {
-      fs.writeFileSync(fileName, '[]');
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  if (!fs.existsSync(fileName)) {
-    try {
-      fs.writeFileSync(fileName, '[]');
-    } catch (err) {
-      console.log(err);
-    }
-  }
-}
-
-createFileIfNotExists();
 
 router.get('/', async (req, res) => {
   try {
-    const data = fs.readFileSync('data/scenes.json').toString();
-    return res.status(200).send(JSON.parse(data));
-  } catch (err) {
-    console.log(err);
+    const scene = await Scene.find();
+    res.status(200).send(scene);
+  } catch (error) {
+    res.status(500).send(error);
   }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const scene = await Scene.findById(req.params.id);
+
+    if (!scene)
+      return res.status(404).send('The Scene with the given ID was not found.');
+
+    res.send(scene);
+  } catch (error) {}
 });
 
 router.post('/', async (req, res) => {
   try {
-    const data = fs.readFileSync('data/scenes.json').toString();
-    const object = JSON.parse(data);
-    object.push(req.body);
-    const appendedJson = JSON.stringify(object);
-    fs.writeFileSync('data/scenes.json', appendedJson);
-    return res.status(200).send(appendedJson);
-  } catch (err) {
-    console.log(err);
+    let scene = new Scene({
+      id: req.body.id,
+      ipAdress: req.body.ipAdress,
+      title: req.body.title,
+    });
+    scene = await scene.save();
+    res.status(200).send(scene);
+  } catch (error) {
+    console.error(error);
   }
 });
 
-router.patch('/', async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
+    let scene = await Scene.findByIdAndUpdate(
+      req.params.id,
+      {
+        id: req.body.id,
+        ipAdress: req.body.ipAdress,
+        title: req.body.title,
+      },
+      { new: true }
+    );
 
-    const object = JSON.parse(data);
-    const updateIndex = object.findIndex((x: any) => x.id == req.body.id);
+    if (!scene)
+      return res.status(404).send('The Scene with the given ID was not found.');
 
-    object[updateIndex] = req.body;
-
-    const updatedJson = JSON.stringify(object);
-    fs.writeFileSync(fileName, updatedJson);
-    return res.status(200).send(updatedJson);
-  } catch (err) {
-    console.log(err);
+    res.send(scene);
+  } catch (error) {
+    console.error(error);
   }
 });
 
-router.delete('/', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
-    const data = fs.readFileSync(fileName).toString();
+    const scene = await Scene.findByIdAndRemove(req.params.id);
 
-    const scenes: SceneType[] = JSON.parse(data);
+    if (!scene)
+      return res.status(404).send('The Scene with the given ID was not found.');
 
-    const filteredScenes = scenes.filter((x) => x.id !== req.body.id);
-
-    const updatedJson = JSON.stringify(filteredScenes);
-    fs.writeFileSync(fileName, updatedJson);
-    return res.status(200).send(updatedJson);
-  } catch (err) {
-    console.log(err);
+    res.send(scene);
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 

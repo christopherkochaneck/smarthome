@@ -7,11 +7,14 @@ import rgbw2 from './routes/rgbw2';
 import scene from './routes/scene';
 import serverData from './routes/serverData';
 import powerLog from './routes/powerLog';
+import { establishConnection } from './startup/db';
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+establishConnection();
 
 app.use('/api/group', group);
 app.use('/api/plugS', plugS);
