@@ -4,7 +4,7 @@ import { LayoutWrapper } from '../../components/layout/layoutWrapper';
 
 const EditDevice: NextPage = () => {
 	return (
-		<LayoutWrapper showAppbar appBarTitle="Devices">
+		<LayoutWrapper showAppbar showBackButton appBarTitle="Devices">
 			<EditDeviceForm />
 		</LayoutWrapper>
 	);

@@ -51,5 +51,6 @@ client/**/public/worker-*.js.map
 
 server/node_modules
 server/data
+server/dist
 
 .env

@@ -58,7 +58,7 @@ export const SceneProvider: FC<Props> = (props) => {
 			data: scene,
 		});
 
-		const index = scenes.findIndex((x) => x.id === scene.id);
+		const index = scenes.findIndex((x) => x._id === scene._id);
 
 		scenes[index] = scene;
 
@@ -66,14 +66,13 @@ export const SceneProvider: FC<Props> = (props) => {
 	};
 
 	const deleteScene = async (scene: SceneType) => {
-		const index = scenes.findIndex((x) => x.id === scene.id);
+		const index = scenes.findIndex((x) => x._id === scene._id);
 
 		scenes.splice(index, 1);
 
 		await axios({
 			method: 'delete',
-			url: `${BASE_URL}/api/scene`,
-			data: scene,
+			url: `${BASE_URL}/api/scene/${scene._id}`,
 		});
 
 		setScenes([...scenes]);

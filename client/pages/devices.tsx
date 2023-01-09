@@ -27,7 +27,7 @@ const Devices: NextPage = () => {
 					title="Go to Device Page"
 					type="contextItem"
 					onClick={() => {
-						const device = devices.find((x) => x.id === selectedId);
+						const device = devices.find((x) => x._id === selectedId);
 						if (device === undefined) {
 							return;
 						}
@@ -38,7 +38,7 @@ const Devices: NextPage = () => {
 					title="Delete"
 					type="cancel"
 					onClick={() => {
-						const device = devices.find((x) => x.id === selectedId);
+						const device = devices.find((x) => x._id === selectedId);
 						if (device == undefined) {
 							return;
 						}
@@ -56,12 +56,12 @@ const Devices: NextPage = () => {
 						.map((key) => {
 							return (
 								<LightCard
-									id={key.id}
-									key={key.id}
+									id={key._id!}
+									key={key._id!}
 									ipAdress={key.ipAdress}
 									name={key.title}
 									onLongPress={() => {
-										setSelectedId(key.id);
+										setSelectedId(key._id!);
 										setVisible(true);
 									}}
 								/>
@@ -73,12 +73,12 @@ const Devices: NextPage = () => {
 						.map((key) => {
 							return (
 								<PlugCard
-									id={key.id}
-									key={key.id}
+									id={key._id!}
+									key={key._id!}
 									ipAdress={key.ipAdress}
 									name={key.title}
 									onLongPress={() => {
-										setSelectedId(key.id);
+										setSelectedId(key._id!);
 										setVisible(true);
 									}}
 								/>

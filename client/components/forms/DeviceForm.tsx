@@ -23,7 +23,6 @@ export const DeviceForm: FC = () => {
 			if (deviceType === 'rgbw2') {
 				device = {
 					type: 'rgbw2',
-					id: uuidv4(),
 					title: deviceName,
 					ipAdress: deviceIP,
 				};
@@ -32,7 +31,6 @@ export const DeviceForm: FC = () => {
 			if (deviceType === 'plugs') {
 				device = {
 					type: 'plugS',
-					id: uuidv4(),
 					title: deviceName,
 					ipAdress: deviceIP,
 				};

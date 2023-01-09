@@ -1,111 +1,116 @@
 import {
-  createContext,
-  Dispatch,
-  FC,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
+	createContext,
+	Dispatch,
+	FC,
+	SetStateAction,
+	useContext,
+	useEffect,
+	useState,
 } from 'react';
 import { RGBW2Type } from '../types/RGBW2Type';
 import { PlugSType } from '../types/PlugSType';
 import axios from 'axios';
 import { BASE_URL } from '../config/env';
+import { X } from 'tabler-icons-react';
 
 type Device = RGBW2Type | PlugSType;
 
 interface DeviceContextType {
-  devices: Device[];
-  setDevices: Dispatch<SetStateAction<Device[]>>;
-  addDevice: (device: Device) => void;
-  updateDevice: (device: Device) => void;
-  deleteDevice: (device: Device) => void;
+	devices: Device[];
+	setDevices: Dispatch<SetStateAction<Device[]>>;
+	addDevice: (device: Device) => void;
+	updateDevice: (device: Device) => void;
+	deleteDevice: (device: Device) => void;
 }
 
 interface Props {
-  children?: React.ReactNode;
+	children?: React.ReactNode;
 }
 
 const DeviceContext = createContext<DeviceContextType>(undefined!);
 
 export function useDevices() {
-  return useContext(DeviceContext);
+	return useContext(DeviceContext);
 }
 
 export const DeviceProvider: FC<Props> = (props) => {
-  const [devices, setDevices] = useState<Device[]>([]);
+	const [devices, setDevices] = useState<Device[]>([]);
 
-  const fetchData = async () => {
-    const rgbw2 = await axios({
-      method: 'get',
-      url: `${BASE_URL}/api/rgbw2`,
-    });
-    const plugS = await axios({
-      method: 'get',
-      url: `${BASE_URL}/api/plugS`,
-    });
-    setDevices([
-      ...rgbw2.data.map((x: any) => ({ type: 'rgbw2', ...x })),
-      ...plugS.data.map((x: any) => ({ type: 'plugS', ...x })),
-    ]);
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
+	const fetchData = async () => {
+		const rgbw2 = await axios({
+			method: 'get',
+			url: `${BASE_URL}/api/rgbw2`,
+		});
+		const plugS = await axios({
+			method: 'get',
+			url: `${BASE_URL}/api/plugS`,
+		});
+		setDevices([
+			...rgbw2.data.map((x: any) => ({ type: 'rgbw2', ...x })),
+			...plugS.data.map((x: any) => ({ type: 'plugS', ...x })),
+		]);
+	};
+	useEffect(() => {
+		fetchData();
+	}, []);
 
-  const addDevice = async (device: Device) => {
-    try {
-      await axios({
-        method: 'post',
-        url: `${BASE_URL}/api/${device.type}`,
-        data: device,
-      });
+	const addDevice = async (device: Device) => {
+		try {
+			const res = await axios({
+				method: 'post',
+				url: `${BASE_URL}/api/${device.type}`,
+				data: device,
+			});
 
-      setDevices([...devices, device]);
-    } catch (err) {}
-  };
+			let createdDevice: RGBW2Type | PlugSType = {
+				_id: res.data._id,
+				type: device.type,
+				ipAdress: res.data.ipAdress,
+				title: res.data.title,
+			};
 
-  const updateDevice = async (device: Device) => {
-    await axios({
-      method: 'patch',
-      url: `${BASE_URL}/api/${device.type}`,
-      data: device,
-    });
+			setDevices([...devices, createdDevice]);
+		} catch (err) {}
+	};
 
-    const index = devices.findIndex((x) => x.id === device.id);
+	const updateDevice = async (device: Device) => {
+		await axios({
+			method: 'patch',
+			url: `${BASE_URL}/api/${device.type}/${device._id}`,
+			data: device,
+		});
 
-    devices[index] = device;
+		const index = devices.findIndex((x) => x._id === device._id);
 
-    setDevices([...devices]);
-  };
+		devices[index] = device;
 
-  const deleteDevice = async (device: Device) => {
-    const index = devices.findIndex((x) => x.id === device.id);
+		setDevices([...devices]);
+	};
 
-    devices.splice(index, 1);
+	const deleteDevice = async (device: Device) => {
+		const index = devices.findIndex((x) => x._id === device._id);
 
-    await axios({
-      method: 'delete',
-      url: `${BASE_URL}/api/${device.type}`,
-      data: device,
-    });
+		devices.splice(index, 1);
 
-    setDevices([...devices]);
-  };
+		await axios({
+			method: 'delete',
+			url: `${BASE_URL}/api/${device.type}/${device._id}`,
+		});
 
-  const contextValue: DeviceContextType = {
-    devices,
-    setDevices,
-    addDevice,
-    updateDevice,
-    deleteDevice,
-  };
+		setDevices([...devices]);
+	};
 
-  return (
-    <>
-      <DeviceContext.Provider value={contextValue}>
-        {props.children}
-      </DeviceContext.Provider>
-    </>
-  );
+	const contextValue: DeviceContextType = {
+		devices,
+		setDevices,
+		addDevice,
+		updateDevice,
+		deleteDevice,
+	};
+
+	return (
+		<>
+			<DeviceContext.Provider value={contextValue}>{props.children}</DeviceContext.Provider>
+		</>
+	);
 };

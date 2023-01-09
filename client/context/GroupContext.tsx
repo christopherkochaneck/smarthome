@@ -61,7 +61,7 @@ export const GroupProvider: FC<Props> = (props) => {
 			data: group,
 		});
 
-		const index = groups.findIndex((x) => x.id === group.id);
+		const index = groups.findIndex((x) => x._id === group._id);
 
 		groups[index] = group;
 
@@ -69,14 +69,13 @@ export const GroupProvider: FC<Props> = (props) => {
 	};
 
 	const deleteGroup = async (group: GroupType) => {
-		const index = groups.findIndex((x) => x.id === group.id);
+		const index = groups.findIndex((x) => x._id === group._id);
 
 		groups.splice(index, 1);
 
 		await axios({
 			method: 'delete',
-			url: `${BASE_URL}/api/group`,
-			data: group,
+			url: `${BASE_URL}/api/group/${group._id}`,
 		});
 
 		setGroups([...groups]);

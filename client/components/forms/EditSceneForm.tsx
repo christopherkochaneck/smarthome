@@ -29,7 +29,7 @@ export const EditSceneForm: FC = () => {
 		}
 
 		let scene: SceneType = {
-			id: sceneId,
+			_id: sceneId,
 			name: sceneName,
 			actions: actions,
 		};
@@ -42,13 +42,13 @@ export const EditSceneForm: FC = () => {
 	useEffect(() => {
 		setViewActionPage(false);
 
-		const id = router.query.id;
+		const _id = router.query._id;
 
-		if (id != undefined) {
-			setSceneId(id.toString());
+		if (_id != undefined) {
+			setSceneId(_id.toString());
 		}
 
-		const scene = scenes.find((x) => x.id == id);
+		const scene = scenes.find((x) => x._id == _id);
 
 		if (scene == undefined) {
 			return;
@@ -57,7 +57,7 @@ export const EditSceneForm: FC = () => {
 		setSceneName(scene.name);
 
 		scene.actions.forEach((key) => {
-			setIds((prev) => [...prev, key.id]);
+			setIds((prev) => [...prev, key._id]);
 		});
 
 		setActions([...scene.actions]);
@@ -82,34 +82,34 @@ export const EditSceneForm: FC = () => {
 								<div
 									onClick={() => {
 										let idArray = ids;
-										if (ids.find((x) => x === key.id)) {
-											idArray.splice(ids.indexOf(key.id), 1);
+										if (ids.find((x) => x === key._id)) {
+											idArray.splice(ids.indexOf(key._id!), 1);
 										} else {
-											idArray.push(key.id);
+											idArray.push(key._id!);
 										}
 										setIds(idArray);
 
 										const action: Action = {
-											id: key.id,
+											_id: key._id!,
 											type: 'rgbw2',
 											actions: { color: { red: 100, green: 0, blue: 0 }, state: true },
 										};
 
-										if (actions.find((x) => x.id === key.id)) {
-											actions.splice(actions.findIndex((x) => x.id === key.id));
+										if (actions.find((x) => x._id === key._id)) {
+											actions.splice(actions.findIndex((x) => x._id === key._id));
 										} else {
 											actions.push(action);
 										}
 
 										setActions([...actions]);
 									}}
-									key={key.id}
+									key={key._id}
 								>
 									<LightSelectionCard
-										id={key.id}
-										key={key.id}
+										id={key._id!}
+										key={key._id}
 										name={key.title}
-										selected={ids.includes(key.id)}
+										selected={ids.includes(key._id!)}
 									/>
 								</div>
 							);
@@ -119,34 +119,34 @@ export const EditSceneForm: FC = () => {
 								<div
 									onClick={() => {
 										let idArray = ids;
-										if (ids.find((x) => x === key.id)) {
-											idArray.splice(ids.indexOf(key.id), 1);
+										if (ids.find((x) => x === key._id)) {
+											idArray.splice(ids.indexOf(key._id!), 1);
 										} else {
-											idArray.push(key.id);
+											idArray.push(key._id!);
 										}
 										setIds(idArray);
 
 										const action: Action = {
-											id: key.id,
+											_id: key._id!,
 											type: 'plugS',
 											actions: { state: false },
 										};
 
-										if (actions.find((x) => x.id === key.id)) {
-											actions.splice(actions.findIndex((x) => x.id === key.id));
+										if (actions.find((x) => x._id === key._id)) {
+											actions.splice(actions.findIndex((x) => x._id === key._id));
 										} else {
 											actions.push(action);
 										}
 
 										setActions([...actions]);
 									}}
-									key={key.id}
+									key={key._id}
 								>
 									<PlugSelectionCard
-										id={key.id}
-										key={key.id}
+										id={key._id!}
+										key={key._id!}
 										name={key.title}
-										selected={ids.includes(key.id)}
+										selected={ids.includes(key._id!)}
 									/>
 								</div>
 							);
