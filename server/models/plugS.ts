@@ -5,5 +5,6 @@ export const PlugS = model(
   new Schema({
     title: { type: String },
     ipAdress: { type: String },
+    type: { type: String },
   })
 );

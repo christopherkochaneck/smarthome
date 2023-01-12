@@ -8,7 +8,9 @@ import scene from './routes/scene';
 import serverData from './routes/serverData';
 import powerLog from './routes/powerLog';
 import { establishConnection } from './startup/db';
+import * as dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
 
 app.use(express.json());
@@ -23,6 +25,13 @@ app.use('/api/scene', scene);
 app.use('/api/serverData', serverData);
 app.use('/api/powerLog', powerLog);
 
-app.listen(3001, () => {
-  console.log('Running at port 3001');
-});
+let server;
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(3001, () => {
+    console.log('Running at port 3001');
+  });
+} else {
+  server = app.listen();
+}
+
+module.exports = server;

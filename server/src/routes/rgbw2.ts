@@ -19,7 +19,9 @@ router.get('/:id', async (req, res) => {
       return res.status(404).send('The RGBW2 with the given ID was not found.');
 
     res.send(rgbw2);
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).send('Internal server Error');
+  }
 });
 
 router.post('/', async (req, res) => {
@@ -28,6 +30,7 @@ router.post('/', async (req, res) => {
       id: req.body.id,
       ipAdress: req.body.ipAdress,
       title: req.body.title,
+      type: req.body.type,
     });
     rgbw2 = await rgbw2.save();
     res.status(200).send(rgbw2);
@@ -52,7 +55,7 @@ router.patch('/:id', async (req, res) => {
 
     res.send(rgbw2);
   } catch (error) {
-    console.error(error);
+    return res.status(500).send('Internal server Error');
   }
 });
 
@@ -60,7 +63,6 @@ router.delete('/:id', async (req, res) => {
   try {
     const rgbw2 = await RGBW2.findByIdAndRemove(req.params.id);
     if (!rgbw2) {
-      console.log('Not found');
       return res.status(404).send('The RGBW2 with the given ID was not found.');
     }
 

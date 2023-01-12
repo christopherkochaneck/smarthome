@@ -51,10 +51,6 @@ client/**/public/worker-*.js.map
 
 server/node_modules
 server/data
-<<<<<<< HEAD
-server/dist
-=======
 server/dist
 
-.env
->>>>>>> feat/MongoDB
+server/.env

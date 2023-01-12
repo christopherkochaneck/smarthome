@@ -1,12 +1,13 @@
 {
-	"compilerOptions": {
-		"target": "es2018",
-		"module": "commonjs",
-		"moduleResolution": "node",
-		"outDir": "./dist",
-		"strict": true,
-		"esModuleInterop": true
-	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules", "**/*.test.ts"]
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "types": ["jest", "node"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

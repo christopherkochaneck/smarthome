@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
   try {
-    let group = await Group.findByIdAndUpdate(
+    let group = Group.findByIdAndUpdate(
       req.params.id,
       {
         id: req.body.id,
@@ -59,7 +59,7 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const group = await Group.findByIdAndRemove(req.params.id);
+    const group = Group.findByIdAndRemove(req.params.id);
 
     if (!group)
       return res.status(404).send('The Group with the given ID was not found.');
