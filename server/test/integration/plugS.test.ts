@@ -1,7 +1,6 @@
 import request from 'supertest';
 import {
   afterEach,
-  beforeEach,
   describe,
   it,
   expect,
@@ -13,7 +12,7 @@ import { PlugS } from '../../models/plugS';
 let server;
 describe('/api/plugS', () => {
   beforeAll(() => {
-    server = require('../src/app');
+    server = require('../../src/app');
   });
   afterEach(async () => {
     await PlugS.deleteMany({});

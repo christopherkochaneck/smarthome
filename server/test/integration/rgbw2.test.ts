@@ -8,12 +8,12 @@ import {
   afterAll,
   beforeAll,
 } from '@jest/globals';
-import { RGBW2 } from '../models/RGBW2';
+import { RGBW2 } from '../../models/RGBW2';
 
 let server;
 describe('/api/rgbw2', () => {
   beforeAll(() => {
-    server = require('../src/app');
+    server = require('../../src/app');
   });
   afterEach(async () => {
     await RGBW2.deleteMany({});

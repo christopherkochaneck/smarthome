@@ -19,7 +19,9 @@ router.get('/:id', async (req, res) => {
       return res.status(404).send('The Group with the given ID was not found.');
 
     res.send(group);
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).send('Internal server Error');
+  }
 });
 
 router.post('/', async (req, res) => {
@@ -38,7 +40,7 @@ router.post('/', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
   try {
-    let group = Group.findByIdAndUpdate(
+    let group = await Group.findByIdAndUpdate(
       req.params.id,
       {
         id: req.body.id,
@@ -59,7 +61,7 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const group = Group.findByIdAndRemove(req.params.id);
+    const group = await Group.findByIdAndRemove(req.params.id);
 
     if (!group)
       return res.status(404).send('The Group with the given ID was not found.');
