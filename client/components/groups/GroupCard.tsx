@@ -63,10 +63,6 @@ export const GroupCard: FC<Props> = (props) => {
 			}
 		}
 
-		let stateArray: boolean[] = [];
-		entities.forEach((device: RGBW2 | PlugS) => {
-			stateArray.push(device.state);
-		});
 		setColor(color);
 	}
 
@@ -141,8 +137,9 @@ export const GroupCard: FC<Props> = (props) => {
 			return;
 		}
 		entities.forEach((device: RGBW2 | PlugS) => {
+			if (selectedColor === null) return;
 			if (device instanceof RGBW2) {
-				device.setColor(selectedColor!);
+				device.setColor(selectedColor);
 			}
 		});
 	}, [selectedColor, entities]);
