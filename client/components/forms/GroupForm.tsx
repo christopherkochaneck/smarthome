@@ -7,9 +7,7 @@ import { LightSelectionCard } from '../devices/selectionCard/lightSelectionCard'
 import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
 import { Input } from '../ui/input/input';
-import { v4 as uuidv4 } from 'uuid';
 import { DeviceFloppy } from 'tabler-icons-react';
-import React from 'react';
 
 export const GroupForm: FC = () => {
 	const { devices } = useDevices();

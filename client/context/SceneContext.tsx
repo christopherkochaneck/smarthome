@@ -10,7 +10,6 @@ import {
 import axios from 'axios';
 import { SceneType } from '../types/SceneType';
 import { BASE_URL } from '../config/env';
-import React from 'react';
 
 interface SceneContextType {
 	scenes: SceneType[];

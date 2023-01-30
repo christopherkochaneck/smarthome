@@ -10,10 +10,8 @@ import {
 import { RGBW2Type } from '../types/RGBW2Type';
 import { PlugSType } from '../types/PlugSType';
 import { HTType } from '../types/HTType';
-
 import axios from 'axios';
 import { BASE_URL } from '../config/env';
-import React from 'react';
 
 type Device = RGBW2Type | PlugSType | HTType;
 

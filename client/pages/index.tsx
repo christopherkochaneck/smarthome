@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import type { GetServerSideProps, NextPage } from 'next';
 import { DailyForecast } from '../components/ui/dailyForecast/dailyForecast';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
@@ -7,8 +7,6 @@ import { WeatherData } from '../interfaces/weather';
 import { DailyForecastData } from '../interfaces/dailyForecast';
 import { PowerUsage } from '../components/ui/powerUsage/PowerUsage';
 import { ClimateData } from '../components/ui/climateData/ClimateData';
-import { useEffect, useState } from 'react';
-import { HT } from '../devices/ht';
 
 interface Props {
 	weatherData: WeatherData;
@@ -23,9 +21,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 };
 
 const Home: NextPage<Props> = ({ weatherData, dailyForecastData }) => {
-	const [humidity, setHumidity] = useState<number>(0);
-	const [temperature, setTemperature] = useState<number>(0);
-
 	return (
 		<>
 			<LayoutWrapper showAppbarIcon>
@@ -41,7 +36,7 @@ const Home: NextPage<Props> = ({ weatherData, dailyForecastData }) => {
 						<DailyForecast dailyForecastData={dailyForecastData} />
 					</div>
 					<div className="mx-auto">
-						<ClimateData humidity={humidity} temperature={temperature} />
+						<ClimateData />
 					</div>
 					<div className="mx-auto">
 						<PowerUsage />

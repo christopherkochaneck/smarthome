@@ -1,12 +1,11 @@
 import { FC, useEffect, useMemo, useState } from 'react';
 import { RGBW2 } from '../../devices/rgbw2';
-import color from '../../interfaces/color';
+import Color from '../../interfaces/color';
 import { Card } from '../ui/card/card';
 import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 import Hammer from 'react-hammerjs';
 import { Bulb } from 'tabler-icons-react';
-import React from 'react';
 
 interface Props {
 	id: string;
@@ -20,8 +19,8 @@ export const LightCard: FC<Props> = (props) => {
 		return new RGBW2(props.ipAdress, props.id);
 	}, [props.id, props.ipAdress]);
 
-	const [color, setColor] = useState<color>({ red: 0, green: 0, blue: 0 });
-	const [selectedColor, setSelectedColor] = useState<color | null>(null);
+	const [color, setColor] = useState<Color>({ red: 0, green: 0, blue: 0 });
+	const [selectedColor, setSelectedColor] = useState<Color | null>(null);
 	const [state, setState] = useState<boolean | null>(false);
 	const [brightness, setBrightness] = useState<number>(100);
 	const [name, setName] = useState<string>(props.name);

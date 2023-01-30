@@ -9,7 +9,8 @@ import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
 import { LightActionCard } from '../devices/actionCard/lightActionCard';
 import { useScenes } from '../../context/SceneContext';
 import { ArrowNarrowLeft, ArrowNarrowRight, DeviceFloppy } from 'tabler-icons-react';
-import React from 'react';
+import { RGBW2Type } from '../../types/RGBW2Type';
+import { PlugSType } from '../../types/PlugSType';
 
 export const EditSceneForm: FC = () => {
 	const { devices } = useDevices();
@@ -40,18 +41,42 @@ export const EditSceneForm: FC = () => {
 		router.push('/groups');
 	};
 
+	const handleActionAdd = (key: RGBW2Type | PlugSType) => {
+		let idArray = ids;
+		if (ids.find((x) => x === key._id)) {
+			idArray.splice(ids.indexOf(key._id!), 1);
+		} else {
+			idArray.push(key._id!);
+		}
+		setIds(idArray);
+
+		const action: Action = {
+			_id: key._id!,
+			type: key.type,
+			actions: { color: { red: 100, green: 0, blue: 0 }, state: false },
+		};
+
+		if (actions.find((x) => x._id === key._id)) {
+			actions.splice(actions.findIndex((x) => x._id === key._id));
+		} else {
+			actions.push(action);
+		}
+
+		setActions([...actions]);
+	};
+
 	useEffect(() => {
 		setViewActionPage(false);
 
 		const _id = router.query._id;
 
-		if (_id != undefined) {
+		if (_id !== undefined) {
 			setSceneId(_id.toString());
 		}
 
-		const scene = scenes.find((x) => x._id == _id);
+		const scene = scenes.find((x) => x._id === _id);
 
-		if (scene == undefined) {
+		if (scene === undefined) {
 			return;
 		}
 
@@ -80,32 +105,7 @@ export const EditSceneForm: FC = () => {
 					{devices.map((key) => {
 						if (key.type === 'rgbw2') {
 							return (
-								<div
-									onClick={() => {
-										let idArray = ids;
-										if (ids.find((x) => x === key._id)) {
-											idArray.splice(ids.indexOf(key._id!), 1);
-										} else {
-											idArray.push(key._id!);
-										}
-										setIds(idArray);
-
-										const action: Action = {
-											_id: key._id!,
-											type: 'rgbw2',
-											actions: { color: { red: 100, green: 0, blue: 0 }, state: true },
-										};
-
-										if (actions.find((x) => x._id === key._id)) {
-											actions.splice(actions.findIndex((x) => x._id === key._id));
-										} else {
-											actions.push(action);
-										}
-
-										setActions([...actions]);
-									}}
-									key={key._id}
-								>
+								<div onClick={() => handleActionAdd(key)} key={key._id}>
 									<LightSelectionCard
 										id={key._id!}
 										key={key._id}
@@ -117,32 +117,7 @@ export const EditSceneForm: FC = () => {
 						}
 						if (key.type === 'plugS') {
 							return (
-								<div
-									onClick={() => {
-										let idArray = ids;
-										if (ids.find((x) => x === key._id)) {
-											idArray.splice(ids.indexOf(key._id!), 1);
-										} else {
-											idArray.push(key._id!);
-										}
-										setIds(idArray);
-
-										const action: Action = {
-											_id: key._id!,
-											type: 'plugS',
-											actions: { color: { red: 100, green: 0, blue: 0 }, state: false },
-										};
-
-										if (actions.find((x) => x._id === key._id)) {
-											actions.splice(actions.findIndex((x) => x._id === key._id));
-										} else {
-											actions.push(action);
-										}
-
-										setActions([...actions]);
-									}}
-									key={key._id}
-								>
+								<div onClick={() => handleActionAdd(key)} key={key._id}>
 									<PlugSelectionCard
 										id={key._id!}
 										key={key._id!}

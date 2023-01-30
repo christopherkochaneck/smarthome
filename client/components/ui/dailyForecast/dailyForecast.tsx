@@ -7,7 +7,7 @@ interface Props {
 }
 
 export const DailyForecast: FC<Props> = ({ dailyForecastData }) => {
-	if (dailyForecastData.forecast.forecastday == undefined) {
+	if (dailyForecastData.forecast.forecastday === undefined) {
 		return <></>;
 	}
 	return (

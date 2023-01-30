@@ -3,13 +3,14 @@ import { FC, FormEvent, useEffect, useState } from 'react';
 import { useDevices } from '../../context/DeviceContext';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
 import { Action, SceneType } from '../../types/SceneType';
-import { v4 as uuidv4 } from 'uuid';
 import { Input } from '../ui/input/input';
 import { LightSelectionCard } from '../devices/selectionCard/lightSelectionCard';
 import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
 import { LightActionCard } from '../devices/actionCard/lightActionCard';
 import { useScenes } from '../../context/SceneContext';
 import { ArrowNarrowRight, DeviceFloppy } from 'tabler-icons-react';
+import { PlugSType } from '../../types/PlugSType';
+import { RGBW2Type } from '../../types/RGBW2Type';
 
 export const SceneForm: FC = () => {
 	const { devices } = useDevices();
@@ -37,6 +38,31 @@ export const SceneForm: FC = () => {
 		router.push('/groups');
 	};
 
+	function handleAddAction(key: RGBW2Type | PlugSType) {
+		let idArray = ids;
+		if (ids.find((x) => x === key._id!)) {
+			idArray.splice(ids.indexOf(key._id!), 1);
+		} else {
+			idArray.push(key._id!);
+		}
+
+		setIds(idArray);
+
+		const action: Action = {
+			_id: key._id!,
+			type: key.type,
+			actions: { color: { red: 0, green: 0, blue: 0 }, state: false },
+		};
+
+		if (actions.find((x) => x._id === key._id!)) {
+			actions.splice(actions.findIndex((x) => x._id === key._id!));
+		} else {
+			actions.push(action);
+		}
+
+		setActions([...actions]);
+	}
+
 	useEffect(() => {
 		setViewActionPage(false);
 	}, []);
@@ -56,33 +82,7 @@ export const SceneForm: FC = () => {
 					{devices.map((key) => {
 						if (key.type === 'rgbw2') {
 							return (
-								<div
-									onClick={() => {
-										let idArray = ids;
-										if (ids.find((x) => x === key._id!)) {
-											idArray.splice(ids.indexOf(key._id!), 1);
-										} else {
-											idArray.push(key._id!);
-										}
-
-										setIds(idArray);
-
-										const action: Action = {
-											_id: key._id!,
-											type: 'rgbw2',
-											actions: { color: { red: 0, green: 0, blue: 0 }, state: false },
-										};
-
-										if (actions.find((x) => x._id === key._id!)) {
-											actions.splice(actions.findIndex((x) => x._id === key._id!));
-										} else {
-											actions.push(action);
-										}
-
-										setActions([...actions]);
-									}}
-									key={key._id!}
-								>
+								<div onClick={() => handleAddAction(key)} key={key._id!}>
 									<LightSelectionCard
 										id={key._id!}
 										key={key._id!}
@@ -96,29 +96,9 @@ export const SceneForm: FC = () => {
 							return (
 								<div
 									onClick={() => {
-										let idArray = ids;
-										if (ids.find((x) => x === key._id!)) {
-											idArray.splice(ids.indexOf(key._id!), 1);
-										} else {
-											idArray.push(key._id!);
-										}
-										setIds(idArray);
-
-										const action: Action = {
-											_id: key._id!,
-											type: 'plugS',
-											actions: { color: { red: 0, green: 0, blue: 0 }, state: false },
-										};
-
-										if (actions.find((x) => x._id === key._id!)) {
-											actions.splice(actions.findIndex((x) => x._id === key._id!));
-										} else {
-											actions.push(action);
-										}
-
-										setActions([...actions]);
+										handleAddAction(key);
 									}}
-									key={key._id!}
+									key={key._id}
 								>
 									<PlugSelectionCard
 										id={key._id!}

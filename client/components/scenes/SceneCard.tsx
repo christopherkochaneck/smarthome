@@ -21,43 +21,49 @@ export const SceneCard: FC<Props> = (props) => {
 	const [scene, setScene] = useState<SceneType>();
 	const handleScene = async (e: any) => {
 		e.preventDefault();
-		if (!scene) {
+		if (scene === undefined) {
 			return;
 		}
 
 		scene.actions.forEach(async (action) => {
-			const device = devices.find((x) => x.id == action.id);
+			const device = devices.find((x) => x._id === action._id);
 
-			if (!device) {
+			if (device === undefined) {
 				return;
 			}
 
-			if (device.type == 'rgbw2') {
-				const entity = new RGBW2(device.ipAdress, device.id);
+			if (action.actions.state === undefined) return;
 
-				if (action.actions.state !== undefined) {
+			let entity;
+			switch (device.type) {
+				case 'rgbw2':
+					entity = new RGBW2(device.ipAdress, device._id!);
+
 					if (action.actions.state === true) {
 						await entity.turnOn();
-					} else if (action.actions.state === false) {
+					} else {
 						await entity.turnOff();
 					}
-				}
-
-				if (action.actions.color !== undefined) {
+					if (action.actions.color === undefined) return;
 					await entity.setColor(action.actions.color ?? entity.color);
-				}
-			} else if (device.type == 'plugS') {
-				const entity = new PlugS(device.ipAdress, device.id);
+					break;
 
-				if (action.actions.state == undefined) return;
+				case 'plugS':
+					entity = new PlugS(device.ipAdress, device._id!);
 
-				action.actions.state ? await entity.turnOn() : await entity.turnOff();
+					if (action.actions.state === undefined) return;
+
+					action.actions.state ? await entity.turnOn() : await entity.turnOff();
+					break;
+
+				default:
+					break;
 			}
 		});
 	};
 
 	useEffect(() => {
-		const scene = scenes.find((x) => x.id == props.sceneID);
+		const scene = scenes.find((x) => x._id === props.sceneID);
 		setScene(scene);
 	}, [props.sceneID, scenes]);
 

@@ -25,7 +25,6 @@ export const GroupCard: FC<Props> = (props) => {
 	const [color, setColor] = useState<color>();
 	const [selectedColor, setSelectedColor] = useState<color | null>(null);
 	const [state, setState] = useState<boolean | null>(false);
-	const [states, setStates] = useState<boolean[]>();
 	const [open, setOpen] = useState<boolean>(false);
 	const [updating, setUpdating] = useState<boolean>(false);
 
@@ -68,14 +67,13 @@ export const GroupCard: FC<Props> = (props) => {
 		entities.forEach((device: RGBW2 | PlugS) => {
 			stateArray.push(device.state);
 		});
-		setStates([...stateArray]);
 		setColor(color);
 	}
 
 	useEffect(() => {
-		const group = groups.find((x) => x.id == props.groupID);
+		const group = groups.find((x) => x._id === props.groupID);
 
-		if (group == undefined) {
+		if (group === undefined) {
 			return;
 		}
 
@@ -83,18 +81,22 @@ export const GroupCard: FC<Props> = (props) => {
 		let colorArray: color[] = [];
 
 		group.ids.forEach((id) => {
-			const res = devices.find((x) => x.id == id);
+			const res = devices.find((x) => x._id === id);
 
-			if (res == undefined) {
+			if (res === undefined) {
 				return;
 			}
 
-			let device: RGBW2 | PlugS | undefined;
-			if (res.type === 'rgbw2') {
-				device = new RGBW2(res.ipAdress, res.id);
-			}
-			if (res.type === 'plugS') {
-				device = new PlugS(res.ipAdress, res.id);
+			let device: RGBW2 | PlugS;
+			switch (res.type) {
+				case 'rgbw2':
+					device = new RGBW2(res.ipAdress, res._id!);
+					break;
+				case 'plugS':
+					device = new PlugS(res.ipAdress, res._id!);
+					break;
+				default:
+					return;
 			}
 
 			entities.push(device);

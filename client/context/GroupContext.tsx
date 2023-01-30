@@ -10,7 +10,6 @@ import {
 import axios from 'axios';
 import { GroupType } from '../types/GroupType';
 import { BASE_URL } from '../config/env';
-import React from 'react';
 
 interface GroupContextType {
 	groups: GroupType[];

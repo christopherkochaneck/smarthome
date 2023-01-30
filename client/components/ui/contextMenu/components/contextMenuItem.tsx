@@ -8,7 +8,7 @@ interface Props {
 
 export const ContextMenuItem: FC<Props> = (props) => {
 	const getType = () => {
-		if (props.type == 'cancel') {
+		if (props.type === 'cancel') {
 			return 'red';
 		} else {
 			return 'white';

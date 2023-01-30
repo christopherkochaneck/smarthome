@@ -3,13 +3,11 @@ import { Select } from '../ui/select/select';
 import { useRouter } from 'next/router';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
 import { Input } from '../ui/input/input';
-import { v4 as uuidv4 } from 'uuid';
 import { useDevices } from '../../context/DeviceContext';
 import { RGBW2Type } from '../../types/RGBW2Type';
 import { PlugSType } from '../../types/PlugSType';
 import { HTType } from '../../types/HTType';
 import { DeviceFloppy } from 'tabler-icons-react';
-import React from 'react';
 
 export const DeviceForm: FC = () => {
 	const { addDevice } = useDevices();

@@ -25,12 +25,12 @@ const Groups: NextPage = () => {
 					type="contextItem"
 					onClick={() => {
 						const group = groups.find((x) => x._id === selectedId);
-						if (group != undefined) {
+						if (group !== undefined) {
 							return router.push(`/editGroup/${selectedId}`);
 						}
 
 						const scene = scenes.find((x) => x._id === selectedId);
-						if (scene != undefined) {
+						if (scene !== undefined) {
 							return router.push(`/editScene/${selectedId}`);
 						}
 					}}
@@ -40,19 +40,15 @@ const Groups: NextPage = () => {
 					type="cancel"
 					onClick={() => {
 						const group = groups.find((x) => x._id === selectedId);
-						if (group != undefined) {
+						if (group !== undefined) {
 							deleteGroup(group);
 							setVisible(false);
-
-							return;
 						}
 
 						const scene = scenes.find((x) => x._id === selectedId);
-						if (scene != undefined) {
+						if (scene !== undefined) {
 							deleteScene(scene);
 							setVisible(false);
-
-							return;
 						}
 					}}
 				/>
