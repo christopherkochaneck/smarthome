@@ -9,7 +9,6 @@ import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 import Hammer from 'react-hammerjs';
 import { PlugS } from '../../devices/plugS';
 import { Bulb, Plug } from 'tabler-icons-react';
-import { prev } from 'cheerio/lib/api/traversing';
 
 interface Props {
 	groupID: string;
