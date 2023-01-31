@@ -36,7 +36,7 @@ export class PlugS {
 
       return res.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

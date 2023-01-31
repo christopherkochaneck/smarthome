@@ -1,16 +1,17 @@
+import logger from 'tw-logger';
 import { connect, set } from 'mongoose';
 
 export const establishConnection = async () => {
   try {
     set('strictQuery', false);
-    console.log('Trying to connect to MongoDB Instance...');
+    logger.info('Running at port 3001');
     await connect(`${process.env.DB_CONNECTION_STRING}`, {
       user: `${process.env.DB_USER}`,
       pass: `${process.env.DB_PASS}`,
     });
-    console.log('Connected to MongoDB Instance');
-  } catch (error) {
-    console.error(error);
+    logger.info('Connected to MongoDB Instance');
+  } catch (error: any) {
+    logger.error(error.message);
   }
 };
 
