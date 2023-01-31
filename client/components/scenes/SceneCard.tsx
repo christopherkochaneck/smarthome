@@ -6,6 +6,7 @@ import { RGBW2 } from '../../devices/rgbw2';
 import { SceneType } from '../../types/SceneType';
 import { Card } from '../ui/card/card';
 import Hammer from 'react-hammerjs';
+import { Device } from '../../types/Device';
 
 interface Props {
 	id?: string;
@@ -19,45 +20,44 @@ export const SceneCard: FC<Props> = (props) => {
 	const { devices } = useDevices();
 
 	const [scene, setScene] = useState<SceneType>();
+
 	const handleScene = async (e: any) => {
 		e.preventDefault();
-		if (!scene) {
-			return;
-		}
+
+		if (!scene) return;
 
 		scene.actions.forEach(async (action) => {
-			const device = devices.find((x) => x.id == action.id);
+			const device = devices.find((x) => x._id === action._id);
+			if (!device) return;
 
-			if (!device) {
-				return;
+			const entity = createEntity(device);
+			if (!entity) return;
+
+			if (action.actions.state !== undefined) {
+				action.actions.state ? await entity.turnOn() : await entity.turnOff();
 			}
 
-			if (device.type == 'rgbw2') {
-				const entity = new RGBW2(device.ipAdress, device.id);
+			if (entity instanceof PlugS) return;
 
-				if (action.actions.state !== undefined) {
-					if (action.actions.state === true) {
-						await entity.turnOn();
-					} else if (action.actions.state === false) {
-						await entity.turnOff();
-					}
-				}
-
-				if (action.actions.color !== undefined) {
-					await entity.setColor(action.actions.color ?? entity.color);
-				}
-			} else if (device.type == 'plugS') {
-				const entity = new PlugS(device.ipAdress, device.id);
-
-				if (action.actions.state == undefined) return;
-
-				action.actions.state ? await entity.turnOn() : await entity.turnOff();
+			if (action.actions.color) {
+				await entity.setColor(action.actions.color);
 			}
 		});
 	};
 
+	function createEntity(device: Device) {
+		switch (device.type) {
+			case 'rgbw2':
+				return new RGBW2(device.ipAdress, device._id!);
+			case 'plugS':
+				return new PlugS(device.ipAdress, device._id!);
+			default:
+				return null;
+		}
+	}
+
 	useEffect(() => {
-		const scene = scenes.find((x) => x.id == props.sceneID);
+		const scene = scenes.find((x) => x._id === props.sceneID);
 		setScene(scene);
 	}, [props.sceneID, scenes]);
 

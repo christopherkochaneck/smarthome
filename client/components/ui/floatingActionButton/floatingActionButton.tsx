@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 interface Props {
 	className?: string;
-	type?: 'submit' | 'reset' | 'button' | undefined;
+	type?: 'submit' | 'reset' | 'button';
 	children?: React.ReactNode;
 	onClick?: () => void;
 }

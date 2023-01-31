@@ -5,17 +5,15 @@ import {
 	SetStateAction,
 	useContext,
 	useEffect,
+	useMemo,
 	useState,
 } from 'react';
 import { RGBW2Type } from '../types/RGBW2Type';
 import { PlugSType } from '../types/PlugSType';
 import { HTType } from '../types/HTType';
-
 import axios from 'axios';
 import { BASE_URL } from '../config/env';
-import React from 'react';
-
-type Device = RGBW2Type | PlugSType | HTType;
+import { Device } from '../types/Device';
 
 interface DeviceContextType {
 	devices: Device[];
@@ -56,59 +54,60 @@ export const DeviceProvider: FC<Props> = (props) => {
 		fetchData();
 	}, []);
 
-	const addDevice = async (device: Device) => {
-		try {
-			const res = await axios({
-				method: 'post',
-				url: `${BASE_URL}/api/${device.type}`,
+	const contextValue: DeviceContextType = useMemo(() => {
+		const addDevice = async (device: Device) => {
+			try {
+				const res = await axios({
+					method: 'post',
+					url: `${BASE_URL}/api/${device.type}`,
+					data: device,
+				});
+
+				let createdDevice: RGBW2Type | PlugSType | HTType = {
+					_id: res.data._id,
+					type: device.type,
+					ipAdress: res.data.ipAdress,
+					title: res.data.title,
+				};
+
+				setDevices([...devices, createdDevice]);
+			} catch (err) {}
+		};
+
+		const updateDevice = async (device: Device) => {
+			await axios({
+				method: 'patch',
+				url: `${BASE_URL}/api/${device.type}/${device._id}`,
 				data: device,
 			});
 
-			let createdDevice: RGBW2Type | PlugSType | HTType = {
-				_id: res.data._id,
-				type: device.type,
-				ipAdress: res.data.ipAdress,
-				title: res.data.title,
-			};
+			const index = devices.findIndex((x) => x._id === device._id);
 
-			setDevices([...devices, createdDevice]);
-		} catch (err) {}
-	};
+			devices[index] = device;
 
-	const updateDevice = async (device: Device) => {
-		await axios({
-			method: 'patch',
-			url: `${BASE_URL}/api/${device.type}/${device._id}`,
-			data: device,
-		});
+			setDevices([...devices]);
+		};
 
-		const index = devices.findIndex((x) => x._id === device._id);
+		const deleteDevice = async (device: Device) => {
+			const index = devices.findIndex((x) => x._id === device._id);
 
-		devices[index] = device;
+			devices.splice(index, 1);
 
-		setDevices([...devices]);
-	};
+			await axios({
+				method: 'delete',
+				url: `${BASE_URL}/api/${device.type}/${device._id}`,
+			});
 
-	const deleteDevice = async (device: Device) => {
-		const index = devices.findIndex((x) => x._id === device._id);
-
-		devices.splice(index, 1);
-
-		await axios({
-			method: 'delete',
-			url: `${BASE_URL}/api/${device.type}/${device._id}`,
-		});
-
-		setDevices([...devices]);
-	};
-
-	const contextValue: DeviceContextType = {
-		devices,
-		setDevices,
-		addDevice,
-		updateDevice,
-		deleteDevice,
-	};
+			setDevices([...devices]);
+		};
+		return {
+			devices,
+			setDevices,
+			addDevice,
+			updateDevice,
+			deleteDevice,
+		};
+	}, [devices, setDevices]);
 
 	return (
 		<>

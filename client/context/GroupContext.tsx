@@ -5,12 +5,12 @@ import {
 	SetStateAction,
 	useContext,
 	useEffect,
+	useMemo,
 	useState,
 } from 'react';
 import axios from 'axios';
 import { GroupType } from '../types/GroupType';
 import { BASE_URL } from '../config/env';
-import React from 'react';
 
 interface GroupContextType {
 	groups: GroupType[];
@@ -45,44 +45,51 @@ export const GroupProvider: FC<Props> = (props) => {
 		fetchData();
 	}, []);
 
-	const addGroup = async (group: GroupType) => {
-		await axios({
-			method: 'post',
-			url: `${BASE_URL}/api/group`,
-			data: group,
-		});
+	const contextValue: GroupContextType = useMemo(() => {
+		const addGroup = async (group: GroupType) => {
+			await axios({
+				method: 'post',
+				url: `${BASE_URL}/api/group`,
+				data: group,
+			});
 
-		setGroups([...groups, group]);
-	};
+			setGroups([...groups, group]);
+		};
 
-	const updateGroup = async (group: GroupType) => {
-		await axios({
-			method: 'patch',
-			url: `${BASE_URL}/api/group`,
-			data: group,
-		});
+		const updateGroup = async (group: GroupType) => {
+			await axios({
+				method: 'patch',
+				url: `${BASE_URL}/api/group`,
+				data: group,
+			});
 
-		const index = groups.findIndex((x) => x._id === group._id);
+			const index = groups.findIndex((x) => x._id === group._id);
 
-		groups[index] = group;
+			groups[index] = group;
 
-		setGroups([...groups]);
-	};
+			setGroups([...groups]);
+		};
 
-	const deleteGroup = async (group: GroupType) => {
-		const index = groups.findIndex((x) => x._id === group._id);
+		const deleteGroup = async (group: GroupType) => {
+			const index = groups.findIndex((x) => x._id === group._id);
 
-		groups.splice(index, 1);
+			groups.splice(index, 1);
 
-		await axios({
-			method: 'delete',
-			url: `${BASE_URL}/api/group/${group._id}`,
-		});
+			await axios({
+				method: 'delete',
+				url: `${BASE_URL}/api/group/${group._id}`,
+			});
 
-		setGroups([...groups]);
-	};
-
-	const contextValue: GroupContextType = { groups, setGroups, addGroup, updateGroup, deleteGroup };
+			setGroups([...groups]);
+		};
+		return {
+			groups,
+			setGroups,
+			addGroup,
+			updateGroup,
+			deleteGroup,
+		};
+	}, [groups, setGroups]);
 
 	return (
 		<>

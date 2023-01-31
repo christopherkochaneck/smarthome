@@ -18,18 +18,17 @@ export const LightActionCard: FC<Props> = (props) => {
 	const { devices } = useDevices();
 	const [state, setState] = useState<boolean | null>(false);
 	const [open, setOpen] = useState<boolean>(false);
-	const [action, setAction] = useState<Action>();
 	const [color, setColor] = useState<color | null>(null);
 	const [name, setName] = useState<string>('');
 
 	useEffect(() => {
-		const currentAction = props.actions.find((x) => x.id === props.id);
+		const currentAction = props.actions.find((x) => x._id === props.id);
 
 		if (currentAction === undefined) {
 			return;
 		}
 
-		const device = devices.find((x) => x.id === currentAction.id);
+		const device = devices.find((x) => x._id === currentAction._id);
 
 		if (device !== undefined) {
 			setName(device.title);
@@ -37,10 +36,10 @@ export const LightActionCard: FC<Props> = (props) => {
 
 		setColor(currentAction.actions.color);
 		setState(currentAction.actions.state);
-	}, [devices, props.id]);
+	}, [devices, props.id, props.actions]);
 
 	useEffect(() => {
-		const currentAction = props.actions.find((x) => x.id === props.id);
+		const currentAction = props.actions.find((x) => x._id === props.id);
 		if (currentAction === undefined) {
 			return;
 		}
@@ -52,14 +51,13 @@ export const LightActionCard: FC<Props> = (props) => {
 		if (currentAction.actions.state !== null) {
 			currentAction.actions.state = state;
 		}
-		setAction(currentAction);
 
-		const index = props.actions.findIndex((x) => x.id === currentAction.id);
+		const index = props.actions.findIndex((x) => x._id === currentAction._id);
 
 		props.actions[index] = currentAction;
 
 		props.setActions([...props.actions]);
-	}, [color, state]);
+	}, [color, state, props]);
 
 	return (
 		<>

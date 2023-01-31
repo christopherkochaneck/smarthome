@@ -48,9 +48,9 @@ export const PowerLog: NextPage<Props> = ({ powerData }) => {
 			const currentDate = new Date(powerLogEntry.date);
 			const dateToCompare = new Date(date);
 
-			if (currentDate.getDate() == dateToCompare.getDate()) {
-				if (currentDate.getMonth() == dateToCompare.getMonth()) {
-					if (currentDate.getFullYear() == dateToCompare.getFullYear()) {
+			if (currentDate.getDate() === dateToCompare.getDate()) {
+				if (currentDate.getMonth() === dateToCompare.getMonth()) {
+					if (currentDate.getFullYear() === dateToCompare.getFullYear()) {
 						powerUsedOnDay = powerUsedOnDay + powerLogEntry.power;
 						entriesOfDay += 1;
 					}
@@ -79,8 +79,6 @@ export const PowerLog: NextPage<Props> = ({ powerData }) => {
 			labels.push(UIDate);
 			dates.push({ UIdate: UIDate, realDate: date });
 		});
-
-		const powerData = dates.map((date) => getPowerUsageforDay(date.realDate));
 
 		const data = {
 			labels,

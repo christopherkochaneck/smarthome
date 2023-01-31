@@ -3,8 +3,6 @@ import { LayoutWrapper } from '../../components/layout/layoutWrapper';
 import { SceneForm } from '../../components/forms/SceneForm';
 
 const AddScene: NextPage = () => {
-	function handleSubmit() {}
-
 	return (
 		<LayoutWrapper showAppbar showBackButton appBarTitle="Add Scene">
 			<SceneForm />

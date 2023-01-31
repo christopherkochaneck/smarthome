@@ -11,8 +11,19 @@ import { establishConnection } from './startup/db';
 
 const app = express();
 
+let corsOptions = {
+  origin: (origin: any, callback: any) => {
+    if (origin === 'http://localhost:3000') {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
 app.use(express.json());
-app.use(cors());
+app.disable('x-powered-by');
+app.use(cors(corsOptions));
 
 establishConnection();
 

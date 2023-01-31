@@ -8,13 +8,20 @@ import { PlugCard } from '../components/devices/plugCard';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
 import { Backdrop } from '../components/ui/backdrop/Backdrop';
 import { useDevices } from '../context/DeviceContext';
-import React from 'react';
 
 const Devices: NextPage = () => {
 	const { devices, deleteDevice } = useDevices();
 	const [visible, setVisible] = useState<boolean>(false);
 	const [selectedId, setSelectedId] = useState<string>('');
 
+	function handleDelete() {
+		const device = devices.find((x) => x._id === selectedId);
+		if (device === undefined) {
+			return;
+		}
+		deleteDevice(device);
+		setVisible(false);
+	}
 	return (
 		<>
 			<Backdrop visible={visible} onClick={() => setVisible(false)} />
@@ -35,18 +42,7 @@ const Devices: NextPage = () => {
 						router.push(`http://${device.ipAdress}`);
 					}}
 				/>
-				<ContextMenuItem
-					title="Delete"
-					type="cancel"
-					onClick={() => {
-						const device = devices.find((x) => x._id === selectedId);
-						if (device == undefined) {
-							return;
-						}
-						deleteDevice(device);
-						setVisible(false);
-					}}
-				/>
+				<ContextMenuItem title="Delete" type="cancel" onClick={handleDelete} />
 				<ContextMenuItem title="Cancel" type="cancel" onClick={() => setVisible(false)} />
 			</ContextMenu>
 			<LayoutWrapper showAppbar showAppbarIcon appBarTitle="Devices" href="/add/addDevice">

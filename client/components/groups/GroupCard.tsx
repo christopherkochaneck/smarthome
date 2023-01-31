@@ -25,7 +25,6 @@ export const GroupCard: FC<Props> = (props) => {
 	const [color, setColor] = useState<color>();
 	const [selectedColor, setSelectedColor] = useState<color | null>(null);
 	const [state, setState] = useState<boolean | null>(false);
-	const [states, setStates] = useState<boolean[]>();
 	const [open, setOpen] = useState<boolean>(false);
 	const [updating, setUpdating] = useState<boolean>(false);
 
@@ -34,104 +33,65 @@ export const GroupCard: FC<Props> = (props) => {
 			return;
 		}
 
-		if (state) {
+		const toggleState = async (on: boolean) => {
 			try {
 				setUpdating(true);
-				Promise.all(
+				await Promise.all(
 					entities.map(async (device: RGBW2 | PlugS) => {
-						await device.turnOff();
+						on ? await device.turnOn() : await device.turnOff();
 					})
 				);
-				setState(false);
+				setState(on);
 			} catch (err) {
 				console.error(err);
 			} finally {
 				setUpdating(false);
 			}
-		} else {
-			try {
-				setUpdating(true);
-				Promise.all(
-					entities.map(async (device: RGBW2 | PlugS) => {
-						await device.turnOn();
-					})
-				);
-				setState(false);
-			} catch (err) {
-				console.error(err);
-			} finally {
-				setUpdating(false);
-			}
-		}
+		};
 
-		let stateArray: boolean[] = [];
-		entities.forEach((device: RGBW2 | PlugS) => {
-			stateArray.push(device.state);
-		});
-		setStates([...stateArray]);
-		setColor(color);
+		if (state) {
+			await toggleState(false);
+		} else {
+			await toggleState(true);
+		}
 	}
 
 	useEffect(() => {
-		const group = groups.find((x) => x.id == props.groupID);
+		const group = groups.find((x) => x._id === props.groupID);
+		if (!group) return;
 
-		if (group == undefined) {
-			return;
-		}
+		const devicesInGroup = group.ids
+			.map((id) => {
+				const res = devices.find((x) => x._id === id);
+				if (!res) return;
+				switch (res.type) {
+					case 'rgbw2':
+						return new RGBW2(res.ipAdress, res._id!);
+					case 'plugS':
+						return new PlugS(res.ipAdress, res._id!);
+					default:
+						return;
+				}
+			})
+			.filter((d) => d);
+		setEntities(devicesInGroup);
 
-		let stateArray: boolean[] = [];
-		let colorArray: color[] = [];
-
-		group.ids.forEach((id) => {
-			const res = devices.find((x) => x.id == id);
-
-			if (res == undefined) {
-				return;
-			}
-
-			let device: RGBW2 | PlugS | undefined;
-			if (res.type === 'rgbw2') {
-				device = new RGBW2(res.ipAdress, res.id);
-			}
-			if (res.type === 'plugS') {
-				device = new PlugS(res.ipAdress, res.id);
-			}
-
-			entities.push(device);
-		});
-
-		const interval = setInterval(async () => {
-			stateArray = [];
-			colorArray = [];
-
-			if (updating) {
-				return;
-			}
-
+		const interval = setInterval(() => {
+			if (updating) return;
+			const stateArray: boolean[] = [];
+			const colorArray: color[] = [];
 			entities.forEach((device: RGBW2 | PlugS) => {
 				device.fetchCurrentDeviceData();
-
 				stateArray.push(device.state);
-
-				if (device instanceof RGBW2) {
-					colorArray.push(device.color);
-				}
+				if (device instanceof RGBW2) colorArray.push(device.color);
 			});
 
-			if (stateArray.includes(true)) {
-				setState(true);
-			}
-
-			if (stateArray.every((x) => x === false)) {
-				setState(false);
-			}
-
-			setEntities(entities);
+			setState(stateArray.some((x) => x === true));
+			setState(stateArray.includes(true) ? true : null);
 			setColor(colorArray[0]);
 		}, 400);
-		return () => {
-			clearInterval(interval);
-		};
+
+		return () => clearInterval(interval);
 	}, [devices, groups, props.groupID, entities, updating]);
 
 	useEffect(() => {
@@ -139,8 +99,9 @@ export const GroupCard: FC<Props> = (props) => {
 			return;
 		}
 		entities.forEach((device: RGBW2 | PlugS) => {
+			if (selectedColor === null) return;
 			if (device instanceof RGBW2) {
-				device.setColor(selectedColor!);
+				device.setColor(selectedColor);
 			}
 		});
 	}, [selectedColor, entities]);

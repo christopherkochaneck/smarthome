@@ -1,4 +1,4 @@
-export default interface color {
+export default interface Color {
 	red: number;
 	green: number;
 	blue: number;

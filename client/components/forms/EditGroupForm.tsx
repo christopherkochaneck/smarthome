@@ -8,10 +8,8 @@ import { LightSelectionCard } from '../devices/selectionCard/lightSelectionCard'
 import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
 import { DeviceFloppy } from 'tabler-icons-react';
-import React from 'react';
 
-interface Props {}
-export const EditGroupForm: FC<Props> = (props) => {
+export const EditGroupForm: FC = () => {
 	const { groups, updateGroup } = useGroups();
 	const { devices } = useDevices();
 	const [groupName, setGroupName] = useState<string>('');
@@ -21,14 +19,14 @@ export const EditGroupForm: FC<Props> = (props) => {
 	useEffect(() => {
 		const _id = router.query._id!;
 
-		if (_id == undefined) {
+		if (_id === undefined) {
 			return;
 		}
-		setGroupId(_id!.toString());
+		setGroupId(_id.toString());
 
 		const foundID = groups.find((x) => x._id === _id);
 
-		if (foundID == undefined) {
+		if (foundID === undefined) {
 			return;
 		}
 

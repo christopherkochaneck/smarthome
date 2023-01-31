@@ -20,12 +20,14 @@ export const AdminPanel: NextPage = () => {
 				method: 'get',
 				url: `${BASE_URL}/api/serverData`,
 			});
-			setFreeMemory(response.data.freeMemory);
-			setTotalMemory(response.data.totalMemory);
-			setArchitecture(response.data.architecture);
-			setHostName(response.data.hostName);
-			setPlatform(response.data.platform);
-			setUptime(response.data.upTime);
+
+			const { freeMemory, totalMemory, architecture, hostName, platform, upTime } = response.data;
+			setFreeMemory(freeMemory);
+			setTotalMemory(totalMemory);
+			setArchitecture(architecture);
+			setHostName(hostName);
+			setPlatform(platform);
+			setUptime(upTime);
 		}, 400);
 
 		return () => {
