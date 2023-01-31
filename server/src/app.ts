@@ -11,9 +11,13 @@ import { establishConnection } from './startup/db';
 
 const app = express();
 
+let corsOptions = {
+  origin: '*',
+};
+
 app.use(express.json());
 app.disable('x-powered-by');
-app.use(cors());
+app.use(cors(corsOptions));
 
 establishConnection();
 
