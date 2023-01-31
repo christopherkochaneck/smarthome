@@ -56,3 +56,4 @@ server/dist
 .env
 
 .DS_Store
+server/.env

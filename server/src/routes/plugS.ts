@@ -19,18 +19,20 @@ router.get('/:id', async (req, res) => {
       return res.status(404).send('The PlugS with the given ID was not found.');
 
     res.send(plugS);
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).send('Internal server error');
+  }
 });
 
 router.post('/', async (req, res) => {
   try {
-    let group = new PlugS({
-      id: req.body.id,
+    let plugS = new PlugS({
       ipAdress: req.body.ipAdress,
       title: req.body.title,
+      type: 'plugS',
     });
-    group = await group.save();
-    res.status(200).send(group);
+    plugS = await plugS.save();
+    res.status(200).send(plugS);
   } catch (error) {
     console.error(error);
   }
@@ -52,7 +54,7 @@ router.patch('/:id', async (req, res) => {
 
     res.send(plugS);
   } catch (error) {
-    console.error(error);
+    return res.status(500).send('Internal server Error');
   }
 });
 
