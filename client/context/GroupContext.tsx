@@ -81,7 +81,13 @@ export const GroupProvider: FC<Props> = (props) => {
 		setGroups([...groups]);
 	};
 
-	const contextValue: GroupContextType = { groups, setGroups, addGroup, updateGroup, deleteGroup };
+	const contextValue: GroupContextType = {
+		groups,
+		setGroups,
+		addGroup,
+		updateGroup,
+		deleteGroup,
+	};
 
 	return (
 		<>

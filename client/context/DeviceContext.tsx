@@ -12,8 +12,7 @@ import { PlugSType } from '../types/PlugSType';
 import { HTType } from '../types/HTType';
 import axios from 'axios';
 import { BASE_URL } from '../config/env';
-
-type Device = RGBW2Type | PlugSType | HTType;
+import { Device } from '../types/Device';
 
 interface DeviceContextType {
 	devices: Device[];

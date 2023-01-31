@@ -78,7 +78,13 @@ export const SceneProvider: FC<Props> = (props) => {
 		setScenes([...scenes]);
 	};
 
-	const contextValue: SceneContextType = { scenes, setScenes, addScene, updateScene, deleteScene };
+	const contextValue: SceneContextType = {
+		scenes,
+		setScenes,
+		addScene,
+		updateScene,
+		deleteScene,
+	};
 
 	return (
 		<>
