@@ -62,8 +62,6 @@ export const GroupCard: FC<Props> = (props) => {
 				setUpdating(false);
 			}
 		}
-
-		setColor(color);
 	}
 
 	useEffect(() => {
@@ -124,7 +122,6 @@ export const GroupCard: FC<Props> = (props) => {
 				setState(false);
 			}
 
-			setEntities(entities);
 			setColor(colorArray[0]);
 		}, 400);
 		return () => {

@@ -36,7 +36,7 @@ export const LightActionCard: FC<Props> = (props) => {
 
 		setColor(currentAction.actions.color);
 		setState(currentAction.actions.state);
-	}, [devices, props.id]);
+	}, [devices, props.id, props.actions]);
 
 	useEffect(() => {
 		const currentAction = props.actions.find((x) => x._id === props.id);
@@ -57,7 +57,7 @@ export const LightActionCard: FC<Props> = (props) => {
 		props.actions[index] = currentAction;
 
 		props.setActions([...props.actions]);
-	}, [color, state]);
+	}, [color, state, props]);
 
 	return (
 		<>
