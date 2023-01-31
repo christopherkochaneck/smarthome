@@ -5,6 +5,7 @@ import {
 	SetStateAction,
 	useContext,
 	useEffect,
+	useMemo,
 	useState,
 } from 'react';
 import axios from 'axios';
@@ -41,50 +42,51 @@ export const SceneProvider: FC<Props> = (props) => {
 		fetchData();
 	}, []);
 
-	const addScene = async (scene: SceneType) => {
-		await axios({
-			method: 'post',
-			url: `${BASE_URL}/api/scene`,
-			data: scene,
-		});
+	const contextValue: SceneContextType = useMemo(() => {
+		const addScene = async (scene: SceneType) => {
+			await axios({
+				method: 'post',
+				url: `${BASE_URL}/api/scene`,
+				data: scene,
+			});
 
-		setScenes([...scenes, scene]);
-	};
+			setScenes([...scenes, scene]);
+		};
 
-	const updateScene = async (scene: SceneType) => {
-		await axios({
-			method: 'patch',
-			url: `${BASE_URL}/api/scene`,
-			data: scene,
-		});
+		const updateScene = async (scene: SceneType) => {
+			await axios({
+				method: 'patch',
+				url: `${BASE_URL}/api/scene`,
+				data: scene,
+			});
 
-		const index = scenes.findIndex((x) => x._id === scene._id);
+			const index = scenes.findIndex((x) => x._id === scene._id);
 
-		scenes[index] = scene;
+			scenes[index] = scene;
 
-		setScenes([...scenes]);
-	};
+			setScenes([...scenes]);
+		};
 
-	const deleteScene = async (scene: SceneType) => {
-		const index = scenes.findIndex((x) => x._id === scene._id);
+		const deleteScene = async (scene: SceneType) => {
+			const index = scenes.findIndex((x) => x._id === scene._id);
 
-		scenes.splice(index, 1);
+			scenes.splice(index, 1);
 
-		await axios({
-			method: 'delete',
-			url: `${BASE_URL}/api/scene/${scene._id}`,
-		});
+			await axios({
+				method: 'delete',
+				url: `${BASE_URL}/api/scene/${scene._id}`,
+			});
 
-		setScenes([...scenes]);
-	};
-
-	const contextValue: SceneContextType = {
-		scenes,
-		setScenes,
-		addScene,
-		updateScene,
-		deleteScene,
-	};
+			setScenes([...scenes]);
+		};
+		return {
+			scenes,
+			setScenes,
+			addScene,
+			updateScene,
+			deleteScene,
+		};
+	}, [scenes, setScenes]);
 
 	return (
 		<>
