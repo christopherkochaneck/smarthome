@@ -16,45 +16,41 @@ const Groups: NextPage = () => {
 	const [visible, setVisible] = useState<boolean>(false);
 	const [selectedId, setSelectedId] = useState<string>('');
 
+	const handleEdit = () => {
+		const group = groups.find((x) => x._id === selectedId);
+		if (group !== undefined) {
+			return router.push(`/editGroup/${selectedId}`);
+		}
+
+		const scene = scenes.find((x) => x._id === selectedId);
+		if (scene !== undefined) {
+			return router.push(`/editScene/${selectedId}`);
+		}
+	};
+
+	const handleDelete = () => {
+		const group = groups.find((x) => x._id === selectedId);
+		if (group !== undefined) {
+			deleteGroup(group);
+			setVisible(false);
+		}
+
+		const scene = scenes.find((x) => x._id === selectedId);
+		if (scene !== undefined) {
+			deleteScene(scene);
+			setVisible(false);
+		}
+	};
+
 	return (
 		<>
 			<Backdrop visible={visible} onClick={() => setVisible(false)} />
 			<ContextMenu visible={visible}>
-				<ContextMenuItem
-					title="Edit"
-					type="contextItem"
-					onClick={() => {
-						const group = groups.find((x) => x._id === selectedId);
-						if (group !== undefined) {
-							return router.push(`/editGroup/${selectedId}`);
-						}
-
-						const scene = scenes.find((x) => x._id === selectedId);
-						if (scene !== undefined) {
-							return router.push(`/editScene/${selectedId}`);
-						}
-					}}
-				/>
-				<ContextMenuItem
-					title="Delete"
-					type="cancel"
-					onClick={() => {
-						const group = groups.find((x) => x._id === selectedId);
-						if (group !== undefined) {
-							deleteGroup(group);
-							setVisible(false);
-						}
-
-						const scene = scenes.find((x) => x._id === selectedId);
-						if (scene !== undefined) {
-							deleteScene(scene);
-							setVisible(false);
-						}
-					}}
-				/>
+				<ContextMenuItem title="Edit" type="contextItem" onClick={handleEdit} />
+				<ContextMenuItem title="Delete" type="cancel" onClick={handleDelete} />
 				<ContextMenuItem title="Cancel" type="cancel" onClick={() => setVisible(false)} />
 			</ContextMenu>
-			<LayoutWrapper showAppbar showAppbarIcon appBarTitle="Groups" href="/add/addGroup">
+			<LayoutWrapper showAppbar showAppbarIcon appBarTitle="Groups" href="/grouping">
 				<div className="grid gap-4">
 					<div className="text-white text-center">Groups</div>
 					{groups.map((key) => {

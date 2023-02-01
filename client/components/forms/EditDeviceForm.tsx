@@ -3,8 +3,6 @@ import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionB
 import { Input } from '../ui/input/input';
 import { useDevices } from '../../context/DeviceContext';
 import { useRouter } from 'next/router';
-import { RGBW2Type } from '../../types/RGBW2Type';
-import { PlugSType } from '../../types/PlugSType';
 import { DeviceFloppy } from 'tabler-icons-react';
 
 export const EditDeviceForm: FC = () => {
@@ -18,25 +16,14 @@ export const EditDeviceForm: FC = () => {
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		try {
-			let device: RGBW2Type | PlugSType;
-			if (deviceType === 'rgbw2') {
-				device = {
-					type: 'rgbw2',
-					_id: deviceId,
-					title: deviceName,
-					ipAdress: deviceIP,
-				};
-				return updateDevice(device);
-			}
-			if (deviceType === 'plugS') {
-				device = {
-					type: 'plugS',
-					_id: deviceId,
-					title: deviceName,
-					ipAdress: deviceIP,
-				};
-				return updateDevice(device);
-			}
+			let device: any;
+			device = {
+				type: deviceType,
+				_id: deviceId,
+				title: deviceName,
+				ipAdress: deviceIP,
+			};
+			return updateDevice(device);
 		} catch (ex) {
 			console.log(ex);
 		} finally {

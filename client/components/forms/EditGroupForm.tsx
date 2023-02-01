@@ -17,7 +17,7 @@ export const EditGroupForm: FC = () => {
 	const [groupId, setGroupId] = useState<string>('');
 
 	useEffect(() => {
-		const _id = router.query._id!;
+		const _id = router.query._id;
 
 		if (_id === undefined) {
 			return;
@@ -46,6 +46,51 @@ export const EditGroupForm: FC = () => {
 		router.push('/groups');
 	};
 
+	const handleIdEdit = (key: any) => {
+		let idArray = ids;
+		if (ids.find((x) => x === key._id)) {
+			idArray.splice(ids.indexOf(key._id), 1);
+		} else {
+			idArray.push(key._id!);
+		}
+		setIds(idArray);
+	};
+
+	const mapDevices = () => {
+		{
+			devices.forEach((key) => {
+				switch (key.type) {
+					case 'rgbw2':
+						if (key._id === undefined) return;
+						return (
+							<div onClick={() => handleIdEdit(key)} key={key._id}>
+								<LightSelectionCard
+									id={key._id}
+									key={key._id}
+									name={key.title}
+									selected={ids.includes(key._id)}
+								/>
+							</div>
+						);
+					case 'plugS':
+						if (key._id === undefined) return;
+						return (
+							<div onClick={() => handleIdEdit(key)} key={key._id}>
+								<PlugSelectionCard
+									id={key._id}
+									key={key._id}
+									name={key.title}
+									selected={ids.includes(key._id)}
+								/>
+							</div>
+						);
+					default:
+						break;
+				}
+			});
+		}
+	};
+
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
@@ -59,55 +104,7 @@ export const EditGroupForm: FC = () => {
 						}}
 					/>
 					<div className="text-white text-center">Select Devices to Add</div>
-					{devices.map((key) => {
-						if (key.type === 'rgbw2') {
-							return (
-								<div
-									onClick={() => {
-										let idArray = ids;
-										if (ids.find((x) => x === key._id!)) {
-											idArray.splice(ids.indexOf(key._id!!), 1);
-										} else {
-											idArray.push(key._id!!);
-										}
-
-										setIds(idArray);
-									}}
-									key={key._id!}
-								>
-									<LightSelectionCard
-										id={key._id!}
-										key={key._id!}
-										name={key.title}
-										selected={ids.includes(key._id!)}
-									/>
-								</div>
-							);
-						}
-						if (key.type === 'plugS') {
-							return (
-								<div
-									onClick={() => {
-										let idArray = ids;
-										if (ids.find((x) => x === key._id!)) {
-											idArray.splice(ids.indexOf(key._id!), 1);
-										} else {
-											idArray.push(key._id!);
-										}
-										setIds(idArray);
-									}}
-									key={key._id!}
-								>
-									<PlugSelectionCard
-										id={key._id!}
-										key={key._id!}
-										name={key.title}
-										selected={ids.includes(key._id!)}
-									/>
-								</div>
-							);
-						}
-					})}
+					<>{mapDevices}</>
 				</div>
 				<FloatingActionButton
 					className="bg-black absolute right-4 bottom-20 text-white"

@@ -57,7 +57,7 @@ export const LightActionCard: FC<Props> = (props) => {
 		props.actions[index] = currentAction;
 
 		props.setActions([...props.actions]);
-	}, [color, state, props]);
+	}, [color, state]);
 
 	return (
 		<>

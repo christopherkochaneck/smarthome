@@ -22,6 +22,52 @@ const Devices: NextPage = () => {
 		deleteDevice(device);
 		setVisible(false);
 	}
+
+	function handleDevicePage() {
+		const device = devices.find((x) => x._id === selectedId);
+		if (device === undefined) {
+			return;
+		}
+		router.push(`http://${device.ipAdress}`);
+	}
+
+	function mapRGBW2Devices() {
+		devices
+			.filter((x) => x.type === 'rgbw2')
+			.forEach((key) => {
+				return (
+					<LightCard
+						id={key._id!}
+						key={key._id}
+						ipAdress={key.ipAdress}
+						name={key.title}
+						onLongPress={() => {
+							setSelectedId(key._id!);
+							setVisible(true);
+						}}
+					/>
+				);
+			});
+	}
+	function mapPlugSDevices() {
+		devices
+			.filter((x) => x.type === 'plugS')
+			.forEach((key) => {
+				return (
+					<PlugCard
+						id={key._id!}
+						key={key._id}
+						ipAdress={key.ipAdress}
+						name={key.title}
+						onLongPress={() => {
+							setSelectedId(key._id!);
+							setVisible(true);
+						}}
+					/>
+				);
+			});
+	}
+
 	return (
 		<>
 			<Backdrop visible={visible} onClick={() => setVisible(false)} />
@@ -31,56 +77,16 @@ const Devices: NextPage = () => {
 					type="contextItem"
 					onClick={() => router.push(`/editDevice/${selectedId}`)}
 				/>
-				<ContextMenuItem
-					title="Go to Device Page"
-					type="contextItem"
-					onClick={() => {
-						const device = devices.find((x) => x._id === selectedId);
-						if (device === undefined) {
-							return;
-						}
-						router.push(`http://${device.ipAdress}`);
-					}}
-				/>
+				<ContextMenuItem title="Go to Device Page" type="contextItem" onClick={handleDevicePage} />
 				<ContextMenuItem title="Delete" type="cancel" onClick={handleDelete} />
 				<ContextMenuItem title="Cancel" type="cancel" onClick={() => setVisible(false)} />
 			</ContextMenu>
 			<LayoutWrapper showAppbar showAppbarIcon appBarTitle="Devices" href="/add/addDevice">
 				<div className="grid gap-4">
 					<div className="text-white text-center">Lights</div>
-					{devices
-						.filter((x) => x.type === 'rgbw2')
-						.map((key) => {
-							return (
-								<LightCard
-									id={key._id!}
-									key={key._id!}
-									ipAdress={key.ipAdress}
-									name={key.title}
-									onLongPress={() => {
-										setSelectedId(key._id!);
-										setVisible(true);
-									}}
-								/>
-							);
-						})}
+					<>{mapRGBW2Devices}</>
 					<div className="text-white text-center">Plugs</div>
-					{devices
-						.filter((x) => x.type === 'plugS')
-						.map((key) => {
-							return (
-								<PlugCard
-									id={key._id!}
-									key={key._id!}
-									ipAdress={key.ipAdress}
-									name={key.title}
-									onLongPress={() => {
-										setSelectedId(key._id!);
-										setVisible(true);
-									}}
-								/>
-							);
-						})}
+					<>{mapPlugSDevices}</>
 				</div>
 			</LayoutWrapper>
 		</>

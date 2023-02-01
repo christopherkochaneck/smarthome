@@ -28,14 +28,19 @@ export const GroupForm: FC = () => {
 		router.push('/groups');
 	};
 
+	const handleAddDevice = (key: any) => {
+		let idArray = ids;
+		if (ids.find((x) => x === key._id)) {
+			idArray.splice(ids.indexOf(key._id!), 1);
+		} else {
+			idArray.push(key._id!);
+		}
+		setIds(idArray);
+	};
+
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
-				<div className="text-white">
-					<button type="button" onClick={() => router.push('/add/addScene')}>
-						Click here to create a Scene
-					</button>
-				</div>
 				<div className="grid gap-4">
 					<Input
 						title="Group Name"
@@ -48,18 +53,7 @@ export const GroupForm: FC = () => {
 					{devices.map((key) => {
 						if (key.type === 'rgbw2') {
 							return (
-								<div
-									onClick={() => {
-										let idArray = ids;
-										if (ids.find((x) => x === key._id)) {
-											idArray.splice(ids.indexOf(key._id!), 1);
-										} else {
-											idArray.push(key._id!);
-										}
-										setIds(idArray);
-									}}
-									key={key._id}
-								>
+								<div onClick={() => handleAddDevice(key)} key={key._id}>
 									<LightSelectionCard
 										id={key._id!}
 										key={key._id}
@@ -71,18 +65,7 @@ export const GroupForm: FC = () => {
 						}
 						if (key.type === 'plugS') {
 							return (
-								<div
-									onClick={() => {
-										let idArray = ids;
-										if (ids.find((x) => x === key._id)) {
-											idArray.splice(ids.indexOf(key._id!), 1);
-										} else {
-											idArray.push(key._id!);
-										}
-										setIds(idArray);
-									}}
-									key={key._id}
-								>
+								<div onClick={() => handleAddDevice(key)} key={key._id}>
 									<PlugSelectionCard
 										id={key._id!}
 										key={key._id}

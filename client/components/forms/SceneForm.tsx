@@ -80,19 +80,19 @@ export const SceneForm: FC = () => {
 					/>
 					<div className="text-white text-center">Select Devices to Add</div>
 					{devices.map((key) => {
-						if (key.type === 'rgbw2') {
+						if (key.type === 'rgbw2' && key._id !== undefined) {
 							return (
-								<div onClick={() => handleAddAction(key)} key={key._id!}>
+								<div onClick={() => handleAddAction(key)} key={key._id}>
 									<LightSelectionCard
-										id={key._id!}
-										key={key._id!}
+										id={key._id}
+										key={key._id}
 										name={key.title}
-										selected={ids.includes(key._id!)}
+										selected={ids.includes(key._id)}
 									/>
 								</div>
 							);
 						}
-						if (key.type === 'plugS') {
+						if (key.type === 'plugS' && key._id !== undefined) {
 							return (
 								<div
 									onClick={() => {
@@ -101,10 +101,10 @@ export const SceneForm: FC = () => {
 									key={key._id}
 								>
 									<PlugSelectionCard
-										id={key._id!}
-										key={key._id!}
+										id={key._id}
+										key={key._id}
 										name={key.title}
-										selected={ids.includes(key._id!)}
+										selected={ids.includes(key._id)}
 									/>
 								</div>
 							);

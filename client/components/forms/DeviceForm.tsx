@@ -4,9 +4,6 @@ import { useRouter } from 'next/router';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
 import { Input } from '../ui/input/input';
 import { useDevices } from '../../context/DeviceContext';
-import { RGBW2Type } from '../../types/RGBW2Type';
-import { PlugSType } from '../../types/PlugSType';
-import { HTType } from '../../types/HTType';
 import { DeviceFloppy } from 'tabler-icons-react';
 
 export const DeviceForm: FC = () => {
@@ -19,33 +16,13 @@ export const DeviceForm: FC = () => {
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		try {
-			let device: RGBW2Type | PlugSType | HTType;
-			if (deviceType === 'rgbw2') {
-				device = {
-					type: 'rgbw2',
-					title: deviceName,
-					ipAdress: deviceIP,
-				};
-				addDevice(device);
-			}
-			if (deviceType === 'plugs') {
-				device = {
-					type: 'plugS',
-					title: deviceName,
-					ipAdress: deviceIP,
-				};
-				addDevice(device);
-				return;
-			}
-			if (deviceType === 'ht') {
-				device = {
-					type: 'ht',
-					title: deviceName,
-					ipAdress: deviceIP,
-				};
-				addDevice(device);
-				return;
-			}
+			let device: any;
+			device = {
+				type: deviceType,
+				title: deviceName,
+				ipAdress: deviceIP,
+			};
+			addDevice(device);
 		} catch (ex) {
 			console.log(ex);
 		} finally {

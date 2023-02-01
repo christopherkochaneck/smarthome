@@ -2,9 +2,9 @@ import axios from 'axios';
 import { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { LayoutWrapper } from '../../components/layout/layoutWrapper';
-import { Card } from '../../components/ui/card/card';
 import { Usage } from '../../components/ui/usage/Usage';
 import { BASE_URL } from '../../config/env';
+import { AdminPanelCard } from './components/adminPanelCard';
 
 export const AdminPanel: NextPage = () => {
 	const [freeMemory, setFreeMemory] = useState<number>(0);
@@ -47,22 +47,11 @@ export const AdminPanel: NextPage = () => {
 								unit="GB"
 							/>
 						</div>
-						<Card className="flex flex-col p-4 gap-y-4 text-white">
-							<div className="text-white">System Architecture</div>
-							<Card className="border border-darkgrey">{architecture}</Card>
-						</Card>
-						<Card className="flex flex-col p-4 gap-y-4 text-white">
-							<div className="text-white">Hostname</div>
-							<Card className="border border-darkgrey">{hostName}</Card>
-						</Card>
-						<Card className="flex flex-col p-4 gap-y-4 text-white">
-							<div className="text-white">Platform</div>
-							<Card className="border border-darkgrey">{platform}</Card>
-						</Card>
-						<Card className="flex flex-col p-4 gap-y-4 text-white">
-							<div className="text-white">Uptime</div>
-							<Card className="border border-darkgrey">{(uptime / 86400).toFixed(0)} Days</Card>
-						</Card>
+						<AdminPanelCard title="System Architecture" value={architecture} />
+						<AdminPanelCard title="Hostname" value={hostName} />
+						<AdminPanelCard title="Hostname" value={hostName} />
+						<AdminPanelCard title="Platform" value={platform} />
+						<AdminPanelCard title="Uptime" value={`${(uptime / 86400).toFixed(0)} Days`} />
 					</div>
 				</div>
 			</LayoutWrapper>
