@@ -15,19 +15,13 @@ import httpLogger from 'tw-express-http-logger';
 dotenv.config();
 const app = express();
 
-let corsOptions = {
-  origin: (origin: any, callback: any) => {
-    if (origin === 'http://localhost:3000') {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-};
-
 app.use(express.json());
 app.disable('x-powered-by');
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+  })
+);
 app.use(httpLogger());
 
 establishConnection();
