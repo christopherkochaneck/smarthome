@@ -9,8 +9,6 @@ import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
 import { LightActionCard } from '../devices/actionCard/lightActionCard';
 import { useScenes } from '../../context/SceneContext';
 import { ArrowNarrowLeft, ArrowNarrowRight, DeviceFloppy } from 'tabler-icons-react';
-import { RGBW2Type } from '../../types/RGBW2Type';
-import { PlugSType } from '../../types/PlugSType';
 import { PlugActionCard } from '../devices/actionCard/plugActionCard';
 
 export const EditSceneForm: FC = () => {

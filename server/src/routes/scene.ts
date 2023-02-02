@@ -27,9 +27,11 @@ router.post('/', async (req, res) => {
     let scene = new Scene({
       id: req.body.id,
       ipAdress: req.body.ipAdress,
-      title: req.body.title,
+      name: req.body.name,
     });
+
     scene = await scene.save();
+
     res.status(200).send(scene);
   } catch (error) {
     console.error(error);
@@ -43,7 +45,7 @@ router.patch('/:id', async (req, res) => {
       {
         id: req.body.id,
         ipAdress: req.body.ipAdress,
-        title: req.body.title,
+        name: req.body.name,
       },
       { new: true }
     );

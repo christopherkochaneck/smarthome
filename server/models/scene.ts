@@ -3,7 +3,7 @@ import { model, Schema } from 'mongoose';
 export const Scene = model(
   'Scene',
   new Schema({
-    name: { typ: String },
+    name: { type: String },
     actions: [
       {
         state: { type: Boolean },

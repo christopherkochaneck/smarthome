@@ -44,19 +44,25 @@ export const SceneProvider: FC<Props> = (props) => {
 
 	const contextValue: SceneContextType = useMemo(() => {
 		const addScene = async (scene: SceneType) => {
-			await axios({
+			const res = await axios({
 				method: 'post',
 				url: `${BASE_URL}/api/scene`,
 				data: scene,
 			});
 
-			setScenes([...scenes, scene]);
+			let createdScene: SceneType = {
+				_id: res.data._id,
+				name: res.data.name,
+				actions: res.data.actions,
+			};
+
+			setScenes([...scenes, createdScene]);
 		};
 
 		const updateScene = async (scene: SceneType) => {
 			await axios({
 				method: 'patch',
-				url: `${BASE_URL}/api/scene`,
+				url: `${BASE_URL}/api/scene/${scene._id}`,
 				data: scene,
 			});
 
