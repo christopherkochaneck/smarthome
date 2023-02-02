@@ -92,7 +92,7 @@ export const GroupCard: FC<Props> = (props) => {
 		}, 400);
 
 		return () => clearInterval(interval);
-	}, [devices, groups, props.groupID, entities, updating]);
+	}, [devices, groups, props.groupID, updating]);
 
 	useEffect(() => {
 		if (!entities) {
