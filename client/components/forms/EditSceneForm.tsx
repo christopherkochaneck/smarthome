@@ -4,12 +4,12 @@ import { useDevices } from '../../context/DeviceContext';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
 import { Action, SceneType } from '../../types/SceneType';
 import { Input } from '../ui/input/input';
-import { LightSelectionCard } from '../devices/selectionCard/lightSelectionCard';
-import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
 import { LightActionCard } from '../devices/actionCard/lightActionCard';
 import { useScenes } from '../../context/SceneContext';
 import { ArrowNarrowLeft, ArrowNarrowRight, DeviceFloppy } from 'tabler-icons-react';
 import { PlugActionCard } from '../devices/actionCard/plugActionCard';
+import { PlugSDevices } from '../util/plugSdevices';
+import { Rgbw2Devices } from '../util/rgbw2devices';
 
 export const EditSceneForm: FC = () => {
 	const { devices } = useDevices();
@@ -88,40 +88,6 @@ export const EditSceneForm: FC = () => {
 		setActions([...scene.actions]);
 	}, [router.query, scenes]);
 
-	function mapRGBW2Devices() {
-		return devices
-			.filter((x) => x.type === 'rgbw2')
-			.map((key) => {
-				return (
-					<div onClick={() => handleActionAdd(key)} key={key._id}>
-						<LightSelectionCard
-							id={key._id!}
-							key={key._id}
-							name={key.title}
-							selected={ids.includes(key._id!)}
-						/>
-					</div>
-				);
-			});
-	}
-
-	function mapPlugSDevices() {
-		return devices
-			.filter((x) => x.type === 'plugS')
-			.map((key) => {
-				return (
-					<div onClick={() => handleActionAdd(key)} key={key._id}>
-						<PlugSelectionCard
-							id={key._id!}
-							key={key._id}
-							name={key.title}
-							selected={ids.includes(key._id!)}
-						/>
-					</div>
-				);
-			});
-	}
-
 	const mapActionCards = () => {
 		return ids.map((key) => {
 			const type = devices.find((x) => x._id === key)?.type;
@@ -149,8 +115,8 @@ export const EditSceneForm: FC = () => {
 						}}
 					/>
 					<div className="text-white text-center">Select Devices to Add</div>
-					<>{mapRGBW2Devices()}</>
-					<>{mapPlugSDevices()}</>
+					<Rgbw2Devices selectedIds={ids} function={handleActionAdd} />
+					<PlugSDevices selectedIds={ids} function={handleActionAdd} />
 				</div>
 				<div className={`grid gap-4 ${!viewActionPage ? 'hidden' : 'block'}`}>
 					<>{mapActionCards()}</>

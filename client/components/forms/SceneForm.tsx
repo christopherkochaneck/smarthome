@@ -1,19 +1,17 @@
 import { useRouter } from 'next/router';
 import { FC, FormEvent, useEffect, useState } from 'react';
-import { useDevices } from '../../context/DeviceContext';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
 import { Action, SceneType } from '../../types/SceneType';
 import { Input } from '../ui/input/input';
-import { LightSelectionCard } from '../devices/selectionCard/lightSelectionCard';
-import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
 import { LightActionCard } from '../devices/actionCard/lightActionCard';
 import { useScenes } from '../../context/SceneContext';
 import { ArrowNarrowRight, DeviceFloppy } from 'tabler-icons-react';
 import { PlugSType } from '../../types/PlugSType';
 import { RGBW2Type } from '../../types/RGBW2Type';
+import { Rgbw2Devices } from '../util/rgbw2devices';
+import { PlugSDevices } from '../util/plugSdevices';
 
 export const SceneForm: FC = () => {
-	const { devices } = useDevices();
 	const { addScene } = useScenes();
 	const [sceneName, setSceneName] = useState<string>('');
 	const [actions, setActions] = useState<Action[]>([]);
@@ -67,45 +65,6 @@ export const SceneForm: FC = () => {
 		setViewActionPage(false);
 	}, []);
 
-	const mapRGBW2Devices = () => {
-		return devices
-			.filter((x) => x.type === 'rgbw2')
-			.map((key: any) => {
-				return (
-					<div onClick={() => handleAddAction(key)} key={key._id}>
-						<LightSelectionCard
-							id={key._id}
-							key={key._id}
-							name={key.title}
-							selected={ids.includes(key._id)}
-						/>
-					</div>
-				);
-			});
-	};
-
-	const mapPlugSDevices = () => {
-		return devices
-			.filter((x) => x.type === 'plugS')
-			.map((key: any) => {
-				return (
-					<div
-						onClick={() => {
-							handleAddAction(key);
-						}}
-						key={key._id}
-					>
-						<PlugSelectionCard
-							id={key._id}
-							key={key._id}
-							name={key.title}
-							selected={ids.includes(key._id)}
-						/>
-					</div>
-				);
-			});
-	};
-
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
@@ -118,8 +77,8 @@ export const SceneForm: FC = () => {
 						}}
 					/>
 					<div className="text-white text-center">Select Devices to Add</div>
-					<>{mapRGBW2Devices()}</>
-					<>{mapPlugSDevices()}</>
+					<Rgbw2Devices selectedIds={ids} function={handleAddAction} />
+					<PlugSDevices selectedIds={ids} function={handleAddAction} />
 				</div>
 				<div className={`grid gap-4 ${!viewActionPage ? 'hidden' : 'block'}`}>
 					{ids.map((key) => {

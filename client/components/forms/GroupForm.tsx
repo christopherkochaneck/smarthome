@@ -1,16 +1,14 @@
 import { useRouter } from 'next/router';
 import { FC, FormEvent, useState } from 'react';
-import { useDevices } from '../../context/DeviceContext';
 import { useGroups } from '../../context/GroupContext';
 import { GroupType } from '../../types/GroupType';
-import { LightSelectionCard } from '../devices/selectionCard/lightSelectionCard';
-import { PlugSelectionCard } from '../devices/selectionCard/PlugSelectionCard';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
 import { Input } from '../ui/input/input';
 import { DeviceFloppy } from 'tabler-icons-react';
+import { Rgbw2Devices } from '../util/rgbw2devices';
+import { PlugSDevices } from '../util/plugSdevices';
 
 export const GroupForm: FC = () => {
-	const { devices } = useDevices();
 	const { addGroup } = useGroups();
 	const [groupName, setGroupName] = useState<string>('');
 	const [ids, setIds] = useState<string[]>([]);
@@ -38,40 +36,6 @@ export const GroupForm: FC = () => {
 		setIds(idArray);
 	};
 
-	const mapRGBW2Devices = () => {
-		return devices
-			.filter((x) => x.type === 'rgbw2')
-			.map((key) => {
-				return (
-					<div onClick={() => handleAddDevice(key)} key={key._id}>
-						<LightSelectionCard
-							id={key._id!}
-							key={key._id}
-							name={key.title}
-							selected={ids.includes(key._id!)}
-						/>
-					</div>
-				);
-			});
-	};
-
-	const mapPlugSDevices = () => {
-		return devices
-			.filter((x) => x.type === 'plugS')
-			.map((key) => {
-				return (
-					<div onClick={() => handleAddDevice(key)} key={key._id}>
-						<PlugSelectionCard
-							id={key._id!}
-							key={key._id}
-							name={key.title}
-							selected={ids.includes(key._id!)}
-						/>
-					</div>
-				);
-			});
-	};
-
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
@@ -84,8 +48,8 @@ export const GroupForm: FC = () => {
 						}}
 					/>
 					<div className="text-white text-center">Select Devices to Add</div>
-					<>{mapRGBW2Devices()}</>
-					<>{mapPlugSDevices()}</>
+					<Rgbw2Devices selectedIds={ids} function={handleAddDevice} />
+					<PlugSDevices selectedIds={ids} function={handleAddDevice} />
 				</div>
 				<FloatingActionButton
 					className="bg-black absolute right-4 bottom-20 text-white"
