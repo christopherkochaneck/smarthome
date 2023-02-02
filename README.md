@@ -9,6 +9,7 @@ A web-based solution for controlling Shelly IoT devices using Next.js, TypeScrip
 - User-friendly interface for controlling devices
 - Data storage with MongoDB
 - Containerized using Docker
+- Integration Testion using jest
 
 ## Prerequisites
 
@@ -16,7 +17,7 @@ Runtime: [Node.js](https://nodejs.org/en/download/)<br>
 Language: [TypeScript](https://www.typescriptlang.org/)<br>
 Frontend: [Next.js](https://nextjs.org/)<br>
 Backend: [Express.js](https://expressjs.com/)<br>
-Testing: [Jest.js](https://jestjs.io/)<br>
+Testing: [Jest.js](https://jestjs.io/), [Sonarqube](https://www.sonarsource.com/products/sonarqube/)<br>
 Datbase: [MongoDB](https://www.mongodb.com/)<br>
 Containerization: [Docker](https://www.docker.com/)<br>
 
@@ -37,7 +38,7 @@ Containerization: [Docker](https://www.docker.com/)<br>
    A dedicated User guide on how to do that is available [here](https://www.prisma.io/dataguide/mongodb/setting-up-a-local-mongodb-database).
 
 4. Set the environment variables<br>
-   The client directory, aswell as the server directory each have a <strong>.env.sample<strong> included, which is a template so you know which environment variables you need to set.
+   The client directory, aswell as the server directory each have a `.env.sample` included, which is a template so you know which environment variables you need to set.
 
 5. Launch up the backend and the frontend. You can do that using npm or yarn.<br>
    5.1. Using npm<br>
@@ -59,7 +60,7 @@ Containerization: [Docker](https://www.docker.com/)<br>
 
 If you think that something is missing, for example Device Types or functionality in the frontend, feel free to contribute.
 
-<p>How-to:</p>
+How-to:
 
 1. Fork the repository
 2. Create your feature branch
@@ -67,10 +68,17 @@ If you think that something is missing, for example Device Types or functionalit
 4. Push to the branch
 5. Create a pull request
 
+## Testing
+
+This project includes jest tests to test the endpoints of the project.
+You can simply run the tests by running `$ npm run test` or `$ yarn test`.<br>
+An instance of [Sonarqube](https://www.sonarsource.com/products/sonarqube/) is also running for this project to improve code quality.
+
 ## Deployment
 
-<p>The project uses Docker to launch seperate containers for the frontend, backend and database. This should make it easy to deploy and update the Containers for UI, API and Database.</p>
-<p>You can find the Docker files aswell as the docker-compose.yml in the following directories:</p>
+The project uses Docker to launch seperate containers for the frontend, backend and database. This should make it easy to deploy and update the Containers for UI, API and Database.<br>
+
+You can find the Docker files aswell as the docker-compose.yml in the following directories:
 
 - smarthome/client
 - smarthome/server
