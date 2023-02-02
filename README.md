@@ -83,7 +83,3 @@ You can find the Docker files aswell as the docker-compose.yml in the following 
 - smarthome/client
 - smarthome/server
 - smarthome/database
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
