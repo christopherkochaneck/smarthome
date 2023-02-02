@@ -32,9 +32,9 @@ const Devices: NextPage = () => {
 	}
 
 	function mapRGBW2Devices() {
-		devices
+		return devices
 			.filter((x) => x.type === 'rgbw2')
-			.forEach((key) => {
+			.map((key) => {
 				return (
 					<LightCard
 						id={key._id!}
@@ -50,9 +50,9 @@ const Devices: NextPage = () => {
 			});
 	}
 	function mapPlugSDevices() {
-		devices
+		return devices
 			.filter((x) => x.type === 'plugS')
-			.forEach((key) => {
+			.map((key) => {
 				return (
 					<PlugCard
 						id={key._id!}
@@ -84,9 +84,9 @@ const Devices: NextPage = () => {
 			<LayoutWrapper showAppbar showAppbarIcon appBarTitle="Devices" href="/add/addDevice">
 				<div className="grid gap-4">
 					<div className="text-white text-center">Lights</div>
-					<>{mapRGBW2Devices}</>
+					<>{mapRGBW2Devices()}</>
 					<div className="text-white text-center">Plugs</div>
-					<>{mapPlugSDevices}</>
+					<>{mapPlugSDevices()}</>
 				</div>
 			</LayoutWrapper>
 		</>

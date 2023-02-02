@@ -11,6 +11,7 @@ import { useScenes } from '../../context/SceneContext';
 import { ArrowNarrowLeft, ArrowNarrowRight, DeviceFloppy } from 'tabler-icons-react';
 import { RGBW2Type } from '../../types/RGBW2Type';
 import { PlugSType } from '../../types/PlugSType';
+import { PlugActionCard } from '../devices/actionCard/plugActionCard';
 
 export const EditSceneForm: FC = () => {
 	const { devices } = useDevices();
@@ -41,7 +42,7 @@ export const EditSceneForm: FC = () => {
 		router.push('/groups');
 	};
 
-	const handleActionAdd = (key: RGBW2Type | PlugSType) => {
+	const handleActionAdd = (key: any) => {
 		let idArray = ids;
 		if (ids.find((x) => x === key._id)) {
 			idArray.splice(ids.indexOf(key._id!), 1);
@@ -89,6 +90,54 @@ export const EditSceneForm: FC = () => {
 		setActions([...scene.actions]);
 	}, [router.query, scenes]);
 
+	function mapRGBW2Devices() {
+		return devices
+			.filter((x) => x.type === 'rgbw2')
+			.map((key) => {
+				return (
+					<div onClick={() => handleActionAdd(key)} key={key._id}>
+						<LightSelectionCard
+							id={key._id!}
+							key={key._id}
+							name={key.title}
+							selected={ids.includes(key._id!)}
+						/>
+					</div>
+				);
+			});
+	}
+
+	function mapPlugSDevices() {
+		return devices
+			.filter((x) => x.type === 'plugS')
+			.map((key) => {
+				return (
+					<div onClick={() => handleActionAdd(key)} key={key._id}>
+						<PlugSelectionCard
+							id={key._id!}
+							key={key._id}
+							name={key.title}
+							selected={ids.includes(key._id!)}
+						/>
+					</div>
+				);
+			});
+	}
+
+	const mapActionCards = () => {
+		return ids.map((key) => {
+			const type = devices.find((x) => x._id === key)?.type;
+			switch (type) {
+				case 'rgbw2':
+					return <LightActionCard id={key} key={key} actions={actions} setActions={setActions} />;
+				case 'plugS':
+					return <PlugActionCard id={key} key={key} actions={actions} setActions={setActions} />;
+				default:
+					break;
+			}
+		});
+	};
+
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
@@ -102,37 +151,11 @@ export const EditSceneForm: FC = () => {
 						}}
 					/>
 					<div className="text-white text-center">Select Devices to Add</div>
-					{devices.map((key) => {
-						if (key.type === 'rgbw2' && key._id !== undefined) {
-							return (
-								<div onClick={() => handleActionAdd(key)} key={key._id}>
-									<LightSelectionCard
-										id={key._id}
-										key={key._id}
-										name={key.title}
-										selected={ids.includes(key._id)}
-									/>
-								</div>
-							);
-						}
-						if (key.type === 'plugS' && key._id !== undefined) {
-							return (
-								<div onClick={() => handleActionAdd(key)} key={key._id}>
-									<PlugSelectionCard
-										id={key._id}
-										key={key._id}
-										name={key.title}
-										selected={ids.includes(key._id)}
-									/>
-								</div>
-							);
-						}
-					})}
+					<>{mapRGBW2Devices()}</>
+					<>{mapPlugSDevices()}</>
 				</div>
 				<div className={`grid gap-4 ${!viewActionPage ? 'hidden' : 'block'}`}>
-					{ids.map((key) => {
-						return <LightActionCard id={key} key={key} actions={actions} setActions={setActions} />;
-					})}
+					<>{mapActionCards()}</>
 				</div>
 				{viewActionPage ? (
 					<FloatingActionButton

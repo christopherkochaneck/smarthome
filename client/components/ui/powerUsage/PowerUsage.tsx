@@ -17,11 +17,16 @@ export const PowerUsage: FC = () => {
 		const entities: any = [];
 
 		devices.forEach((device: RGBW2Type | PlugSType | HTType) => {
-			if (device.type === 'plugS') {
-				entities.push(new PlugS(device.ipAdress, device.id));
-			}
-			if (device.type === 'rgbw2') {
-				entities.push(new RGBW2(device.ipAdress, device.id));
+			if (device._id === undefined) return;
+			switch (device.type) {
+				case 'plugS':
+					entities.push(new PlugS(device.ipAdress, device._id));
+					break;
+				case 'rgbw2':
+					entities.push(new RGBW2(device.ipAdress, device._id));
+					break;
+				default:
+					break;
 			}
 		});
 

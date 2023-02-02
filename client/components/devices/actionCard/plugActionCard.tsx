@@ -21,8 +21,6 @@ export const PlugActionCard: FC<Props> = (props) => {
 			return;
 		}
 
-		const device = devices.find((x) => x._id === currentAction._id);
-
 		setState(currentAction.actions.state);
 	}, [devices, props.id, props.actions]);
 

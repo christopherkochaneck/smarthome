@@ -38,6 +38,40 @@ export const GroupForm: FC = () => {
 		setIds(idArray);
 	};
 
+	const mapRGBW2Devices = () => {
+		return devices
+			.filter((x) => x.type === 'rgbw2')
+			.map((key) => {
+				return (
+					<div onClick={() => handleAddDevice(key)} key={key._id}>
+						<LightSelectionCard
+							id={key._id!}
+							key={key._id}
+							name={key.title}
+							selected={ids.includes(key._id!)}
+						/>
+					</div>
+				);
+			});
+	};
+
+	const mapPlugSDevices = () => {
+		return devices
+			.filter((x) => x.type === 'plugS')
+			.map((key) => {
+				return (
+					<div onClick={() => handleAddDevice(key)} key={key._id}>
+						<PlugSelectionCard
+							id={key._id!}
+							key={key._id}
+							name={key.title}
+							selected={ids.includes(key._id!)}
+						/>
+					</div>
+				);
+			});
+	};
+
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
@@ -50,32 +84,8 @@ export const GroupForm: FC = () => {
 						}}
 					/>
 					<div className="text-white text-center">Select Devices to Add</div>
-					{devices.map((key) => {
-						if (key.type === 'rgbw2') {
-							return (
-								<div onClick={() => handleAddDevice(key)} key={key._id}>
-									<LightSelectionCard
-										id={key._id!}
-										key={key._id}
-										name={key.title}
-										selected={ids.includes(key._id!)}
-									/>
-								</div>
-							);
-						}
-						if (key.type === 'plugS') {
-							return (
-								<div onClick={() => handleAddDevice(key)} key={key._id}>
-									<PlugSelectionCard
-										id={key._id!}
-										key={key._id}
-										name={key.title}
-										selected={ids.includes(key._id!)}
-									/>
-								</div>
-							);
-						}
-					})}
+					<>{mapRGBW2Devices()}</>
+					<>{mapPlugSDevices()}</>
 				</div>
 				<FloatingActionButton
 					className="bg-black absolute right-4 bottom-20 text-white"

@@ -42,6 +42,39 @@ const Groups: NextPage = () => {
 		}
 	};
 
+	const mapGroups = () => {
+		return groups.map((key) => {
+			return (
+				<GroupCard
+					groupID={key._id}
+					groupName={key.name}
+					title={key.name}
+					key={key.name}
+					onLongPress={() => {
+						setVisible(true);
+						setSelectedId(key._id);
+					}}
+				/>
+			);
+		});
+	};
+
+	const mapScenes = () => {
+		return scenes.map((key) => {
+			return (
+				<SceneCard
+					name={key.name}
+					sceneID={key._id!}
+					key={key._id}
+					onLongPress={() => {
+						setVisible(true);
+						setSelectedId(key._id!);
+					}}
+				/>
+			);
+		});
+	};
+
 	return (
 		<>
 			<Backdrop visible={visible} onClick={() => setVisible(false)} />
@@ -53,35 +86,10 @@ const Groups: NextPage = () => {
 			<LayoutWrapper showAppbar showAppbarIcon appBarTitle="Groups" href="/grouping">
 				<div className="grid gap-4">
 					<div className="text-white text-center">Groups</div>
-					{groups.map((key) => {
-						return (
-							<GroupCard
-								groupID={key._id}
-								groupName={key.name}
-								title={key.name}
-								key={key.name}
-								onLongPress={() => {
-									setVisible(true);
-									setSelectedId(key._id);
-								}}
-							/>
-						);
-					})}
+					<>{mapGroups()}</>
 					<div className="text-white text-center">Scenes</div>
 					<div className="grid grid-cols-2 gap-4">
-						{scenes.map((key) => {
-							return (
-								<SceneCard
-									name={key.name}
-									sceneID={key._id!}
-									key={key._id}
-									onLongPress={() => {
-										setVisible(true);
-										setSelectedId(key._id!);
-									}}
-								/>
-							);
-						})}
+						<>{mapScenes()}</>
 					</div>
 				</div>
 			</LayoutWrapper>
