@@ -1,34 +1,81 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Smarthome
+
+A web-based solution for controlling Shelly IoT devices using Next.js, TypeScript, and Express, as well as MongoDB for data storage and Docker for containerization.
+
+## Features
+
+- Control Shelly IoT devices using their HTTP API
+- Real-time updates on device status
+- User-friendly interface for controlling devices
+- Data storage with MongoDB
+- Containerized using Docker
+
+## Prerequisites
+
+Runtime: [Node.js](https://nodejs.org/en/download/)<br>
+Language: [TypeScript](https://www.typescriptlang.org/)<br>
+Frontend: [Next.js](https://nextjs.org/)<br>
+Backend: [Express.js](https://expressjs.com/)<br>
+Testing: [Jest.js](https://jestjs.io/)<br>
+Datbase: [MongoDB](https://www.mongodb.com/)<br>
+Containerization: [Docker](https://www.docker.com/)<br>
 
 ## Getting Started
 
-First, run the development server:
+1. Clone this repository<br>
+   $ git clone https://gitlab.com/christopherkochaneck-projects/smarthome.git
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+2. Install the dependencies<br>
+   $ cd client<br>
+   $ npm i<br>
+   $ cd server<br>
+   $ npm i<br>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Set up a MongoDB Server<br>
+   You need to setup a MongoDB Instance to be able to manage the Data that is being displayed in the Frontend.<br>
+   You will also need the MongoDB Connection String for <strong>Step 4.</strong><br>
+   A dedicated User guide on how to do that is available [here](https://www.prisma.io/dataguide/mongodb/setting-up-a-local-mongodb-database).
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+4. Set the environment variables<br>
+   The client directory, aswell as the server directory each have a <strong>.env.sample<strong> included, which is a template so you know which environment variables you need to set.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+5. Launch up the backend and the frontend. You can do that using npm or yarn.<br>
+   5.1. Using npm<br>
+   $ cd client<br>
+   $ npm run dev<br>
+   $ cd server<br>
+   $ npm run dev<br>
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+   5.2. Using yarn<br>
+   $ cd client<br>
+   $ yarn dev<br>
+   $ cd server<br>
+   $ yarn dev<br>
 
-## Learn More
+6. Check the functionality<br>
+   Open `http://localhost:3000` in your browser.
 
-To learn more about Next.js, take a look at the following resources:
+## Contributing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+If you think that something is missing, for example Device Types or functionality in the frontend, feel free to contribute.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<p>How-to:</p>
 
-## Deploy on Vercel
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a pull request
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<p>The project uses Docker to launch seperate containers for the frontend, backend and database. This should make it easy to deploy and update the Containers for UI, API and Database.</p>
+<p>You can find the Docker files aswell as the docker-compose.yml in the following directories:</p>
+
+- smarthome/client
+- smarthome/server
+- smarthome/database
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
