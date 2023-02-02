@@ -24,7 +24,7 @@ Containerization: [Docker](https://www.docker.com/)<br>
 ## Getting Started
 
 1. Clone this repository<br>
-   $ git clone https://gitlab.com/christopherkochaneck-projects/smarthome.git
+   $ git clone https://github.com/christopherkochaneck/smarthome.git
 
 2. Install the dependencies<br>
    $ cd client<br>
