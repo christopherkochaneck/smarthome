@@ -47,19 +47,25 @@ export const GroupProvider: FC<Props> = (props) => {
 
 	const contextValue: GroupContextType = useMemo(() => {
 		const addGroup = async (group: GroupType) => {
-			await axios({
+			const res = await axios({
 				method: 'post',
 				url: `${BASE_URL}/api/group`,
 				data: group,
 			});
 
-			setGroups([...groups, group]);
+			let createdGroup: GroupType = {
+				_id: res.data._id,
+				name: res.data.name,
+				ids: res.data.ids,
+			};
+
+			setGroups([...groups, createdGroup]);
 		};
 
 		const updateGroup = async (group: GroupType) => {
 			await axios({
 				method: 'patch',
-				url: `${BASE_URL}/api/group`,
+				url: `${BASE_URL}/api/group/${group._id}`,
 				data: group,
 			});
 
