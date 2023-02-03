@@ -33,6 +33,10 @@ services:
   database:
     container_name: smarthome-database
     image: mongo:latest
+    environment:
+      TZ: Europe/Berlin
+      MONGO_INITDB_ROOT_USERNAME: MONGO_INITDB_ROOT_USERNAME
+      MONGO_INITDB_ROOT_PASSWORD: MONGO_INITDB_ROOT_PASSWORD
     ports:
       - '27017:27017'
 

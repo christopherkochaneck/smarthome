@@ -57,3 +57,5 @@ server/dist
 
 .DS_Store
 server/.env
+
+docker-compose.yml
