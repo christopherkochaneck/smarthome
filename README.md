@@ -58,18 +58,6 @@ Containerization: [Docker](https://www.docker.com/)<br>
 6. Check the functionality<br>
    Open `http://localhost:3000` in your browser.
 
-## Contributing
-
-If you think that something is missing, for example Device Types or functionality in the frontend, feel free to contribute.
-
-How-to:
-
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a pull request
-
 ## Testing
 
 This project includes jest tests to test the endpoints of the project.
