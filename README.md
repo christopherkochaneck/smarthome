@@ -78,10 +78,4 @@ An instance of [Sonarqube](https://www.sonarsource.com/products/sonarqube/) is a
 
 ## Deployment
 
-The project uses Docker to launch seperate containers for the frontend, backend and database. This should make it easy to deploy and update the Containers for UI, API and Database.<br>
-
-You can find the Docker files aswell as the docker-compose.yml in the following directories:
-
-- smarthome/client
-- smarthome/server
-- smarthome/database
+The project uses Docker to launch seperate containers for the frontend, backend and database. This should make it easy to deploy and update the Containers seperately.<br>
