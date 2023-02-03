@@ -11,7 +11,7 @@ export const establishConnection = async () => {
     });
     logger.info('Connected to MongoDB Instance');
   } catch (error: any) {
-    logger.error(error.message);
+    logger.error(error);
   }
 };
 

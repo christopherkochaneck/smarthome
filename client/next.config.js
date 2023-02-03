@@ -9,9 +9,6 @@ const withPWA = require('next-pwa')({
 });
 
 const nextConfig = {
-	images: {
-		domains: ['lh3.googleusercontent.com'],
-	},
 	webpack: (config) => {
 		config.module.rules.push({
 			test: /\.svg$/,
