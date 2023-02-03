@@ -16,3 +16,5 @@ export const AdminPanelCard: FC<Props> = (props) => {
 		</>
 	);
 };
+
+export default AdminPanelCard;
