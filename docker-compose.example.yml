@@ -39,9 +39,3 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: MONGO_INITDB_ROOT_PASSWORD
     ports:
       - '27017:27017'
-
-  dashboard:
-    image: adminer
-    restart: always
-    ports:
-      - '8080:8080'
