@@ -1,10 +1,11 @@
-import { FC, FormEvent, useState } from 'react';
+import { FC, FormEvent, useEffect, useState } from 'react';
 import { Select } from '../ui/select/select';
 import { useRouter } from 'next/router';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
 import { Input } from '../ui/input/input';
 import { useDevices } from '../../context/DeviceContext';
 import { DeviceFloppy } from 'tabler-icons-react';
+import Toast from '../ui/toast/Toast';
 
 export const DeviceForm: FC = () => {
 	const { addDevice } = useDevices();
@@ -12,9 +13,18 @@ export const DeviceForm: FC = () => {
 	const [deviceName, setDeviceName] = useState<string>('');
 	const [deviceIP, setDeviceIP] = useState<string>('');
 	const router = useRouter();
+	const pattern = '^(?:[0-9]{1,3}.){3}[0-9]{1,3}$';
+	const message = 'IP Adress pattern invalid';
+	const [visible, setVisible] = useState<boolean>(false);
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+
+		if (!deviceIP.match(pattern)) {
+			setVisible(true);
+			return;
+		}
+
 		try {
 			let device: any;
 			device = {
@@ -30,9 +40,21 @@ export const DeviceForm: FC = () => {
 		}
 	};
 
+	useEffect(() => {
+		if (visible) {
+			console.log('visible');
+			setTimeout(() => {
+				setVisible(false);
+			}, 2000);
+		}
+	}, [visible]);
+
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
+				<Toast type="error" showClose visible={visible} setVisible={setVisible}>
+					{message}
+				</Toast>
 				<div className="grid gap-4">
 					<Select
 						title="Device Type"
@@ -56,6 +78,7 @@ export const DeviceForm: FC = () => {
 						onChange={(e) => {
 							setDeviceIP(e.currentTarget.value);
 						}}
+						pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
 					/>
 				</div>
 				<FloatingActionButton

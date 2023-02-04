@@ -23,7 +23,7 @@ export const ContextMenu: FC<Props> = (props) => {
 		<>
 			<div
 				ref={ref}
-				className="w-full h-max bg-black fixed bottom-0 z-99 rounded-t-3xl flex flex-col gap-3 p-4"
+				className="w-full h-max bg-black fixed z-99 rounded-t-3xl flex flex-col gap-3 p-4"
 				style={{ bottom: bottom, transition: 'bottom ease 0.15s' }}
 			>
 				{props.children}
