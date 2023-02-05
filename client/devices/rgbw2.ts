@@ -23,9 +23,7 @@ export class RGBW2 {
 			const res = await axios.get(`http://${this.ipAddress}/settings`);
 
 			return res.data;
-		} catch (error) {
-			console.error(error);
-		}
+		} catch (error) {}
 	}
 
 	public async getStatus(): Promise<any> {
@@ -33,9 +31,7 @@ export class RGBW2 {
 			const res = await axios.get(`http://${this.ipAddress}/status`);
 
 			return res.data;
-		} catch (error) {
-			console.error(error);
-		}
+		} catch (error) {}
 	}
 
 	public async getColor() {
@@ -80,9 +76,7 @@ export class RGBW2 {
 
 			res = await this.getStatus();
 			this.power = res.meters[0].power;
-		} catch (error) {
-			console.error(error);
-		}
+		} catch (error) {}
 	}
 
 	public async setColor(color: color | undefined): Promise<void> {
@@ -93,9 +87,7 @@ export class RGBW2 {
 			await axios.get(
 				`http://${this.ipAddress}/color/0?red=${color.red}&green=${color.green}&blue=${color.blue}`
 			);
-		} catch (error) {
-			console.error(error);
-		}
+		} catch (error) {}
 	}
 
 	public async setBrightness(brightness: number): Promise<void> {

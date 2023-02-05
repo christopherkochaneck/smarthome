@@ -30,9 +30,7 @@ export class HT {
 			});
 
 			return res.data;
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	}
 
 	public async fetchCurrentDeviceData() {
@@ -46,8 +44,6 @@ export class HT {
 			this.temperature = res.tmp.value;
 			this.temperatureUnit = res.tmp.units;
 			this.humidity = res.hum.value;
-		} catch (error) {
-			console.error(error);
-		}
+		} catch (error) {}
 	}
 }

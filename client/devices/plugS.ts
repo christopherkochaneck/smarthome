@@ -19,9 +19,7 @@ export class PlugS {
 			const res = await axios({ method: 'GET', url: `http://${this.ipAddress}/settings` });
 
 			return res.data;
-		} catch (error) {
-			console.error(error);
-		}
+		} catch (error) {}
 	}
 
 	public async getMeters(): Promise<any> {
@@ -29,9 +27,7 @@ export class PlugS {
 			const res = await axios({ method: 'GET', url: `http://${this.ipAddress}/meter/0` });
 
 			return res.data;
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	}
 
 	public async fetchCurrentDeviceData() {
@@ -47,24 +43,18 @@ export class PlugS {
 			this.name = res.relays[0].name;
 
 			this.power = meters.power;
-		} catch (error) {
-			console.error(error);
-		}
+		} catch (error) {}
 	}
 
 	public async turnOff(): Promise<void> {
 		try {
 			await axios({ method: 'GET', url: `http://${this.ipAddress}/relay/0?turn=off` });
-		} catch (error) {
-			console.error(error);
-		}
+		} catch (error) {}
 	}
 
 	public async turnOn(): Promise<void> {
 		try {
 			await axios({ method: 'GET', url: `http://${this.ipAddress}/relay/0?turn=on` });
-		} catch (error) {
-			console.error(error);
-		}
+		} catch (error) {}
 	}
 }
