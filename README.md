@@ -34,15 +34,10 @@ Containerization: [Docker](https://www.docker.com/)<br>
    $ cd server<br>
    $ npm i<br>
 
-3. Set up a MongoDB Server<br>
-   You need to setup a MongoDB Instance to be able to manage the Data that is being displayed in the Frontend.<br>
-   You will also need the MongoDB Connection String for <strong>Step 4.</strong><br>
-   A dedicated User guide on how to do that is available [here](https://www.prisma.io/dataguide/mongodb/setting-up-a-local-mongodb-database).
-
-4. Set the environment variables<br>
+3. Set the environment variables<br>
    The client directory, aswell as the server directory each have a `.env.sample` included, which is a template so you know which environment variables you need to set.
 
-5. Launch up the backend and the frontend. You can do that using npm or yarn.<br>
+4. Launch up the backend and the frontend. You can do that using npm or yarn.<br>
    5.1. Using npm<br>
    $ cd client<br>
    $ npm run dev<br>
@@ -55,7 +50,7 @@ Containerization: [Docker](https://www.docker.com/)<br>
    $ cd server<br>
    $ yarn dev<br>
 
-6. Check the functionality<br>
+5. Check the functionality<br>
    Open `http://localhost:3000` in your browser.
 
 ## Testing
