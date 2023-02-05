@@ -6,6 +6,7 @@ import '../styles/globals.scss';
 import { DeviceProvider } from '../context/DeviceContext';
 import { GroupProvider } from '../context/GroupContext';
 import { SceneProvider } from '../context/SceneContext';
+import { ToastProvider } from '../context/ToastContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
@@ -13,13 +14,15 @@ function MyApp({ Component, pageProps }: AppProps) {
 			<Head>
 				<title>Smarthome</title>
 			</Head>
-			<SceneProvider>
-				<GroupProvider>
-					<DeviceProvider>
-						<Component {...pageProps} />
-					</DeviceProvider>
-				</GroupProvider>
-			</SceneProvider>
+			<ToastProvider>
+				<SceneProvider>
+					<GroupProvider>
+						<DeviceProvider>
+							<Component {...pageProps} />
+						</DeviceProvider>
+					</GroupProvider>
+				</SceneProvider>
+			</ToastProvider>
 		</React.Fragment>
 	);
 }
