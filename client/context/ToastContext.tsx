@@ -1,9 +1,8 @@
-import { createContext, FC, useContext, useMemo, useState } from 'react';
+import { createContext, FC, useContext, useEffect, useMemo, useState } from 'react';
 import Toast from '../components/ui/toast/Toast';
 
 interface Toast {
 	id: string;
-	autoDismiss?: boolean;
 	message: string;
 	type: 'info' | 'success' | 'warning' | 'error';
 }
@@ -24,17 +23,20 @@ export function useToast() {
 
 export const ToastProvider: FC<Props> = (props) => {
 	const [toasts, setToasts] = useState<Toast[]>([]);
+	const [lastToastId, setLastToastId] = useState<String>('');
+
+	useEffect(() => {
+		const toastIndex = toasts.findIndex((x) => x.id === lastToastId);
+		setTimeout(() => {
+			if (toastIndex === -1) return;
+			setToasts((prev) => prev.filter((x) => x.id !== lastToastId));
+		}, 3000);
+	}, [toasts]);
+
 	const contextValue: ToastContextType = useMemo(() => {
 		const addToast = (toast: Toast) => {
 			setToasts((prev) => [...prev, toast]);
-			console.log(toast.id);
-			console.log(toasts);
-			const toastIndex = toasts.findIndex((x) => x.id === toast.id);
-			console.log(toastIndex);
-			const timeout = setTimeout(() => {
-				if (toastIndex === -1) return;
-				setToasts((prev) => prev.filter((x) => x.id !== toast.id));
-			}, 3000);
+			setLastToastId(toast.id);
 		};
 		return { addToast };
 	}, []);
