@@ -3,8 +3,8 @@ import cors from 'cors';
 import logger from 'tw-logger';
 
 import group from './routes/group';
-import plugS from './routes/plugs';
 import rgbw2 from './routes/rgbw2';
+import plugS from './routes/plugs';
 import scene from './routes/scene';
 import serverData from './routes/serverData';
 import powerLog from './routes/powerLog';
