@@ -49,7 +49,7 @@ export const SceneCard: FC<Props> = (props) => {
 		switch (device.type) {
 			case 'rgbw2':
 				return new RGBW2(device.ipAdress, device._id!);
-			case 'plugS':
+			case 'plugs':
 				return new PlugS(device.ipAdress, device._id!);
 			default:
 				return null;

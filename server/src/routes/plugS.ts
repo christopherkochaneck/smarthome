@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
     let plugS = new PlugS({
       ipAdress: req.body.ipAdress,
       title: req.body.title,
-      type: 'plugS',
+      type: 'plugs',
     });
     plugS = await plugS.save();
     res.status(200).send(plugS);

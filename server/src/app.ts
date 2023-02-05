@@ -3,7 +3,7 @@ import cors from 'cors';
 import logger from 'tw-logger';
 
 import group from './routes/group';
-import plugS from './routes/plugS';
+import plugS from './routes/plugs';
 import rgbw2 from './routes/rgbw2';
 import scene from './routes/scene';
 import serverData from './routes/serverData';
@@ -23,7 +23,7 @@ app.use(httpLogger());
 establishConnection();
 
 app.use('/api/group', group);
-app.use('/api/plugS', plugS);
+app.use('/api/plugs', plugS);
 app.use('/api/rgbw2', rgbw2);
 app.use('/api/scene', scene);
 app.use('/api/serverData', serverData);

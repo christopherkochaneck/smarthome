@@ -2,7 +2,7 @@ import color from '../interfaces/color';
 
 export type Action = {
 	_id: string;
-	type: 'rgbw2' | 'plugS';
+	type: 'rgbw2' | 'plugs';
 	actions: {
 		state: boolean | null;
 		color: color | null;

@@ -10,7 +10,7 @@ import {
 import { PlugS } from '../../models/plugS';
 
 let server;
-describe('/api/plugS', () => {
+describe('/api/plugs', () => {
   beforeAll(() => {
     server = require('../../src/app');
   });
@@ -24,13 +24,13 @@ describe('/api/plugS', () => {
   describe('GET /', () => {
     it('should return all plugS Devices', async () => {
       const plugS = [
-        { ipAdress: '192.168.1.1', title: 'MyTitle', type: 'plugS' },
-        { ipAdress: '192.168.1.2', title: 'MyTitle2', type: 'plugS' },
-        { ipAdress: '192.168.1.3', title: 'MyTitle3', type: 'plugS' },
+        { ipAdress: '192.168.1.1', title: 'MyTitle', type: 'plugs' },
+        { ipAdress: '192.168.1.2', title: 'MyTitle2', type: 'plugs' },
+        { ipAdress: '192.168.1.3', title: 'MyTitle3', type: 'plugs' },
       ];
       await PlugS.collection.insertMany(plugS);
 
-      const res = await request(server).get('/api/plugS');
+      const res = await request(server).get('/api/plugs');
       expect(res.status).toBe(200);
       expect(res.body.length).toBe(3);
       expect(res.body.some((x) => x.title === 'MyTitle')).toBeTruthy();
@@ -44,18 +44,18 @@ describe('/api/plugS', () => {
       const plugS = {
         ipAdress: '192.168.1.1',
         title: 'MyTitle',
-        type: 'plugS',
+        type: 'plugs',
       };
       const insertedDevice = await PlugS.collection.insertOne(plugS);
       const res = await request(server).get(
-        `/api/plugS/${insertedDevice.insertedId}`
+        `/api/plugs/${insertedDevice.insertedId}`
       );
 
       expect(res.body).toStrictEqual({
         _id: insertedDevice.insertedId.toString(),
         ipAdress: '192.168.1.1',
         title: 'MyTitle',
-        type: 'plugS',
+        type: 'plugs',
       });
     });
 
@@ -63,11 +63,11 @@ describe('/api/plugS', () => {
       const plugS = {
         ipAdress: '192.168.1.1',
         title: 'MyTitle',
-        type: 'plugS',
+        type: 'plugs',
       };
       PlugS.collection.insertOne(plugS);
       const res = await request(server).get(
-        '/api/plugS/5eb78994dbb89024f04a2507'
+        '/api/plugs/5eb78994dbb89024f04a2507'
       );
       expect(res.statusCode).toBe(404);
     });
@@ -76,10 +76,10 @@ describe('/api/plugS', () => {
       const plugS = {
         ipAdress: '192.168.1.1',
         title: 'MyTitle',
-        type: 'plugS',
+        type: 'plugs',
       };
       PlugS.collection.insertOne(plugS);
-      const res = await request(server).get('/api/plugS/123');
+      const res = await request(server).get('/api/plugs/123');
       expect(res.statusCode).toBe(500);
     });
   });
@@ -89,9 +89,9 @@ describe('/api/plugS', () => {
       const plugS = {
         ipAdress: '192.168.1.1',
         title: 'MyTitle',
-        type: 'plugS',
+        type: 'plugs',
       };
-      const res = await request(server).post('/api/plugS').send(plugS);
+      const res = await request(server).post('/api/plugs').send(plugS);
       let plugSObject = PlugS.find({
         _id: res.body._id,
         ipAdress: plugS.ipAdress,
@@ -114,7 +114,7 @@ describe('/api/plugS', () => {
       const plugS = {
         ipAdress: '192.168.1.1',
         title: 'MyTitle',
-        type: 'plugS',
+        type: 'plugs',
       };
       const insertedDevice = await PlugS.collection.insertOne(plugS);
       const id = insertedDevice.insertedId.toString();
@@ -122,10 +122,10 @@ describe('/api/plugS', () => {
         _id: id,
         ipAdress: '192.168.1.1',
         title: 'MyUpdatedTitle',
-        type: 'plugS',
+        type: 'plugs',
       };
       const res = await request(server)
-        .patch(`/api/plugS/${id}`)
+        .patch(`/api/plugs/${id}`)
         .send(updatedPlugS);
 
       expect(res).not.toBe(null);
@@ -136,7 +136,7 @@ describe('/api/plugS', () => {
       const plugS = {
         ipAdress: '192.168.1.1',
         title: 'MyTitle',
-        type: 'plugS',
+        type: 'plugs',
       };
       const insertedDevice = await PlugS.collection.insertOne(plugS);
       const id = insertedDevice.insertedId.toString();
@@ -144,10 +144,10 @@ describe('/api/plugS', () => {
         _id: id,
         ipAdress: '192.168.1.1',
         title: 'MyUpdatedTitle',
-        type: 'plugS',
+        type: 'plugs',
       };
       const res = await request(server)
-        .patch('/api/plugS/5eb78994dbb89024f04a2507')
+        .patch('/api/plugs/5eb78994dbb89024f04a2507')
         .send(updatedPlugS);
       expect(res.statusCode).toBe(404);
     });
@@ -156,10 +156,10 @@ describe('/api/plugS', () => {
       const plugS = {
         ipAdress: '192.168.1.1',
         title: 'MyTitle',
-        type: 'plugS',
+        type: 'plugs',
       };
       PlugS.collection.insertOne(plugS);
-      const res = await request(server).patch('/api/plugS/123');
+      const res = await request(server).patch('/api/plugs/123');
       expect(res.statusCode).toBe(500);
     });
   });
@@ -169,11 +169,11 @@ describe('/api/plugS', () => {
       const plugS = {
         ipAdress: '192.168.1.1',
         title: 'MyTitle',
-        type: 'plugS',
+        type: 'plugs',
       };
       const insertedDevice = await PlugS.collection.insertOne(plugS);
       const id = insertedDevice.insertedId.toString();
-      const res = await request(server).delete(`/api/plugS/${id}`);
+      await request(server).delete(`/api/plugs/${id}`);
       const foundPlugS = await PlugS.findById(id);
       expect(foundPlugS).toBe(null);
     });
@@ -182,12 +182,12 @@ describe('/api/plugS', () => {
       const plugS = {
         ipAdress: '192.168.1.1',
         title: 'MyTitle',
-        type: 'plugS',
+        type: 'plugs',
       };
       const insertedDevice = await PlugS.collection.insertOne(plugS);
       const id = insertedDevice.insertedId.toString();
       const res = await request(server).delete(
-        '/api/plugS/5eb78994dbb89024f04a2507'
+        '/api/plugs/5eb78994dbb89024f04a2507'
       );
       expect(res.statusCode).toBe(404);
     });
@@ -196,10 +196,10 @@ describe('/api/plugS', () => {
       const plugS = {
         ipAdress: '192.168.1.1',
         title: 'MyTitle',
-        type: 'plugS',
+        type: 'plugs',
       };
       PlugS.collection.insertOne(plugS);
-      const res = await request(server).patch('/api/plugS/123');
+      const res = await request(server).patch('/api/plugs/123');
       expect(res.statusCode).toBe(500);
     });
   });

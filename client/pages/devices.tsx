@@ -51,7 +51,7 @@ const Devices: NextPage = () => {
 	}
 	function mapPlugSDevices() {
 		return devices
-			.filter((x) => x.type === 'plugS')
+			.filter((x) => x.type === 'plugs')
 			.map((key) => {
 				return (
 					<PlugCard

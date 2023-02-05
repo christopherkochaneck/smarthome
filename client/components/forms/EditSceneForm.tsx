@@ -94,7 +94,7 @@ export const EditSceneForm: FC = () => {
 			switch (type) {
 				case 'rgbw2':
 					return <LightActionCard id={key} key={key} actions={actions} setActions={setActions} />;
-				case 'plugS':
+				case 'plugs':
 					return <PlugActionCard id={key} key={key} actions={actions} setActions={setActions} />;
 				default:
 					break;

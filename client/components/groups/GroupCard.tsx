@@ -67,7 +67,7 @@ export const GroupCard: FC<Props> = (props) => {
 				switch (res.type) {
 					case 'rgbw2':
 						return new RGBW2(res.ipAdress, res._id!);
-					case 'plugS':
+					case 'plugs':
 						return new PlugS(res.ipAdress, res._id!);
 					default:
 						return;

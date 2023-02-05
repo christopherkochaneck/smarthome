@@ -12,7 +12,7 @@ export const Rgbw2Devices: FC<Props> = (props) => {
 	return (
 		<>
 			{devices
-				.filter((x) => x.type === 'plugS')
+				.filter((x) => x.type === 'plugs')
 				.map((key: any) => {
 					return (
 						<div onClick={() => props.function(key)} key={key._id}>

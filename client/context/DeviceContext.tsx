@@ -43,11 +43,11 @@ export const DeviceProvider: FC<Props> = (props) => {
 		});
 		const plugS = await axios({
 			method: 'get',
-			url: `${BASE_URL}/api/plugS`,
+			url: `${BASE_URL}/api/plugs`,
 		});
 		setDevices([
 			...rgbw2.data.map((x: any) => ({ type: 'rgbw2', ...x })),
-			...plugS.data.map((x: any) => ({ type: 'plugS', ...x })),
+			...plugS.data.map((x: any) => ({ type: 'plugs', ...x })),
 		]);
 	};
 	useEffect(() => {

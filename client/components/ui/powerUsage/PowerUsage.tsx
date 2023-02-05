@@ -19,7 +19,7 @@ export const PowerUsage: FC = () => {
 		devices.forEach((device: RGBW2Type | PlugSType | HTType) => {
 			if (device._id === undefined) return;
 			switch (device.type) {
-				case 'plugS':
+				case 'plugs':
 					entities.push(new PlugS(device.ipAdress, device._id));
 					break;
 				case 'rgbw2':
