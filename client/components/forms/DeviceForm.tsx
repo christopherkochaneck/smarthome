@@ -1,20 +1,31 @@
-import { FC, FormEvent, useState } from 'react';
+import { FC, FormEvent, useEffect, useState } from 'react';
 import { Select } from '../ui/select/select';
 import { useRouter } from 'next/router';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
 import { Input } from '../ui/input/input';
 import { useDevices } from '../../context/DeviceContext';
 import { DeviceFloppy } from 'tabler-icons-react';
+import { useToast } from '../../context/ToastContext';
+import { v4 } from 'uuid';
 
 export const DeviceForm: FC = () => {
+	const router = useRouter();
 	const { addDevice } = useDevices();
+	const { addToast } = useToast();
 	const [deviceType, setDeviceType] = useState<string>('rgbw2');
 	const [deviceName, setDeviceName] = useState<string>('');
 	const [deviceIP, setDeviceIP] = useState<string>('');
-	const router = useRouter();
+	const pattern = '^(?:\\d{1,3}.){3}\\d{1,3}$';
+	const [visible, setVisible] = useState<boolean>(false);
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+
+		if (!deviceIP.match(pattern)) {
+			addToast({ id: v4(), message: 'IP Adress is invalid', type: 'error' });
+			return;
+		}
+
 		try {
 			let device: any;
 			device = {
@@ -23,12 +34,21 @@ export const DeviceForm: FC = () => {
 				ipAdress: deviceIP,
 			};
 			addDevice(device);
+			addToast({ id: v4(), message: 'Device added', type: 'success' });
 		} catch (ex) {
 			console.log(ex);
 		} finally {
 			router.push('/devices');
 		}
 	};
+
+	useEffect(() => {
+		if (visible) {
+			setTimeout(() => {
+				setVisible(false);
+			}, 2000);
+		}
+	}, [visible]);
 
 	return (
 		<>
