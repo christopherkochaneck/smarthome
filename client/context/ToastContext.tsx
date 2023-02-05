@@ -26,8 +26,15 @@ export const ToastProvider: FC<Props> = (props) => {
 	const [toasts, setToasts] = useState<Toast[]>([]);
 	const contextValue: ToastContextType = useMemo(() => {
 		const addToast = (toast: Toast) => {
-			console.log(toast);
 			setToasts((prev) => [...prev, toast]);
+			console.log(toast.id);
+			console.log(toasts);
+			const toastIndex = toasts.findIndex((x) => x.id === toast.id);
+			console.log(toastIndex);
+			const timeout = setTimeout(() => {
+				if (toastIndex === -1) return;
+				setToasts((prev) => prev.filter((x) => x.id !== toast.id));
+			}, 3000);
 		};
 		return { addToast };
 	}, []);
@@ -36,7 +43,10 @@ export const ToastProvider: FC<Props> = (props) => {
 		<>
 			<ToastContext.Provider value={contextValue}>
 				{props.children}
-				<div className="absolute inset-0 w-full h-max z-50 flex flex-col gap-3 p-4 pointer-events-none">
+				<div
+					style={{ bottom: '0px', right: '0px', left: '0px' }}
+					className="absolute left-0 right-0 bottom-0 w-full h-max z-50 flex flex-col gap-3 p-4 pointer-events-none"
+				>
 					{toasts.map((toast: Toast) => {
 						return (
 							<Toast
