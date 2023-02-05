@@ -10,6 +10,7 @@ interface Props {
 	name: string;
 	ipAdress: string;
 	onLongPress: () => void;
+	disableOnLoad?: boolean;
 }
 
 export const PlugCard: FC<Props> = (props) => {
@@ -48,7 +49,7 @@ export const PlugCard: FC<Props> = (props) => {
 				}}
 			>
 				<div className="h-full w-translate-y-full">
-					<Card className="flex flex-row gap-x-3 p-3 items-center">
+					<Card className="flex flex-row gap-x-3 p-3 items-center" pointerOnHover={power > 2}>
 						<div
 							style={{
 								color: state ? 'white' : 'black',
@@ -58,8 +59,10 @@ export const PlugCard: FC<Props> = (props) => {
 						</div>
 						<div
 							onClick={async () => {
-								state ? await device.turnOff() : await device.turnOn();
-								setState(device.state);
+								if (power < 2) {
+									state ? await device.turnOff() : await device.turnOn();
+									setState(device.state);
+								}
 							}}
 							className="flex flex-row w-full justify-between"
 						>
@@ -69,13 +72,15 @@ export const PlugCard: FC<Props> = (props) => {
 								</div>
 								<div className="text-white text-left">{`Load: ${power} W`}</div>
 							</div>
-							<div className="self-center">
-								<ToggleSwitch
-									state={state}
-									setState={setState}
-									className="border border-darkgrey"
-								/>
-							</div>
+							{power < 2 && (
+								<div className="self-center">
+									<ToggleSwitch
+										state={state}
+										setState={setState}
+										className="border border-darkgrey"
+									/>
+								</div>
+							)}
 						</div>
 					</Card>
 				</div>
