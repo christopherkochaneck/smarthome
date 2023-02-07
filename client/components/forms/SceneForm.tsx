@@ -10,9 +10,12 @@ import { PlugSType } from '../../types/PlugSType';
 import { RGBW2Type } from '../../types/RGBW2Type';
 import { Rgbw2Devices } from '../util/rgbw2devices';
 import { PlugSDevices } from '../util/plugSdevices';
+import { useDevices } from '../../context/DeviceContext';
+import { PlugActionCard } from '../devices/actionCard/plugActionCard';
 
 export const SceneForm: FC = () => {
 	const { addScene } = useScenes();
+	const { devices } = useDevices();
 	const [sceneName, setSceneName] = useState<string>('');
 	const [actions, setActions] = useState<Action[]>([]);
 	const router = useRouter();
@@ -82,7 +85,30 @@ export const SceneForm: FC = () => {
 				</div>
 				<div className={`grid gap-4 ${!viewActionPage ? 'hidden' : 'block'}`}>
 					{ids.map((key) => {
-						return <LightActionCard id={key} key={key} actions={actions} setActions={setActions} />;
+						const device = devices.find((x) => x._id === key);
+						if (!device) return;
+						switch (device.type) {
+							case 'rgbw2':
+								return (
+									<LightActionCard
+										id={device._id!}
+										key={key}
+										actions={actions}
+										setActions={setActions}
+									/>
+								);
+							case 'plugs':
+								return (
+									<PlugActionCard
+										id={device._id!}
+										key={key}
+										actions={actions}
+										setActions={setActions}
+									/>
+								);
+							default:
+								break;
+						}
 					})}
 				</div>
 				<FloatingActionButton

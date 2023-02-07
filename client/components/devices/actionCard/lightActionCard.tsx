@@ -63,16 +63,13 @@ export const LightActionCard: FC<Props> = (props) => {
 		<>
 			<RGBW2Modal open={open} setOpen={setOpen} setSelectedColor={setColor} />
 			<Card>
-				<div className="grid p-[10px] gap-2 grid-cols-3 grid-rows-2 justify-items-center items-center">
-					<div className="co-start-1 row-start-1 row-end-3">
-						<Bulb className="h-10 w-10" />
-					</div>
-					<div className="text-white flex-grow col-start-2 row-start-1 row-end-3">{name}</div>
-					<div onClick={() => setOpen(!open)} className="col-start-3">
+				<div className="flex flex-row gap-x-3 p-3 items-center">
+					<Bulb className="h-10 w-10" />
+					<div className="text-white text-left flex-grow">{name}</div>
+					<div onClick={() => setOpen(!open)}>
 						<ColorIndicator color={color} />
 					</div>
 					<div
-						className="col-start-3"
 						onClick={() => {
 							setState(!state);
 						}}
