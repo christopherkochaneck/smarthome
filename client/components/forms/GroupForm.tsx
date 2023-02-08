@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
-import { FC, FormEvent, useEffect, useState } from 'react';
+import { FC, FormEvent, useState } from 'react';
 import { useGroups } from '../../context/GroupContext';
 import { GroupType } from '../../types/GroupType';
 import { FloatingActionButton } from '../ui/floatingActionButton/floatingActionButton';
 import { Input } from '../ui/input/input';
-import { DeviceFloppy, IdBadge } from 'tabler-icons-react';
+import { DeviceFloppy } from 'tabler-icons-react';
 import { Rgbw2Devices } from '../util/rgbw2devices';
 import { PlugSDevices } from '../util/plugSdevices';
 import { v4 } from 'uuid';
