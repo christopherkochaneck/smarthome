@@ -9,7 +9,7 @@ import { Select } from '../ui/select/select';
 export const EditDeviceForm: FC = () => {
 	const { devices, updateDevice, addDevice, deleteDevice } = useDevices();
 	const [initialDeviceType, setInititalDeviceType] = useState<string>('');
-	const [selectedDeviceType, setDeviceType] = useState<string>('');
+	const [selectedDeviceType, setSelectedDeviceType] = useState<string>('');
 	const [deviceName, setDeviceName] = useState<string>('');
 	const [deviceIP, setDeviceIP] = useState<string>('');
 	const router = useRouter();
@@ -26,6 +26,7 @@ export const EditDeviceForm: FC = () => {
 				ipAdress: deviceIP,
 			};
 			if (initialDeviceType === selectedDeviceType) {
+				console.log('here');
 				return updateDevice(device);
 			} else {
 				deleteDevice(device);
@@ -55,6 +56,7 @@ export const EditDeviceForm: FC = () => {
 		}
 
 		setInititalDeviceType(foundID.type);
+		setSelectedDeviceType(foundID.type);
 		setDeviceName(foundID.title);
 		setDeviceIP(foundID.ipAdress);
 	}, [router.query, devices]);
@@ -68,7 +70,7 @@ export const EditDeviceForm: FC = () => {
 						values={['RGBW2', 'PlugS', 'HT']}
 						className="h-10 rounded-xl"
 						onChange={(e) => {
-							setDeviceType(e.currentTarget.value);
+							setSelectedDeviceType(e.currentTarget.value);
 						}}
 						value={selectedDeviceType}
 					/>
