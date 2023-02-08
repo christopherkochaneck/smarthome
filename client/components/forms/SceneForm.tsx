@@ -64,6 +64,25 @@ export const SceneForm: FC = () => {
 		setActions([...actions]);
 	}
 
+	const mapIds = () => {
+		return ids.map((key) => {
+			const device = devices.find((x) => x._id === key);
+			if (!device) return;
+			switch (device.type) {
+				case 'rgbw2':
+					return (
+						<LightActionCard id={device._id!} key={key} actions={actions} setActions={setActions} />
+					);
+				case 'plugs':
+					return (
+						<PlugActionCard id={device._id!} key={key} actions={actions} setActions={setActions} />
+					);
+				default:
+					break;
+			}
+		});
+	};
+
 	useEffect(() => {
 		setViewActionPage(false);
 	}, []);
@@ -84,32 +103,7 @@ export const SceneForm: FC = () => {
 					<PlugSDevices selectedIds={ids} function={handleAddAction} />
 				</div>
 				<div className={`grid gap-4 ${!viewActionPage ? 'hidden' : 'block'}`}>
-					{ids.map((key) => {
-						const device = devices.find((x) => x._id === key);
-						if (!device) return;
-						switch (device.type) {
-							case 'rgbw2':
-								return (
-									<LightActionCard
-										id={device._id!}
-										key={key}
-										actions={actions}
-										setActions={setActions}
-									/>
-								);
-							case 'plugs':
-								return (
-									<PlugActionCard
-										id={device._id!}
-										key={key}
-										actions={actions}
-										setActions={setActions}
-									/>
-								);
-							default:
-								break;
-						}
-					})}
+					<>{mapIds()}</>
 				</div>
 				<FloatingActionButton
 					className="bg-black absolute right-4 bottom-20 text-white"
