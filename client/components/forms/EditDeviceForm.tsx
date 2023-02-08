@@ -26,7 +26,6 @@ export const EditDeviceForm: FC = () => {
 				ipAdress: deviceIP,
 			};
 			if (initialDeviceType === selectedDeviceType) {
-				console.log('here');
 				return updateDevice(device);
 			} else {
 				deleteDevice(device);
@@ -41,15 +40,14 @@ export const EditDeviceForm: FC = () => {
 	};
 
 	useEffect(() => {
-		const query = router.query;
-		const id = query.id;
+		const _id = router.query._id;
 
-		if (id === undefined) {
+		if (_id === undefined) {
 			return;
 		}
-		setDeviceId(id.toString());
+		setDeviceId(_id.toString());
 
-		const foundID = devices.find((x) => x._id === id);
+		const foundID = devices.find((x) => x._id === _id);
 
 		if (foundID === undefined) {
 			return;
