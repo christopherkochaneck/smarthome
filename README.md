@@ -62,3 +62,9 @@ An instance of [Sonarqube](https://www.sonarsource.com/products/sonarqube/) is a
 ## Deployment
 
 The project uses Docker to launch seperate containers for the frontend, backend and database. This should make it easy to deploy and update the Containers seperately.<br>
+
+## Licensing
+
+I am using the folowing resources that I do NOT own (Click to get to the Link):
+
+Smarthome Icon: [Intelligentes-zuhause](https://www.flaticon.com/de/kostenlose-icons/intelligentes-zuhause)
