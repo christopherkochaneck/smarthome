@@ -7,6 +7,7 @@ import { DeviceProvider } from '../context/DeviceContext';
 import { GroupProvider } from '../context/GroupContext';
 import { SceneProvider } from '../context/SceneContext';
 import { ToastProvider } from '../context/ToastContext';
+import { LoginProvider } from '../context/LoginContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
@@ -14,15 +15,17 @@ function MyApp({ Component, pageProps }: AppProps) {
 			<Head>
 				<title>Smarthome</title>
 			</Head>
-			<ToastProvider>
-				<SceneProvider>
-					<GroupProvider>
-						<DeviceProvider>
-							<Component {...pageProps} />
-						</DeviceProvider>
-					</GroupProvider>
-				</SceneProvider>
-			</ToastProvider>
+			<LoginProvider>
+				<ToastProvider>
+					<SceneProvider>
+						<GroupProvider>
+							<DeviceProvider>
+								<Component {...pageProps} />
+							</DeviceProvider>
+						</GroupProvider>
+					</SceneProvider>
+				</ToastProvider>
+			</LoginProvider>
 		</React.Fragment>
 	);
 }
