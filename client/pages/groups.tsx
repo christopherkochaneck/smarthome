@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import router from 'next/router';
 import { useState } from 'react';
 import { ContextMenuItem } from '../components/ui/contextMenu/components/contextMenuItem';
@@ -9,8 +9,28 @@ import { SceneCard } from '../components/scenes/SceneCard';
 import { useGroups } from '../context/GroupContext';
 import { useScenes } from '../context/SceneContext';
 import { Backdrop } from '../components/ui/backdrop/Backdrop';
+import { Session } from 'next-auth';
+import { getSession } from 'next-auth/react';
 
-const Groups: NextPage = () => {
+interface Props {
+	session: Session;
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	const session = await getSession(ctx);
+	if (!session) {
+		return {
+			redirect: {
+				destination: '/api/auth/signin',
+				permanent: false,
+			},
+		};
+	}
+
+	return { props: { session } };
+};
+
+const Groups: NextPage<Props> = ({ session }) => {
 	const { groups, deleteGroup } = useGroups();
 	const { scenes, deleteScene } = useScenes();
 	const [visible, setVisible] = useState<boolean>(false);

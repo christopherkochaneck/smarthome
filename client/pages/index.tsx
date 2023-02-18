@@ -7,20 +7,41 @@ import { WeatherData } from '../interfaces/weather';
 import { DailyForecastData } from '../interfaces/dailyForecast';
 import { PowerUsage } from '../components/ui/powerUsage/PowerUsage';
 import { ClimateData } from '../components/ui/climateData/ClimateData';
+import { getSession, signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { Session } from 'next-auth';
 
 interface Props {
+	session: Session;
 	weatherData: WeatherData;
 	dailyForecastData: DailyForecastData;
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	const session = await getSession(ctx);
+
+	if (!session) {
+		return {
+			redirect: {
+				destination: '/api/auth/signin',
+				permanent: false,
+			},
+		};
+	}
 	const weatherData = await getWeatherData();
 	const dailyForecastData = await getDailyForecast();
 
-	return { props: { weatherData, dailyForecastData } };
+	return {
+		props: {
+			session,
+			weatherData,
+			dailyForecastData,
+		},
+	};
 };
 
-const Home: NextPage<Props> = ({ weatherData, dailyForecastData }) => {
+const Home: NextPage<Props> = ({ session, weatherData, dailyForecastData }) => {
 	return (
 		<>
 			<LayoutWrapper showAppbarIcon>

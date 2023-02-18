@@ -33,7 +33,6 @@ export const EditDeviceForm: FC = () => {
 				addDevice(device);
 			}
 		} catch (ex) {
-			console.log(ex);
 		} finally {
 			router.push('/devices');
 		}

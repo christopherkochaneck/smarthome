@@ -1,8 +1,28 @@
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
+import { Session } from 'next-auth';
+import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
 
-const Grouping: NextPage = () => {
+interface Props {
+	session: Session;
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	const session = await getSession(ctx);
+	if (!session) {
+		return {
+			redirect: {
+				destination: '/api/auth/signin',
+				permanent: false,
+			},
+		};
+	}
+
+	return { props: { session } };
+};
+
+const Grouping: NextPage<Props> = ({ session }) => {
 	const router = useRouter();
 	return (
 		<LayoutWrapper>

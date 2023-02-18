@@ -1,12 +1,32 @@
 import axios from 'axios';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
+import { Session } from 'next-auth';
+import { getSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { LayoutWrapper } from '../../components/layout/layoutWrapper';
 import { Usage } from '../../components/ui/usage/Usage';
 import { BASE_URL } from '../../config/env';
 import { AdminPanelCard } from './components/adminPanelCard';
 
-export const AdminPanel: NextPage = () => {
+interface Props {
+	session: Session;
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	const session = getSession(ctx);
+	if (!session) {
+		return {
+			redirect: {
+				destination: '/api/auth/signin',
+				permanent: false,
+			},
+		};
+	}
+
+	return { props: { session } };
+};
+
+export const AdminPanel: NextPage<Props> = ({ session }) => {
 	const [freeMemory, setFreeMemory] = useState<number>(0);
 	const [totalMemory, setTotalMemory] = useState<number>(0);
 	const [architecture, setArchitecture] = useState<string>('');

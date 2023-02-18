@@ -7,7 +7,7 @@ import { DeviceProvider } from '../context/DeviceContext';
 import { GroupProvider } from '../context/GroupContext';
 import { SceneProvider } from '../context/SceneContext';
 import { ToastProvider } from '../context/ToastContext';
-import { LoginProvider } from '../context/LoginContext';
+import { SessionProvider } from 'next-auth/react';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
@@ -15,8 +15,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 			<Head>
 				<title>Smarthome</title>
 			</Head>
-			<LoginProvider>
-				<ToastProvider>
+			<ToastProvider>
+				<SessionProvider session={pageProps.session}>
 					<SceneProvider>
 						<GroupProvider>
 							<DeviceProvider>
@@ -24,8 +24,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 							</DeviceProvider>
 						</GroupProvider>
 					</SceneProvider>
-				</ToastProvider>
-			</LoginProvider>
+				</SessionProvider>
+			</ToastProvider>
 		</React.Fragment>
 	);
 }

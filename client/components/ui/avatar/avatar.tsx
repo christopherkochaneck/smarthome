@@ -12,7 +12,7 @@ interface Props {
 export const Avatar: FC<Props> = (props) => {
 	return (
 		<div
-			className={`w-max h-max rounded-full`}
+			className={`w-max h-max rounded-full relative`}
 			style={{ padding: props.padding, background: props.background }}
 		>
 			<>

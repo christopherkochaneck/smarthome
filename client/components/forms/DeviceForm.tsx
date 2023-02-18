@@ -36,7 +36,6 @@ export const DeviceForm: FC = () => {
 			addDevice(device);
 			addToast({ id: v4(), message: 'Device added', type: 'success' });
 		} catch (ex) {
-			console.log(ex);
 		} finally {
 			router.push('/devices');
 		}

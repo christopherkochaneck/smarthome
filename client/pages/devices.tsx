@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import router from 'next/router';
 import { useState } from 'react';
 import { ContextMenuItem } from '../components/ui/contextMenu/components/contextMenuItem';
@@ -8,8 +8,28 @@ import { PlugCard } from '../components/devices/plugCard';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
 import { Backdrop } from '../components/ui/backdrop/Backdrop';
 import { useDevices } from '../context/DeviceContext';
+import { Session } from 'next-auth';
+import { getSession } from 'next-auth/react';
 
-const Devices: NextPage = () => {
+interface Props {
+	session: Session;
+}
+
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+	const session = await getSession(ctx);
+	if (!session) {
+		return {
+			redirect: {
+				destination: '/api/auth/signin',
+				permanent: false,
+			},
+		};
+	}
+
+	return { props: { session } };
+};
+
+const Devices: NextPage<Props> = ({ session }) => {
 	const { devices, deleteDevice } = useDevices();
 	const [visible, setVisible] = useState<boolean>(false);
 	const [selectedId, setSelectedId] = useState<string>('');

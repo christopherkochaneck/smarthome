@@ -60,7 +60,6 @@ router.delete('/:id', async (req, res) => {
   try {
     const ht = await HT.findByIdAndRemove(req.params.id);
     if (!ht) {
-      console.log('Not found');
       return res.status(404).send('The HT with the given ID was not found.');
     }
 
