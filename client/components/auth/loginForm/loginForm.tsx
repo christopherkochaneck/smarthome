@@ -4,27 +4,44 @@ import { useToast } from '../../../context/ToastContext';
 import { Avatar } from '../../ui/avatar/avatar';
 import { Input } from '../../ui/input/input';
 import { User as UserIcon } from 'tabler-icons-react';
-import { User } from '../../../interfaces/user';
+import { DBUser } from '../../../interfaces/user';
+import { useRouter } from 'next/router';
 
 type Props = {
-	userToLogin: User;
+	userToLogin: DBUser;
 	goBack: () => void;
 };
 
 export const LoginForm: FC<Props> = ({ userToLogin, goBack }) => {
 	const { addToast } = useToast();
 	const [password, setPassword] = useState<string>('');
+	const router = useRouter();
 
 	const handleSignIn = async () => {
 		const res = await signIn('credentials', {
+			redirect: false,
 			username: userToLogin.username,
 			password: password,
 		});
+
+		if (res === undefined) return;
+
+		if (res.status !== 200) {
+			return addToast({
+				message: res.error || 'Something went wrong',
+				type: 'error',
+			});
+		}
+		addToast({
+			message: 'Login successfull',
+			type: 'success',
+		});
+		router.push('/');
 	};
 
 	return (
 		<>
-			<div className="bg-darkgrey w-screen h-screen flex flex-col items-center gap-4">
+			<div className="bg-darkgrey w-screen h-screen flex flex-col items-center gap-4 p-4">
 				<span className="flex flex-col items-center gap-2">
 					<Avatar
 						padding={12}
