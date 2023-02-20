@@ -9,6 +9,8 @@ interface Props {
 	href?: string;
 	children?: React.ReactNode;
 	showBackButton?: boolean;
+	className?: string;
+	hideNavbar?: boolean;
 }
 export const LayoutWrapper: FC<Props> = (props) => {
 	return (
@@ -23,11 +25,9 @@ export const LayoutWrapper: FC<Props> = (props) => {
 				/>
 			</header>
 			<main className="flex-1">
-				<div className="p-4">{props.children}</div>
+				<div className={`${props.className} p-4`}>{props.children}</div>
 			</main>
-			<footer>
-				<Navbar />
-			</footer>
+			<footer>{!props.hideNavbar && <Navbar />}</footer>
 		</div>
 	);
 };
