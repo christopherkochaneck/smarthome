@@ -44,10 +44,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const Home: NextPage<Props> = ({ session, weatherData, dailyForecastData }) => {
 	return (
 		<>
-			<LayoutWrapper showAppbarIcon>
+			<LayoutWrapper showAppbar appBarTitle="Home">
 				<div className="flex flex-col gap-10">
 					<div className="p-5 text-white text-3xl text-center">
-						Hey Chris, here&apos;s whats up for today.
+						Hey, here&apos;s whats up for today.
 					</div>
 					<div className="p-5">
 						<WeatherForeCast weatherData={weatherData} />
