@@ -34,7 +34,7 @@ const Settings: NextPage<Props> = ({ session }) => {
 				<Divider />
 				<ListTile title="Account Settings" onClick={() => router.push('/auth/accountSettings')} />
 				<Divider />
-				<ListTile title="Manage Accounts" onClick={() => null} />
+				<ListTile title="Manage Accounts" onClick={() => router.push('/manageAccounts')} />
 			</div>
 		</LayoutWrapper>
 	);
