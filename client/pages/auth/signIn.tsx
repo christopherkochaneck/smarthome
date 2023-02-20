@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { LoginForm } from '../../components/auth/loginForm/loginForm';
 import UserSelectionForm from '../../components/auth/userSelectionForm/userSelectionForm';
 import { BASE_URL } from '../../config/env';
-import { User } from '../../interfaces/user';
+import { DBUser } from '../../interfaces/user';
 
 type Props = {
-	users: User[];
+	users: DBUser[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 };
 
 export const SignIn: NextPage<Props> = ({ users }) => {
-	const [userToLogin, setUserToLogin] = useState<User | null>(null);
+	const [userToLogin, setUserToLogin] = useState<DBUser | null>(null);
 	return (
 		<>
 			{userToLogin ? (
