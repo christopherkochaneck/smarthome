@@ -1,6 +1,8 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import mongoose, { connect, model, Schema } from 'mongoose';
+import { DBUser } from '../../../interfaces/user';
+import bcrypt from 'bcrypt';
 
 connect(`${process.env.DB_CONNECTION_STRING}`, {
 	user: `${process.env.DB_USER}`,
@@ -18,6 +20,7 @@ const User =
 	);
 
 export default NextAuth({
+	debug: true,
 	session: { strategy: 'jwt' },
 	secret: process.env.JWT_SECRET,
 	pages: { signIn: '/auth/signIn' },
@@ -32,12 +35,11 @@ export default NextAuth({
 			async authorize(credentials, req) {
 				const { username, password } = credentials as { username: string; password: string };
 
-				const user = await User.findOne({
+				const user = await User.findOne<any>({
 					username: username,
-					password: password,
 				});
 
-				if (!user) {
+				if (!user || !(await bcrypt.compare(password, user.password))) {
 					throw new Error('Wrong username or password.');
 				}
 
@@ -51,7 +53,8 @@ export default NextAuth({
 		redirect: async ({ baseUrl }) => {
 			return baseUrl;
 		},
-		session: async ({ session, user, token }) => {
+		session: async ({ session, token }) => {
+			session.user = token.user;
 			return session;
 		},
 		jwt: async ({ token, user }) => {
