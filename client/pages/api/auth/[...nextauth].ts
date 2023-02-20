@@ -20,7 +20,6 @@ const User =
 	);
 
 export default NextAuth({
-	debug: true,
 	session: { strategy: 'jwt' },
 	secret: process.env.JWT_SECRET,
 	pages: { signIn: '/auth/signIn' },
