@@ -1,19 +1,24 @@
 import { FC } from 'react';
 import { Avatar } from '../../../ui/avatar/avatar';
-import { ArrowNarrowRight, User } from 'tabler-icons-react';
+import { User } from 'tabler-icons-react';
+import { Card } from '../../../ui/card/card';
 
 interface Props {
 	_id: string;
 	avatarBackground: string;
 	userName: string;
-	onClick: () => void;
+	actions?: React.ReactNode[];
+	onClick?: () => void;
 }
 
 export const UserSelectable: FC<Props> = (props) => {
 	return (
-		<div className="flex flex-col gap-4 w-full" onClick={props.onClick}>
-			<button className="flex flex-row items-center gap-4 hover:cursor-pointer place-content-between">
-				<span className="flex items-center justify-center gap-4">
+		<Card
+			className="flex flex-row items-center content-between gap-4 w-full p-3"
+			onClick={props.onClick}
+		>
+			<span className="flex-grow">
+				<span className="flex placeholder:items-center items-center gap-4">
 					<Avatar
 						padding={8}
 						dimension={32}
@@ -22,9 +27,9 @@ export const UserSelectable: FC<Props> = (props) => {
 					/>
 					<span className="text-white">{props.userName}</span>
 				</span>
-				<ArrowNarrowRight className="w-8 h-8 text-white" />
-			</button>
-		</div>
+			</span>
+			<span className="flex gap-2">{props.actions}</span>
+		</Card>
 	);
 };
 
