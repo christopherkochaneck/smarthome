@@ -32,9 +32,12 @@ export const Input: FC<Props> = (props) => {
 				{props.type === 'password' && (
 					<button
 						className="h-full bg-grey w-full cursor-pointer flex items-center pr-2"
-						onClick={() => setShowPassword(!showPassword)}
+						onClick={(e) => {
+							e.preventDefault();
+							setShowPassword(!showPassword);
+						}}
 					>
-						{showPassword ? <Eye /> : <EyeOff />}
+						{showPassword ? <Eye className="text-black" /> : <EyeOff className="text-black" />}
 					</button>
 				)}
 			</div>
