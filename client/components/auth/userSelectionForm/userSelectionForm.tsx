@@ -14,8 +14,8 @@ export const UserSelectionForm: FC<Props> = ({ users, setUserToLogin }) => {
 	const router = useRouter();
 	return (
 		<>
-			<div className="w-screen h-screen bg-darkgrey flex flex-col items-center p-8">
-				<span className="flex flex-col gap-3 items-center">
+			<div className="w-screen h-screen bg-darkgrey flex flex-col items-center p-8 gap-8">
+				<span className="flex flex-col gap-2 items-center">
 					<Avatar iconSrc="/icon-512x512.png" dimension={75} padding={20} background="white" />
 					<span className="text-white">Smarthome</span>
 				</span>

@@ -60,7 +60,7 @@ export const LoginForm: FC<Props> = ({ userToLogin, goBack }) => {
 					className="bg-black rounded-xl text-white pl-4 pr-4 pt-2 pb-2"
 					onClick={handleSignIn}
 				>
-					Login
+					Log in
 				</button>
 				<button
 					className="bg-black rounded-xl text-white pl-4 pr-4 pt-2 pb-2"

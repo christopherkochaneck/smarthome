@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { GetServerSideProps, NextPage } from 'next';
 import { Session } from 'next-auth';
 import { getSession, signOut } from 'next-auth/react';
@@ -5,6 +6,8 @@ import { useRouter } from 'next/router';
 import { User } from 'tabler-icons-react';
 import { LayoutWrapper } from '../../components/layout/layoutWrapper';
 import { Avatar } from '../../components/ui/avatar/avatar';
+import { BASE_URL } from '../../config/env';
+import { useToast } from '../../context/ToastContext';
 
 interface Props {
 	session: Session;
@@ -26,6 +29,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 export const AccountSettings: NextPage<Props> = ({ session }) => {
 	const router = useRouter();
+	const { addToast } = useToast();
 	return (
 		<>
 			<LayoutWrapper appBarTitle="Account Settings" showAppbar showBackButton>
@@ -47,6 +51,19 @@ export const AccountSettings: NextPage<Props> = ({ session }) => {
 						className="p-4 pt-2 pb-2 bg-black rounded-lg"
 					>
 						Change Password
+					</button>
+					<button
+						className="p-2 bg-red-700 rounded-lg text-white"
+						onClick={async () => {
+							try {
+								await axios({ method: 'delete', url: `${BASE_URL}/api/user/${session.user.id}` });
+								signOut();
+							} catch (error: any) {
+								addToast({ message: error.message, type: 'error' });
+							}
+						}}
+					>
+						Delete Account
 					</button>
 				</div>
 			</LayoutWrapper>
