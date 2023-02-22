@@ -9,12 +9,12 @@ export const getUsers = async () => {
 
 export const changeUserPermission = async (userId: string, permission: string) => {
 	try {
-		const res = await axios.patch(`${BASE_URL}/api/user/${userId}`, { permission: permission });
+		await axios.patch(`${BASE_URL}/api/user/${userId}`, { permission: permission });
 	} catch (error) {}
 };
 
 export const deleteUser = async (userId: string) => {
 	try {
-		const res = await axios.delete(`${BASE_URL}/api/user/${userId}`);
+		await axios.delete(`${BASE_URL}/api/user/${userId}`);
 	} catch (error) {}
 };
