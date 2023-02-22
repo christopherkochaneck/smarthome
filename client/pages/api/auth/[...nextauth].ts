@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import mongoose, { connect, model, Schema } from 'mongoose';
-import { DBUser } from '../../../interfaces/user';
 import bcrypt from 'bcrypt';
 
 connect(`${process.env.DB_CONNECTION_STRING}`, {
@@ -42,7 +41,10 @@ export default NextAuth({
 					throw new Error('Wrong username or password.');
 				}
 
-				const session = { user: { id: user._id.toString(), name: user.username } };
+				//TODO: Find a fix to only pass the id, name and permission
+				const session = {
+					user: user,
+				};
 
 				return session as any;
 			},
