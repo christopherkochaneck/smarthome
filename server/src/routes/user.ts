@@ -22,6 +22,7 @@ router.post('/', async (req, res) => {
     let user = new User({
       username: req.body.username,
       password: req.body.password,
+      permission: 'unauthorized',
     });
 
     const salt = await bcrypt.genSalt(12);
@@ -37,9 +38,17 @@ router.post('/', async (req, res) => {
 });
 
 router.patch('/:id', async (req, res) => {
-  const id = req.params.id;
   try {
-    const user = await User.findById(id);
+    let user = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        id: req.body.id,
+        username: req.body.username,
+        password: req.body.password,
+        permission: req.body.permission,
+      },
+      { new: true }
+    );
 
     if (!user) return res.status(404).send('User not found');
 
