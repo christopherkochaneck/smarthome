@@ -32,9 +32,13 @@ const Settings: NextPage<Props> = ({ session }) => {
 				<Divider />
 				<ListTile title="Show Power Log" onClick={() => router.push('/powerLog')} />
 				<Divider />
-				<ListTile title="Account Settings" onClick={() => router.push('/auth/accountSettings')} />
-				<Divider />
-				<ListTile title="Manage Accounts" onClick={() => router.push('/manageAccounts')} />
+				<ListTile title="Your Account" onClick={() => router.push('/auth/accountSettings')} />
+				{session.user.permission === 'admin' && (
+					<>
+						<Divider />
+						<ListTile title="Manage Accounts" onClick={() => router.push('/manageAccounts')} />
+					</>
+				)}
 			</div>
 		</LayoutWrapper>
 	);
