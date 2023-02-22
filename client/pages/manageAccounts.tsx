@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { Session } from 'next-auth';
 import { GetServerSideProps, NextPage } from 'next';
-import { getSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Check, Trash, X } from 'tabler-icons-react';
@@ -11,27 +10,19 @@ import { BASE_URL } from '../config/env';
 import { useToast } from '../context/ToastContext';
 import { DBUser } from '../interfaces/user';
 import { changeUserPermission, getUsers } from '../util/user';
-
-interface Props {
-	session: Session;
-}
+import { redirectByPermission } from '../util/redirect';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await getSession(ctx);
-	console.log(session);
-	if (!session) {
-		return {
-			redirect: {
-				destination: '/api/auth/signin',
-				permanent: false,
-			},
-		};
-	}
 
-	return { props: { session } };
+	const state = redirectByPermission(session);
+	if (state) return state;
+
+	return { props: {} };
 };
 
-export const ManageAccounts: NextPage<Props> = ({ session }) => {
+export const ManageAccounts: NextPage = () => {
+	const session = useSession();
 	const router = useRouter();
 	const { addToast } = useToast();
 	const [users, setUsers] = useState<DBUser[]>([]);
@@ -40,10 +31,10 @@ export const ManageAccounts: NextPage<Props> = ({ session }) => {
 	useEffect(() => {
 		const fetchUsers = async () => {
 			const users = await getUsers();
-			setUsers(users.filter((x: DBUser) => x._id !== session.user._id));
+			setUsers(users.filter((x: DBUser) => x._id !== session.data?.user._id));
 			setUsersToAccept(
 				users.filter((x: DBUser) => {
-					x._id !== session.user._id;
+					x._id !== session.data?.user._id;
 					x.permission === 'unauthorized';
 				})
 			);

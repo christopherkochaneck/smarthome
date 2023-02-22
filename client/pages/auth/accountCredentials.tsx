@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { GetServerSideProps, NextPage } from 'next';
 import { Session } from 'next-auth';
-import { getSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { v4 } from 'uuid';
@@ -9,25 +9,19 @@ import { LayoutWrapper } from '../../components/layout/layoutWrapper';
 import { Input } from '../../components/ui/input/input';
 import { BASE_URL } from '../../config/env';
 import { useToast } from '../../context/ToastContext';
+import { redirectByPermission } from '../../util/redirect';
 
-type Props = {
-	session: Session;
-};
-export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await getSession(ctx);
-	if (!session) {
-		return {
-			redirect: {
-				destination: '/api/auth/signin',
-				permanent: false,
-			},
-		};
-	}
 
-	return { props: { session } };
+	const state = redirectByPermission(session);
+	if (state) return state;
+
+	return { props: {} };
 };
 
-export const AccountCredentials: NextPage<Props> = ({ session }) => {
+export const AccountCredentials: NextPage = () => {
+	const session = useSession();
 	const { addToast } = useToast();
 	const router = useRouter();
 	const [password, setPassword] = useState<string>('');
@@ -44,7 +38,7 @@ export const AccountCredentials: NextPage<Props> = ({ session }) => {
 		try {
 			await axios({
 				method: 'patch',
-				url: `${BASE_URL}/api/user/${session.user.id}`,
+				url: `${BASE_URL}/api/user/${session.data?.user.id}`,
 				data: { password: passwordConfirm },
 			});
 

@@ -1,10 +1,22 @@
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
+import { getSession, useSession } from 'next-auth/react';
 import { Checkbox, Square, User } from 'tabler-icons-react';
 import { LayoutWrapper } from '../../components/layout/layoutWrapper';
 import { Avatar } from '../../components/ui/avatar/avatar';
 import { Card } from '../../components/ui/card/card';
+import { redirectByPermission } from '../../util/redirect';
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	const session = await getSession(ctx);
+
+	const state = redirectByPermission(session);
+	if (state) return state;
+
+	return { props: {} };
+};
 
 export const AccountDetailPage: NextPage = () => {
+	const session = useSession();
 	return (
 		<LayoutWrapper
 			className="flex flex-col items-center gap-4"
@@ -29,16 +41,20 @@ export const AccountDetailPage: NextPage = () => {
 				<Card className="flex flex-col p-2 gap-2">
 					<div>Permissions</div>
 					<span className="flex">
-						<Checkbox />
+						{session.data?.user.permission === 'admin' ? <Checkbox /> : <Square />}
 						<span className="flex-grow">Admin</span>
 					</span>
 					<span className="flex">
-						<Square />
+						{session.data?.user.permission === 'user' ? <Checkbox /> : <Square />}
 						<span className="flex-grow">User</span>
 					</span>
 					<span className="flex">
-						<Square />
-						<span className="flex-grow">Guest</span>
+						{session.data?.user.permission === 'unauthorized' ? <Checkbox /> : <Square />}
+						<span className="flex-grow">Unauthorized</span>
+					</span>
+					<span className="flex">
+						{session.data?.user.permission === 'denied' ? <Checkbox /> : <Square />}
+						<span className="flex-grow">Denied</span>
 					</span>
 				</Card>
 			</div>

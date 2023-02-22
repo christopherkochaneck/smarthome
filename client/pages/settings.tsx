@@ -1,30 +1,22 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { Session } from 'next-auth';
-import { getSession, signOut } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import router from 'next/router';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
 import { Divider } from '../components/ui/list/components/divider/Divider';
 import { ListTile } from '../components/ui/list/components/listTile/ListTile';
-
-interface Props {
-	session: Session;
-}
+import { redirectByPermission } from '../util/redirect';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await getSession(ctx);
-	if (!session) {
-		return {
-			redirect: {
-				destination: '/api/auth/signin',
-				permanent: false,
-			},
-		};
-	}
 
-	return { props: { session } };
+	const state = redirectByPermission(session);
+	if (state) return state;
+
+	return { props: {} };
 };
 
-const Settings: NextPage<Props> = ({ session }) => {
+const Settings: NextPage = () => {
+	const session = useSession();
 	return (
 		<LayoutWrapper showAppbar appBarTitle="Settings">
 			<div className="flex flex-col">
@@ -33,7 +25,7 @@ const Settings: NextPage<Props> = ({ session }) => {
 				<ListTile title="Show Power Log" onClick={() => router.push('/powerLog')} />
 				<Divider />
 				<ListTile title="Your Account" onClick={() => router.push('/auth/accountSettings')} />
-				{session.user.permission === 'admin' && (
+				{session.data?.user.permission === 'admin' && (
 					<>
 						<Divider />
 						<ListTile title="Manage Accounts" onClick={() => router.push('/manageAccounts')} />

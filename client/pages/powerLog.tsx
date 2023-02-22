@@ -19,35 +19,29 @@ import { Bar } from 'react-chartjs-2';
 import * as moment from 'moment';
 import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
+import { redirectByPermission } from '../util/redirect';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 interface Props {
-	session: Session;
 	powerData: PowerLogEntry[];
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await getSession(ctx);
 
-	if (!session) {
-		return {
-			redirect: {
-				destination: '/api/auth/signin',
-				permanent: false,
-			},
-		};
-	}
+	const state = redirectByPermission(session);
+	if (state) return state;
 
 	const powerData: PowerLogEntry[] = await axios({
 		method: 'get',
 		url: `${BASE_URL}/api/powerLog`,
 	}).then((data) => data.data);
 
-	return { props: { powerData, session } };
+	return { props: { powerData } };
 };
 
-export const PowerLog: NextPage<Props> = ({ powerData, session }) => {
+export const PowerLog: NextPage<Props> = ({ powerData }) => {
 	const dates: any[] = [];
 	const [daysToDelete, setDaysToDelete] = useState<string>('1');
 

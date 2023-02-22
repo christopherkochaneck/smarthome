@@ -3,26 +3,18 @@ import { LayoutWrapper } from '../../components/layout/layoutWrapper';
 import { GroupForm } from '../../components/forms/GroupForm';
 import { getSession } from 'next-auth/react';
 import { Session } from 'next-auth';
-
-interface Props {
-	session: Session;
-}
+import { redirectByPermission } from '../../util/redirect';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await getSession(ctx);
-	if (!session) {
-		return {
-			redirect: {
-				destination: '/api/auth/signin',
-				permanent: false,
-			},
-		};
-	}
 
-	return { props: { session } };
+	const state = redirectByPermission(session);
+	if (state) return state;
+
+	return { props: {} };
 };
 
-const AddGroup: NextPage<Props> = ({ session }) => {
+const AddGroup: NextPage = () => {
 	return (
 		<LayoutWrapper showAppbar showBackButton appBarTitle="Add Group">
 			<GroupForm />

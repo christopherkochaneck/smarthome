@@ -8,28 +8,19 @@ import { PlugCard } from '../components/devices/plugCard';
 import { LayoutWrapper } from '../components/layout/layoutWrapper';
 import { Backdrop } from '../components/ui/backdrop/Backdrop';
 import { useDevices } from '../context/DeviceContext';
-import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
+import { redirectByPermission } from '../util/redirect';
 
-interface Props {
-	session: Session;
-}
-
-export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await getSession(ctx);
-	if (!session) {
-		return {
-			redirect: {
-				destination: '/api/auth/signin',
-				permanent: false,
-			},
-		};
-	}
 
-	return { props: { session } };
+	const state = redirectByPermission(session);
+	if (state) return state;
+
+	return { props: {} };
 };
 
-const Devices: NextPage<Props> = ({ session }) => {
+const Devices: NextPage = () => {
 	const { devices, deleteDevice } = useDevices();
 	const [visible, setVisible] = useState<boolean>(false);
 	const [selectedId, setSelectedId] = useState<string>('');

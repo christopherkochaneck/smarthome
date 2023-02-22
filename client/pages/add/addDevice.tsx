@@ -3,26 +3,18 @@ import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
 import { DeviceForm } from '../../components/forms/DeviceForm';
 import { LayoutWrapper } from '../../components/layout/layoutWrapper';
-
-interface Props {
-	session: Session;
-}
+import { redirectByPermission } from '../../util/redirect';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await getSession(ctx);
-	if (!session) {
-		return {
-			redirect: {
-				destination: '/api/auth/signin',
-				permanent: false,
-			},
-		};
-	}
 
-	return { props: { session } };
+	const state = redirectByPermission(session);
+	if (state) return state;
+
+	return { props: {} };
 };
 
-const AddDevice: NextPage<Props> = ({ session }) => {
+const AddDevice: NextPage = () => {
 	return (
 		<LayoutWrapper showAppbar showBackButton appBarTitle="Add Device">
 			<DeviceForm />

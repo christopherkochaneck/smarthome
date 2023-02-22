@@ -8,10 +8,9 @@ import { DailyForecastData } from '../interfaces/dailyForecast';
 import { PowerUsage } from '../components/ui/powerUsage/PowerUsage';
 import { ClimateData } from '../components/ui/climateData/ClimateData';
 import { getSession } from 'next-auth/react';
-import { Session } from 'next-auth';
+import { redirectByPermission } from '../util/redirect';
 
 interface Props {
-	session: Session;
 	weatherData: WeatherData;
 	dailyForecastData: DailyForecastData;
 }
@@ -19,46 +18,21 @@ interface Props {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await getSession(ctx);
 
-	if (!session) {
-		return {
-			redirect: {
-				destination: '/api/auth/signin',
-				permanent: false,
-			},
-		};
-	}
-
-	if (session.user.permission === 'unauthorized') {
-		return {
-			redirect: {
-				destination: '/auth/unauthorized',
-				permanent: false,
-			},
-		};
-	}
-
-	if (session.user.permission === 'denied') {
-		return {
-			redirect: {
-				destination: '/auth/denied',
-				permanent: false,
-			},
-		};
-	}
+	const state = redirectByPermission(session);
+	if (state) return state;
 
 	const weatherData = await getWeatherData();
 	const dailyForecastData = await getDailyForecast();
 
 	return {
 		props: {
-			session,
 			weatherData,
 			dailyForecastData,
 		},
 	};
 };
 
-const Home: NextPage<Props> = ({ session, weatherData, dailyForecastData }) => {
+const Home: NextPage<Props> = ({ weatherData, dailyForecastData }) => {
 	return (
 		<>
 			<LayoutWrapper showAppbar appBarTitle="Home">

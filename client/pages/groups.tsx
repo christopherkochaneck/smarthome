@@ -9,28 +9,19 @@ import { SceneCard } from '../components/scenes/SceneCard';
 import { useGroups } from '../context/GroupContext';
 import { useScenes } from '../context/SceneContext';
 import { Backdrop } from '../components/ui/backdrop/Backdrop';
-import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
-
-interface Props {
-	session: Session;
-}
+import { redirectByPermission } from '../util/redirect';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await getSession(ctx);
-	if (!session) {
-		return {
-			redirect: {
-				destination: '/api/auth/signin',
-				permanent: false,
-			},
-		};
-	}
 
-	return { props: { session } };
+	const state = redirectByPermission(session);
+	if (state) return state;
+
+	return { props: {} };
 };
 
-const Groups: NextPage<Props> = ({ session }) => {
+const Groups: NextPage = () => {
 	const { groups, deleteGroup } = useGroups();
 	const { scenes, deleteScene } = useScenes();
 	const [visible, setVisible] = useState<boolean>(false);

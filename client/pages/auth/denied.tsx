@@ -1,28 +1,20 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { Session } from 'next-auth';
-import { getSession, signOut } from 'next-auth/react';
+import { getSession, signOut, useSession } from 'next-auth/react';
 import { useToast } from '../../context/ToastContext';
+import { redirectByPermission, redirectDeniedPage } from '../../util/redirect';
 import { deleteUser } from '../../util/user';
-
-type Props = {
-	session: Session;
-};
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await getSession(ctx);
-	if (!session) {
-		return {
-			redirect: {
-				destination: '/api/auth/signin',
-				permanent: false,
-			},
-		};
-	}
 
-	return { props: { session } };
+	const state = redirectDeniedPage(session);
+	if (state) return state;
+
+	return { props: {} };
 };
-
-export const Denied: NextPage<Props> = ({ session }) => {
+export const Denied: NextPage = () => {
+	const session = useSession();
 	const { addToast } = useToast();
 	return (
 		<div className="w-screen h-screen bg-darkgrey flex items-center justify-items-center pl-8 pr-8">
@@ -47,9 +39,9 @@ export const Denied: NextPage<Props> = ({ session }) => {
 				</button>
 				<button
 					onClick={() => {
-            //TODO: deletion not working
-						deleteUser(session.user.id);
-            addToast({ message: 'Account deleted', type: 'success' });
+						//TODO: deletion not working
+						deleteUser(session.data?.user.id);
+						addToast({ message: 'Account deleted', type: 'success' });
 						signOut();
 					}}
 					className="bg-black rounded-xl text-white pl-4 pr-4 pt-2 pb-2"
