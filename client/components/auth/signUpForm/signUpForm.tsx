@@ -1,11 +1,9 @@
 import axios from 'axios';
-import { redirect } from 'next/dist/server/api-utils';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { QuestionMark } from 'tabler-icons-react';
 import { BASE_URL } from '../../../config/env';
 import { useToast } from '../../../context/ToastContext';
-import { LayoutWrapper } from '../../layout/layoutWrapper';
 import { Avatar } from '../../ui/avatar/avatar';
 import { Input } from '../../ui/input/input';
 
@@ -35,7 +33,7 @@ export const SignUpForm: FC = () => {
 			await axios({
 				url: `${BASE_URL}/api/user`,
 				method: 'post',
-				data: { username: username, password: passwordConfirm },
+				data: { username: username, password: passwordConfirm, permission: 'unauthorized' },
 			});
 			addToast({ message: 'Account created', type: 'success' });
 
@@ -55,27 +53,35 @@ export const SignUpForm: FC = () => {
 			/>
 			<div className="text-white">Choose a Username and Password</div>
 			<span className="flex flex-col items-center gap-4">
-				<Input title="Username" onChange={(e) => setUsername(e.currentTarget.value)} />
+				<Input
+					title="Username"
+					onChange={(e) => setUsername(e.currentTarget.value)}
+					className="rounded-lg"
+				/>
 				<Input
 					title="Password"
 					type="password"
 					onChange={(e) => setPassword(e.currentTarget.value)}
+					className="rounded-lg"
 				/>
 				<Input
 					title="Confirm Password"
 					type="password"
 					onChange={(e) => setPasswordCofirm(e.currentTarget.value)}
+					className="rounded-lg"
 				/>
 			</span>
-			<button className="bg-black p-2 pl-4 pr-4 text-white rounded-lg" onClick={handleSignUp}>
-				Sign Up
-			</button>
-			<button
-				onClick={() => router.push('/api/auth/signin')}
-				className="bg-black p-2 pl-4 pr-4 rounded-lg text-white "
-			>
-				Cancel
-			</button>
+			<span className="flex gap-2">
+				<button className="bg-black p-2 pl-4 pr-4 text-white rounded-lg" onClick={handleSignUp}>
+					Sign Up
+				</button>
+				<button
+					onClick={() => router.push('/api/auth/signin')}
+					className="bg-black p-2 pl-4 pr-4 rounded-lg text-white "
+				>
+					Cancel
+				</button>
+			</span>
 		</div>
 	);
 };
