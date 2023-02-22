@@ -19,19 +19,19 @@ export const Input: FC<Props> = (props) => {
 	}, [showPassword, props.type]);
 
 	return (
-		<div className="grid gap-2">
+		<div className="flex flex-col gap-2 w-full">
 			<div className="text-white">{props.title}</div>
-			<div className={'flex items-center bg-darkgrey'}>
+			<div className={`flex items-center bg-grey p-2 rounded-lg first-letter:${props.className}`}>
 				<input
 					type={type}
-					className={`${props.className} bg-grey text-white p-2 focus:outline-none`}
+					className={`bg-grey text-white focus:outline-none w-full`}
 					onChange={props.onChange}
 					value={props.value || undefined}
 					pattern={props.pattern}
 				/>
 				{props.type === 'password' && (
 					<button
-						className="h-full bg-grey w-full cursor-pointer flex items-center pr-2"
+						className="h-full bg-grey cursor-pointer flex items-center"
 						onClick={(e) => {
 							e.preventDefault();
 							setShowPassword(!showPassword);
