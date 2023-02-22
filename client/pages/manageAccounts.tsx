@@ -10,7 +10,7 @@ import { LayoutWrapper } from '../components/layout/layoutWrapper';
 import { BASE_URL } from '../config/env';
 import { useToast } from '../context/ToastContext';
 import { DBUser } from '../interfaces/user';
-import { getUsers } from '../util/user';
+import { changeUserPermission, getUsers } from '../util/user';
 
 interface Props {
 	session: Session;
@@ -35,11 +35,18 @@ export const ManageAccounts: NextPage<Props> = ({ session }) => {
 	const router = useRouter();
 	const { addToast } = useToast();
 	const [users, setUsers] = useState<DBUser[]>([]);
+	const [usersToAccept, setUsersToAccept] = useState<DBUser[]>([]);
 
 	useEffect(() => {
 		const fetchUsers = async () => {
 			const users = await getUsers();
-			setUsers(users.filter((x: DBUser) => x._id !== session.user.id));
+			setUsers(users.filter((x: DBUser) => x._id !== session.user._id));
+			setUsersToAccept(
+				users.filter((x: DBUser) => {
+					x._id !== session.user._id;
+					x.permission === 'unauthorized';
+				})
+			);
 		};
 		fetchUsers();
 	}, []);
@@ -75,44 +82,61 @@ export const ManageAccounts: NextPage<Props> = ({ session }) => {
 		});
 	};
 
+	const mapUnauthorizedUsers = () => {
+		return users
+			.filter((x) => x.permission === 'unauthorized')
+			.map((user) => {
+				return (
+					<UserSelectable
+						_id={user._id}
+						key={user._id}
+						avatarBackground="purple"
+						onClick={() => null}
+						userName={user.username}
+						actions={[
+							<div key="1" className="bg-darkgrey rounded-full p-2">
+								<X
+									key="x"
+									onClick={(e) => {
+										e.preventDefault();
+										changeUserPermission(user._id, 'denied');
+										addToast({ message: 'Permission changed', type: 'success' });
+										setUsers((prev) => prev.filter((x) => x._id !== user._id));
+									}}
+								/>
+							</div>,
+							<div key="2" className="bg-darkgrey rounded-full p-2">
+								<Check
+									key="confirm"
+									onClick={(e) => {
+										e.preventDefault();
+										changeUserPermission(user._id, 'user');
+										addToast({ message: 'Permission changed', type: 'success' });
+										setUsers((prev) => prev.filter((x) => x._id !== user._id));
+									}}
+								/>
+							</div>,
+						]}
+					/>
+				);
+			});
+	};
+
 	return (
 		<LayoutWrapper
 			appBarTitle="Manage Accounts"
 			showAppbar
 			showBackButton
-			className="flex flex-col items-center text-white"
+			className="flex flex-col items-center text-white gap-5"
 		>
-			<div className="text-white">Users that are waiting for an approval</div>
-			<div className="w-full">
-				<UserSelectable
-					_id="123"
-					avatarBackground="purple"
-					onClick={() => null}
-					userName="Username"
-					actions={[
-						<div key="1" className="bg-darkgrey rounded-full p-2">
-							<X
-								key="x"
-								onClick={(e) => {
-									e.preventDefault();
-									console.log('deny user');
-								}}
-							/>
-						</div>,
-						<div key="2" className="bg-darkgrey rounded-full p-2">
-							<Check
-								key="confirm"
-								onClick={(e) => {
-									e.preventDefault();
-									console.log('accept user');
-								}}
-							/>
-						</div>,
-					]}
-				/>
-			</div>
-			<div>Users</div>
-			<div className="w-full flex flex-col gap-4">{mapUsers()}</div>
+			<span className="flex flex-col items-center gap-5 w-full">
+				<div className="text-2xl">Users that are waiting for an approval</div>
+				<div className="w-full flex flex-col gap-4">{mapUnauthorizedUsers()}</div>
+			</span>
+			<span className="flex flex-col items-center gap-5 w-full">
+				<div className="text-2xl">Users</div>
+				<div className="w-full flex flex-col gap-4">{mapUsers()}</div>
+			</span>
 		</LayoutWrapper>
 	);
 };
