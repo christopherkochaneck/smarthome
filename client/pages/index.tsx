@@ -7,9 +7,7 @@ import { WeatherData } from '../interfaces/weather';
 import { DailyForecastData } from '../interfaces/dailyForecast';
 import { PowerUsage } from '../components/ui/powerUsage/PowerUsage';
 import { ClimateData } from '../components/ui/climateData/ClimateData';
-import { getSession, signIn, useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { getSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 
 interface Props {
@@ -29,6 +27,25 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			},
 		};
 	}
+
+	if (session.user.permission === 'unauthorized') {
+		return {
+			redirect: {
+				destination: '/auth/unauthorized',
+				permanent: false,
+			},
+		};
+	}
+
+	if (session.user.permission === 'denied') {
+		return {
+			redirect: {
+				destination: '/auth/denied',
+				permanent: false,
+			},
+		};
+	}
+
 	const weatherData = await getWeatherData();
 	const dailyForecastData = await getDailyForecast();
 
