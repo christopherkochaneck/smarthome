@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { GetServerSideProps, NextPage } from 'next';
-import { Session } from 'next-auth';
 import { getSession, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { LayoutWrapper } from '../../components/layout/layoutWrapper';
