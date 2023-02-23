@@ -6,7 +6,6 @@ import { Input } from '../ui/input/input';
 import { useDevices } from '../../context/DeviceContext';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { useToast } from '../../context/ToastContext';
-import { v4 } from 'uuid';
 
 export const DeviceForm: FC = () => {
 	const router = useRouter();

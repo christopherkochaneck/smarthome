@@ -3,7 +3,6 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import mongoose, { connect, model, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
-import { DBUser } from '../../../interfaces/user';
 import { permission } from '../../../interfaces/permission';
 
 connect(`${process.env.DB_CONNECTION_STRING}`, {

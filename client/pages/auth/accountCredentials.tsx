@@ -1,10 +1,8 @@
 import axios from 'axios';
 import { GetServerSideProps, NextPage } from 'next';
-import { Session } from 'next-auth';
 import { getSession, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { v4 } from 'uuid';
 import { LayoutWrapper } from '../../components/layout/layoutWrapper';
 import { Input } from '../../components/ui/input/input';
 import { BASE_URL } from '../../config/env';

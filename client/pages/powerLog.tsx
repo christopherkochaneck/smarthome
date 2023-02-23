@@ -17,7 +17,6 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import * as moment from 'moment';
-import { Session } from 'next-auth';
 import { getSession, useSession } from 'next-auth/react';
 import { redirectByPermission } from '../util/redirect';
 

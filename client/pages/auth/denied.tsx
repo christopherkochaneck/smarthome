@@ -1,8 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { Session } from 'next-auth';
 import { getSession, signOut, useSession } from 'next-auth/react';
 import { useToast } from '../../context/ToastContext';
-import { redirectByPermission, redirectDeniedPage } from '../../util/redirect';
+import { redirectDeniedPage } from '../../util/redirect';
 import { deleteUser } from '../../util/user';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

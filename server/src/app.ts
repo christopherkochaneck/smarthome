@@ -1,4 +1,3 @@
-import { auth } from './middleware/auth';
 import express from 'express';
 import cors from 'cors';
 import logger from 'tw-logger';

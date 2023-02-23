@@ -1,5 +1,4 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
 import { DeviceForm } from '../../components/forms/DeviceForm';
 import { LayoutWrapper } from '../../components/layout/layoutWrapper';

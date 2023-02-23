@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { GetServerSideProps, NextPage } from 'next';
-import { Session } from 'next-auth';
 import { getSession, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { User } from 'tabler-icons-react';
