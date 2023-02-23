@@ -16,7 +16,7 @@ export const UserSelectionForm: FC<Props> = ({ users, setUserToLogin }) => {
 		<>
 			<div className="w-screen h-screen bg-darkgrey flex flex-col items-center p-8 gap-8">
 				<span className="flex flex-col gap-2 items-center">
-					<Avatar iconSrc="/icon-512x512.png" dimension={75} padding={20} background="white" />
+					<Avatar icon="/icon-512x512.png" dimension={75} padding={20} background="white" />
 					<span className="text-white">Smarthome</span>
 				</span>
 				<span className="text-white">Please choose an Account to log into.</span>

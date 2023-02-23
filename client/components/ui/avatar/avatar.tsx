@@ -3,8 +3,7 @@ import Image from 'next/image';
 
 interface Props {
 	padding?: number;
-	iconSrc?: string;
-	icon?: React.ReactNode;
+	icon?: React.ReactNode | string;
 	dimension: number;
 	background: string;
 }
@@ -16,15 +15,11 @@ export const Avatar: FC<Props> = (props) => {
 			style={{ padding: props.padding, background: props.background }}
 		>
 			<>
-				{props.iconSrc && (
-					<Image
-						alt="avatar"
-						src={props.iconSrc}
-						width={props.dimension}
-						height={props.dimension}
-					/>
+				{typeof props.icon === 'string' ? (
+					<Image alt="avatar" src={props.icon} width={props.dimension} height={props.dimension} />
+				) : (
+					props.icon
 				)}
-				{props.icon && props.icon}
 			</>
 		</div>
 	);
