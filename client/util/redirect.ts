@@ -62,7 +62,7 @@ const redirectUnauthorized = (session: Session | null) => {
 const redirectDenied = (session: Session | null) => {
 	if (!session) return;
 
-	if (session!.user.permission === 'denied') {
+	if (session.user.permission === 'denied') {
 		return {
 			redirect: {
 				destination: '/auth/denied',
