@@ -32,6 +32,7 @@ export const LoginForm: FC<Props> = ({ userToLogin, goBack }) => {
 				type: 'error',
 			});
 		}
+
 		addToast({
 			message: 'Login successfull',
 			type: 'success',

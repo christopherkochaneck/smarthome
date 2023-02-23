@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { QuestionMark } from 'tabler-icons-react';
@@ -8,6 +9,7 @@ import { Avatar } from '../../ui/avatar/avatar';
 import { Input } from '../../ui/input/input';
 
 export const SignUpForm: FC = () => {
+	const session = useSession();
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const [passwordConfirm, setPasswordCofirm] = useState<string>('');
@@ -33,6 +35,7 @@ export const SignUpForm: FC = () => {
 			await axios({
 				url: `${BASE_URL}/api/user`,
 				method: 'post',
+				headers: { Authorization: session.data?.jwt! },
 				data: { username: username, password: passwordConfirm, permission: 'unauthorized' },
 			});
 			addToast({ message: 'Account created', type: 'success' });

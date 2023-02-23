@@ -52,6 +52,7 @@ export const AccountSettings: NextPage = () => {
 								await axios({
 									method: 'delete',
 									url: `${BASE_URL}/api/user/${session.data?.user.id}`,
+									headers: { Authorization: session.data?.jwt! },
 								});
 								signOut();
 							} catch (error: any) {

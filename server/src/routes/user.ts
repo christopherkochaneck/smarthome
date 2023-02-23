@@ -1,23 +1,28 @@
 import express from 'express';
 import { User } from '../../models/user';
 import bcrypt from 'bcrypt';
+import { auth } from '../middleware/auth';
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const users = await User.find();
-    res.status(200).send(users);
-  } catch (error) {}
+    return res.status(200).send(users);
+  } catch (error) {
+    return res.status(500).send('Internal server Error');
+  }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     return res.status(200).send(user);
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).send('Internal server Error');
+  }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   try {
     let user = new User({
       username: req.body.username,
@@ -30,14 +35,13 @@ router.post('/', async (req, res) => {
 
     user = await user.save();
 
-    console.log(user);
-    res.status(200).send(user);
+    return res.status(200).send(user);
   } catch (error) {
-    console.error(error);
+    return res.status(500).send('Internal server Error');
   }
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', auth, async (req, res) => {
   try {
     let user = await User.findByIdAndUpdate(
       req.params.id,
@@ -57,14 +61,18 @@ router.patch('/:id', async (req, res) => {
 
     await user.save();
     return res.status(200).send(user);
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).send('Internal server Error');
+  }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   const id = req.params.id;
   try {
     const user = await User.findByIdAndRemove(id);
     return res.status(200).send(user);
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).send('Internal server Error');
+  }
 });
 export default router;

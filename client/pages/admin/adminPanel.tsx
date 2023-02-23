@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { GetServerSideProps, NextPage } from 'next';
 import { Session } from 'next-auth';
-import { getSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { LayoutWrapper } from '../../components/layout/layoutWrapper';
 import { Usage } from '../../components/ui/usage/Usage';
@@ -26,11 +26,13 @@ export const AdminPanel: NextPage = () => {
 	const [platform, setPlatform] = useState<string>('');
 	const [uptime, setUptime] = useState<number>(0);
 
+	const session = useSession();
 	useEffect(() => {
 		const interval = setInterval(async () => {
 			const response = await axios({
 				method: 'get',
 				url: `${BASE_URL}/api/serverData`,
+				headers: { Authorization: session.data?.jwt! },
 			});
 
 			const { freeMemory, totalMemory, architecture, hostName, platform, upTime } = response.data;

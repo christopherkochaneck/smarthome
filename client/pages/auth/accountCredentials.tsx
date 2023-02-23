@@ -39,6 +39,7 @@ export const AccountCredentials: NextPage = () => {
 			await axios({
 				method: 'patch',
 				url: `${BASE_URL}/api/user/${session.data?.user.id}`,
+				headers: { Authorization: session.data?.jwt! },
 				data: { password: passwordConfirm },
 			});
 

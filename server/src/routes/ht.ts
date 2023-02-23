@@ -1,28 +1,31 @@
 import express from 'express';
 import { HT } from '../../models/ht';
+import { auth } from '../middleware/auth';
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const ht = await HT.find();
-    res.status(200).send(ht);
+    return res.status(200).send(ht);
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).send('Internal server Error');
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   try {
     const ht = await HT.findById(req.params.id);
 
     if (!ht)
       return res.status(404).send('The HT with the given ID was not found.');
 
-    res.send(ht);
-  } catch (error) {}
+    return res.status(200).send(ht);
+  } catch (error) {
+    return res.status(500).send('Internal server Error');
+  }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   try {
     let ht = new HT({
       id: req.body.id,
@@ -30,13 +33,13 @@ router.post('/', async (req, res) => {
       title: req.body.title,
     });
     ht = await ht.save();
-    res.status(200).send(ht);
+    return res.status(200).send(ht);
   } catch (error) {
-    console.error(error);
+    return res.status(500).send('Internal server Error');
   }
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', auth, async (req, res) => {
   try {
     let ht = await HT.findByIdAndUpdate(
       req.params.id,
@@ -50,22 +53,22 @@ router.patch('/:id', async (req, res) => {
     if (!ht)
       return res.status(404).send('The HT with the given ID was not found.');
 
-    res.send(ht);
+    return res.status(200).send(ht);
   } catch (error) {
-    console.error(error);
+    return res.status(500).send('Internal server Error');
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const ht = await HT.findByIdAndRemove(req.params.id);
     if (!ht) {
       return res.status(404).send('The HT with the given ID was not found.');
     }
 
-    res.send(ht);
+    return res.status(200).send(ht);
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).send('Internal server Error');
   }
 });
 

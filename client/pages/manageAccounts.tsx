@@ -26,18 +26,11 @@ export const ManageAccounts: NextPage = () => {
 	const router = useRouter();
 	const { addToast } = useToast();
 	const [users, setUsers] = useState<DBUser[]>([]);
-	const [usersToAccept, setUsersToAccept] = useState<DBUser[]>([]);
 
 	useEffect(() => {
 		const fetchUsers = async () => {
 			const users = await getUsers();
 			setUsers(users.filter((x: DBUser) => x._id !== session.data?.user._id));
-			setUsersToAccept(
-				users.filter((x: DBUser) => {
-					x._id !== session.data?.user._id;
-					x.permission === 'unauthorized';
-				})
-			);
 		};
 		fetchUsers();
 	}, []);
@@ -57,7 +50,11 @@ export const ManageAccounts: NextPage = () => {
 								onClick={async (e) => {
 									e.stopPropagation();
 									try {
-										await axios({ method: 'delete', url: `${BASE_URL}/api/user/${user._id}` });
+										await axios({
+											method: 'delete',
+											url: `${BASE_URL}/api/user/${user._id}`,
+											headers: { Authorization: session.data?.jwt! },
+										});
 										setUsers((prev) => prev.filter((x) => x._id !== user._id));
 										addToast({ message: 'User deleted successfully', type: 'success' });
 									} catch (error: any) {
@@ -90,7 +87,10 @@ export const ManageAccounts: NextPage = () => {
 									key="x"
 									onClick={(e) => {
 										e.preventDefault();
-										changeUserPermission(user._id, 'denied');
+										changeUserPermission(session.data?.jwt!, {
+											userId: user._id,
+											permission: 'denied',
+										});
 										addToast({ message: 'Permission changed', type: 'success' });
 										setUsers((prev) => prev.filter((x) => x._id !== user._id));
 									}}
@@ -101,7 +101,10 @@ export const ManageAccounts: NextPage = () => {
 									key="confirm"
 									onClick={(e) => {
 										e.preventDefault();
-										changeUserPermission(user._id, 'user');
+										changeUserPermission(session.data?.jwt!, {
+											userId: user._id,
+											permission: 'user',
+										});
 										addToast({ message: 'Permission changed', type: 'success' });
 										setUsers((prev) => prev.filter((x) => x._id !== user._id));
 									}}

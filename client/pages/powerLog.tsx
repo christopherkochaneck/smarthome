@@ -18,7 +18,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 import * as moment from 'moment';
 import { Session } from 'next-auth';
-import { getSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { redirectByPermission } from '../util/redirect';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -36,17 +36,23 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const powerData: PowerLogEntry[] = await axios({
 		method: 'get',
 		url: `${BASE_URL}/api/powerLog`,
+		headers: { Authorization: session!.jwt },
 	}).then((data) => data.data);
 
 	return { props: { powerData } };
 };
 
 export const PowerLog: NextPage<Props> = ({ powerData }) => {
+	const session = useSession();
 	const dates: any[] = [];
 	const [daysToDelete, setDaysToDelete] = useState<string>('1');
 
 	function onFormSubmit() {
-		axios({ method: 'delete', url: `${BASE_URL}/api/powerLog/?days=${daysToDelete}` });
+		axios({
+			method: 'delete',
+			url: `${BASE_URL}/api/powerLog/?days=${daysToDelete}`,
+			headers: { Authorization: session.data?.jwt! },
+		});
 	}
 
 	function getPowerUsageforDay(date: string) {

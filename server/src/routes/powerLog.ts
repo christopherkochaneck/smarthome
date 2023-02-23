@@ -1,17 +1,18 @@
 import express from 'express';
 import { PowerLog } from '../../models/powerLog';
+import { auth } from '../middleware/auth';
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const powerLog = await PowerLog.find();
-    res.status(200).send(powerLog);
+    return res.status(200).send(powerLog);
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).send('Internal server Error');
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   try {
     const powerLog = await PowerLog.findById(req.params.id);
 
@@ -20,11 +21,13 @@ router.get('/:id', async (req, res) => {
         .status(404)
         .send('The PowerLog with the given ID was not found.');
 
-    res.send(powerLog);
-  } catch (error) {}
+    return res.status(200).send(powerLog);
+  } catch (error) {
+    return res.status(500).send('Internal server Error');
+  }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   try {
     let powerLog = new PowerLog({
       id: req.body.id,
@@ -32,13 +35,13 @@ router.post('/', async (req, res) => {
       title: req.body.title,
     });
     powerLog = await powerLog.save();
-    res.status(200).send(powerLog);
+    return res.status(200).send(powerLog);
   } catch (error) {
-    console.error(error);
+    return res.status(500).send('Internal server Error');
   }
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', auth, async (req, res) => {
   try {
     let powerLog = await PowerLog.findByIdAndUpdate(
       req.params.id,
@@ -55,13 +58,13 @@ router.patch('/:id', async (req, res) => {
         .status(404)
         .send('The PowerLog with the given ID was not found.');
 
-    res.send(powerLog);
+    return res.status(200).send(powerLog);
   } catch (error) {
-    console.error(error);
+    return res.status(500).send('Internal server Error');
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const powerLog = await PowerLog.findByIdAndRemove(req.params.id);
 
@@ -70,9 +73,9 @@ router.delete('/:id', async (req, res) => {
         .status(404)
         .send('The PowerLog with the given ID was not found.');
 
-    res.send(powerLog);
+    return res.status(200).send(powerLog);
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).send('Internal server Error');
   }
 });
 
