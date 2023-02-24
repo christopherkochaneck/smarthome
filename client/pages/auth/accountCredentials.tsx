@@ -51,7 +51,7 @@ export const AccountCredentials: NextPage = () => {
 	return (
 		<LayoutWrapper showAppbar showBackButton appBarTitle="Change Password">
 			<div className="flex flex-col items-center text-white">
-				<div className="flex flex-col gap-4">
+				<div className="flex flex-col gap-4 w-full">
 					<Input
 						title="Password"
 						type="password"
@@ -62,7 +62,7 @@ export const AccountCredentials: NextPage = () => {
 						type="password"
 						onChange={(e) => setPasswordConfirm(e.currentTarget.value)}
 					/>
-					<button className="bg-black p-2 rounded-xl" onClick={handlePasswordUpdate}>
+					<button className="bg-black p-2 rounded-lg" onClick={handlePasswordUpdate}>
 						Change Password
 					</button>
 				</div>

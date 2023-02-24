@@ -4,6 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import mongoose, { connect, model, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 import { permission } from '../../../interfaces/permission';
+import { authUser } from '../../../interfaces/authUser';
 
 connect(`${process.env.DB_CONNECTION_STRING}`, {
 	user: `${process.env.DB_USER}`,
@@ -20,12 +21,6 @@ const User =
 			permission: { type: String },
 		})
 	);
-
-export type authUser = {
-	id: string;
-	name: string;
-	permission: permission;
-};
 
 export type authSession = {
 	user: authUser;

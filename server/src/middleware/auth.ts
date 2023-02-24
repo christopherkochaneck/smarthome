@@ -14,7 +14,6 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
     jwt.verify(token, secretKey);
     next();
   } catch (ex) {
-    console.log(ex);
     return res.status(400).send('Invalid token.');
   }
 };

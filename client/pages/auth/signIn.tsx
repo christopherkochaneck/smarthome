@@ -1,11 +1,12 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { getSession } from 'next-auth/react';
+import { Session } from 'next-auth';
+import { getSession, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import { LoginForm } from '../../components/auth/loginForm/loginForm';
+import { SignInForm } from '../../components/auth/signInForm/signInForm';
 import UserSelectionForm from '../../components/auth/userSelectionForm/userSelectionForm';
+import { authUser } from '../../interfaces/authUser';
 import { DBUser } from '../../interfaces/user';
 import { redirectSignInPage } from '../../util/redirect';
-import { getUsers } from '../../util/user';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await getSession(ctx);
@@ -17,23 +18,29 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 export const SignIn: NextPage = () => {
-	const [userToLogin, setUserToLogin] = useState<DBUser | null>(null);
-	const [users, setUsers] = useState<DBUser[]>([]);
+	const [userToLogin, setUserToLogin] = useState<authUser | null>(null);
+	const [users, setUsers] = useState<authUser[]>([]);
+	const [newLogin, setNewLogin] = useState<boolean>(false);
 
 	useEffect(() => {
-		const fetchData = async () => {
-			const users = await getUsers();
-			setUsers(users);
-		};
-		fetchData();
+		const localUsers = localStorage.users;
+
+		if (!localUsers) localStorage.setItem('users', JSON.stringify([]));
+		setUsers(JSON.parse(localUsers));
 	}, []);
 
 	return (
 		<>
-			{userToLogin ? (
-				<LoginForm userToLogin={userToLogin} goBack={() => setUserToLogin(null)} />
+			{!users.length || userToLogin || newLogin ? (
+				<SignInForm
+					userToLogin={userToLogin}
+					goBack={() => {
+						setUserToLogin(null);
+						setNewLogin(false);
+					}}
+				/>
 			) : (
-				<UserSelectionForm users={users} setUserToLogin={setUserToLogin} />
+				<UserSelectionForm setUserToLogin={setUserToLogin} setNewLogin={setNewLogin} />
 			)}
 		</>
 	);

@@ -2,24 +2,30 @@ import { permission } from './../interfaces/permission';
 import axios from 'axios';
 import { BASE_URL } from '../config/env';
 
-export const getUsers = async () => {
-	const res = await axios({
-		method: 'get',
-		url: `${BASE_URL}/api/user`,
-	});
-	return res.data;
+export const getUsers = async (authorization: string) => {
+	try {
+		const res = await axios({
+			method: 'get',
+			url: `${BASE_URL}/api/user`,
+			headers: { Authorization: authorization },
+		});
+		return res.data;
+	} catch (error) {}
 };
 
 export const addUser = async (
 	authorization: string,
 	data: { username: string; password: string }
 ) => {
-	await axios({
-		url: `${BASE_URL}/api/user`,
-		method: 'post',
-		headers: { Authorization: authorization },
-		data: { username: data.password, password: data.password, permission: 'unauthorized' },
-	});
+	try {
+		const res = await axios({
+			url: `${BASE_URL}/api/user`,
+			method: 'post',
+			headers: { Authorization: authorization },
+			data: { username: data.password, password: data.password, permission: 'unauthorized' },
+		});
+		return res.data;
+	} catch (error) {}
 };
 
 export const changeUserPermission = async (

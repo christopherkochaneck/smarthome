@@ -7,8 +7,9 @@ import { WeatherData } from '../interfaces/weather';
 import { DailyForecastData } from '../interfaces/dailyForecast';
 import { PowerUsage } from '../components/ui/powerUsage/PowerUsage';
 import { ClimateData } from '../components/ui/climateData/ClimateData';
-import { getSession } from 'next-auth/react';
+import { getSession, signOut } from 'next-auth/react';
 import { redirectByPermission } from '../util/redirect';
+import { useEffect } from 'react';
 
 interface Props {
 	weatherData: WeatherData;

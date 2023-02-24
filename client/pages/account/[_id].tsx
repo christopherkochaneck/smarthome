@@ -25,9 +25,9 @@ export const AccountDetailPage: NextPage = () => {
 			showAppbar
 		>
 			<Avatar
-				dimension={32}
-				padding={12}
-				background="purple"
+				dimension={75}
+				padding={20}
+				background="black"
 				icon={<User className="text-white w-14 h-14" />}
 			/>
 			<div className="grid grid-cols-2 gap-4 text-white">

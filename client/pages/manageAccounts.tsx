@@ -29,8 +29,11 @@ export const ManageAccounts: NextPage = () => {
 
 	useEffect(() => {
 		const fetchUsers = async () => {
-			const users = await getUsers();
-			setUsers(users.filter((x: DBUser) => x._id !== session.data?.user._id));
+			const authorization = session.data?.jwt;
+			if (!authorization) return;
+
+			const receivedUsers = await getUsers(authorization);
+			setUsers(receivedUsers);
 		};
 		fetchUsers();
 	}, []);
@@ -41,7 +44,7 @@ export const ManageAccounts: NextPage = () => {
 				<UserSelectable
 					key={user._id}
 					_id={user._id}
-					avatarBackground="purple"
+					avatarBackground="black"
 					userName={user.username}
 					actions={[
 						<div key="" className="bg-darkgrey rounded-full p-2">
