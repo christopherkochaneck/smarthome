@@ -13,11 +13,15 @@ export const getUsers = async (authorization: string) => {
 	} catch (error) {}
 };
 
-export const addUser = async (data: { username: string; password: string }) => {
+export const addUser = async (
+	authorization: string,
+	data: { username: string; password: string }
+) => {
 	try {
 		const res = await axios({
 			url: `${BASE_URL}/api/user`,
 			method: 'post',
+			headers: { Authorization: authorization },
 			data: { username: data.password, password: data.password, permission: 'unauthorized' },
 		});
 		return res.data;
