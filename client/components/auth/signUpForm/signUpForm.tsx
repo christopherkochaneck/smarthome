@@ -1,14 +1,16 @@
 import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { QuestionMark } from 'tabler-icons-react';
 import { useToast } from '../../../context/ToastContext';
 import { authUser } from '../../../interfaces/authUser';
+import { DBUser } from '../../../interfaces/user';
 import { addUser } from '../../../util/user';
 import { Avatar } from '../../ui/avatar/avatar';
 import { Input } from '../../ui/input/input';
 
 export const SignUpForm: FC = () => {
-	const session = useSession();
+	const router = useRouter();
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const [passwordConfirm, setPasswordCofirm] = useState<string>('');
@@ -34,15 +36,18 @@ export const SignUpForm: FC = () => {
 		}
 
 		try {
-			await addUser(session.data?.jwt!, { username: username, password: passwordConfirm });
-			addToast({ message: 'Account created', type: 'success' });
+			const user = await addUser({ username: username, password: passwordConfirm });
 
-			const authUser: authUser = session.data?.user;
-
-			!users.find((x) => x.id === authUser.id) && setUsers((prev) => [...prev, authUser]);
+			!users.find((x) => x.id === user.id) && setUsers((prev) => [...prev, user]);
 			localStorage.setItem('users', JSON.stringify(users));
+			addToast({ message: 'Account created', type: 'success' });
+			await signIn('credentials', {
+				redirect: true,
+				username: username,
+				password: passwordConfirm,
+			});
 		} catch (error: any) {
-			return addToast({ message: error.message, type: 'error' });
+			return addToast({ message: 'Something went wrong', type: 'error' });
 		}
 	};
 
@@ -78,7 +83,10 @@ export const SignUpForm: FC = () => {
 				<button className="bg-black p-2 pl-4 pr-4 text-white rounded-lg" onClick={handleSignUp}>
 					Sign Up
 				</button>
-				<button className="bg-black p-2 pl-4 pr-4 rounded-lg text-white" onClick={() => signIn()}>
+				<button
+					className="bg-black p-2 pl-4 pr-4 rounded-lg text-white"
+					onClick={() => router.push('/api/auth')}
+				>
 					Cancel
 				</button>
 			</span>

@@ -54,7 +54,6 @@ export default NextAuth({
 				const session = {
 					user: { id: id.toString(), name: name, permission: permission },
 				};
-
 				return session as any;
 			},
 		}),

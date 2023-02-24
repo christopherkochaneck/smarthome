@@ -24,6 +24,9 @@ router.get('/:id', auth, async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
+    const dbUser = await User.findOne({ username: req.body.username });
+    if (dbUser) return res.status(409).send('Internal server Error');
+
     let user = new User({
       username: req.body.username,
       password: req.body.password,
@@ -37,7 +40,7 @@ router.post('/', async (req, res) => {
 
     return res.status(200).send(user);
   } catch (error) {
-    return res.status(500).send('Internal server Error');
+    return res.status(409).send('Internal server Error');
   }
 });
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
@@ -7,7 +7,8 @@ import { DeviceProvider } from '../context/DeviceContext';
 import { GroupProvider } from '../context/GroupContext';
 import { SceneProvider } from '../context/SceneContext';
 import { ToastProvider } from '../context/ToastContext';
-import { SessionProvider } from 'next-auth/react';
+import { SessionProvider, useSession } from 'next-auth/react';
+import { redirectByPermission } from '../util/redirect';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (

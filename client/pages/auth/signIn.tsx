@@ -1,21 +1,8 @@
-import { GetServerSideProps, NextPage } from 'next';
-import { Session } from 'next-auth';
-import { getSession, useSession } from 'next-auth/react';
+import { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { SignInForm } from '../../components/auth/signInForm/signInForm';
 import UserSelectionForm from '../../components/auth/userSelectionForm/userSelectionForm';
 import { authUser } from '../../interfaces/authUser';
-import { DBUser } from '../../interfaces/user';
-import { redirectSignInPage } from '../../util/redirect';
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-	const session = await getSession(ctx);
-
-	const state = redirectSignInPage(session);
-	if (state) return state;
-
-	return { props: {} };
-};
 
 export const SignIn: NextPage = () => {
 	const [userToLogin, setUserToLogin] = useState<authUser | null>(null);

@@ -1,11 +1,11 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { getSession, signOut } from 'next-auth/react';
-import { redirectUnauthorizedPage } from '../../util/redirect';
+import { redirectUnauthorized } from '../../util/redirect';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-	const session = await getSession();
+	const session = await getSession(ctx);
 
-	const state = redirectUnauthorizedPage(session);
+	const state = redirectUnauthorized(session);
 	if (state) return state;
 
 	return { props: {} };
