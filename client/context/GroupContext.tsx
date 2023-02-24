@@ -11,6 +11,7 @@ import {
 import axios from 'axios';
 import { GroupType } from '../types/GroupType';
 import { BASE_URL } from '../config/env';
+import { useSession } from 'next-auth/react';
 
 interface GroupContextType {
 	groups: GroupType[];
@@ -31,25 +32,29 @@ export function useGroups() {
 }
 
 export const GroupProvider: FC<Props> = (props) => {
+	const session = useSession();
 	const [groups, setGroups] = useState<GroupType[]>([]);
 
 	const fetchData = async () => {
 		const groupRes = await axios({
 			method: 'get',
 			url: `${BASE_URL}/api/group`,
+			headers: { Authorization: session.data?.jwt! },
 		});
 		setGroups(groupRes.data);
 	};
 
 	useEffect(() => {
+		if (!session.data?.jwt) return;
 		fetchData();
-	}, []);
+	}, [session]);
 
 	const contextValue: GroupContextType = useMemo(() => {
 		const addGroup = async (group: GroupType) => {
 			const res = await axios({
 				method: 'post',
 				url: `${BASE_URL}/api/group`,
+				headers: { Authorization: session.data?.jwt! },
 				data: group,
 			});
 
@@ -66,6 +71,7 @@ export const GroupProvider: FC<Props> = (props) => {
 			await axios({
 				method: 'patch',
 				url: `${BASE_URL}/api/group/${group._id}`,
+				headers: { Authorization: session.data?.jwt! },
 				data: group,
 			});
 
@@ -84,6 +90,7 @@ export const GroupProvider: FC<Props> = (props) => {
 			await axios({
 				method: 'delete',
 				url: `${BASE_URL}/api/group/${group._id}`,
+				headers: { Authorization: session.data?.jwt! },
 			});
 
 			setGroups([...groups]);

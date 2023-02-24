@@ -1,10 +1,21 @@
 import axios from 'axios';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
+import { getSession, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { LayoutWrapper } from '../../components/layout/layoutWrapper';
 import { Usage } from '../../components/ui/usage/Usage';
 import { BASE_URL } from '../../config/env';
+import { redirectByPermission } from '../../util/redirect';
 import { AdminPanelCard } from './components/adminPanelCard';
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	const session = await getSession(ctx);
+
+	const state = redirectByPermission(session);
+	if (state) return state;
+
+	return { props: {} };
+};
 
 export const AdminPanel: NextPage = () => {
 	const [freeMemory, setFreeMemory] = useState<number>(0);
@@ -14,11 +25,13 @@ export const AdminPanel: NextPage = () => {
 	const [platform, setPlatform] = useState<string>('');
 	const [uptime, setUptime] = useState<number>(0);
 
+	const session = useSession();
 	useEffect(() => {
 		const interval = setInterval(async () => {
 			const response = await axios({
 				method: 'get',
 				url: `${BASE_URL}/api/serverData`,
+				headers: { Authorization: session.data?.jwt! },
 			});
 
 			const { freeMemory, totalMemory, architecture, hostName, platform, upTime } = response.data;

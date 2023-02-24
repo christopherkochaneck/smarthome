@@ -6,7 +6,6 @@ import { Input } from '../ui/input/input';
 import { useDevices } from '../../context/DeviceContext';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { useToast } from '../../context/ToastContext';
-import { v4 } from 'uuid';
 
 export const DeviceForm: FC = () => {
 	const router = useRouter();
@@ -22,8 +21,7 @@ export const DeviceForm: FC = () => {
 		e.preventDefault();
 
 		if (!deviceIP.match(pattern)) {
-			addToast({ id: v4(), message: 'IP Adress is invalid', type: 'error' });
-			return;
+			return addToast({ message: 'IP Adress is invalid', type: 'error' });
 		}
 
 		try {
@@ -34,9 +32,8 @@ export const DeviceForm: FC = () => {
 				ipAdress: deviceIP,
 			};
 			addDevice(device);
-			addToast({ id: v4(), message: 'Device added', type: 'success' });
+			addToast({ message: 'Device added', type: 'success' });
 		} catch (ex) {
-			console.log(ex);
 		} finally {
 			router.push('/devices');
 		}

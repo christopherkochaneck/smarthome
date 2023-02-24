@@ -7,26 +7,39 @@ import { WeatherData } from '../interfaces/weather';
 import { DailyForecastData } from '../interfaces/dailyForecast';
 import { PowerUsage } from '../components/ui/powerUsage/PowerUsage';
 import { ClimateData } from '../components/ui/climateData/ClimateData';
+import { getSession, signOut } from 'next-auth/react';
+import { redirectByPermission } from '../util/redirect';
+import { useEffect } from 'react';
 
 interface Props {
 	weatherData: WeatherData;
 	dailyForecastData: DailyForecastData;
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	const session = await getSession(ctx);
+
+	const state = redirectByPermission(session);
+	if (state) return state;
+
 	const weatherData = await getWeatherData();
 	const dailyForecastData = await getDailyForecast();
 
-	return { props: { weatherData, dailyForecastData } };
+	return {
+		props: {
+			weatherData,
+			dailyForecastData,
+		},
+	};
 };
 
 const Home: NextPage<Props> = ({ weatherData, dailyForecastData }) => {
 	return (
 		<>
-			<LayoutWrapper showAppbarIcon>
+			<LayoutWrapper showAppbar appBarTitle="Home">
 				<div className="flex flex-col gap-10">
 					<div className="p-5 text-white text-3xl text-center">
-						Hey Chris, here&apos;s whats up for today.
+						Hey, here&apos;s whats up for today.
 					</div>
 					<div className="p-5">
 						<WeatherForeCast weatherData={weatherData} />

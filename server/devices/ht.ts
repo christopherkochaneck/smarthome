@@ -30,9 +30,7 @@ export class HT {
       });
 
       return res.data;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 
   public async fetchCurrentDeviceData() {

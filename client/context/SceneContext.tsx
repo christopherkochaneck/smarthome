@@ -11,6 +11,7 @@ import {
 import axios from 'axios';
 import { SceneType } from '../types/SceneType';
 import { BASE_URL } from '../config/env';
+import { useSession } from 'next-auth/react';
 
 interface SceneContextType {
 	scenes: SceneType[];
@@ -31,22 +32,29 @@ export function useScenes() {
 }
 
 export const SceneProvider: FC<Props> = (props) => {
+	const session = useSession();
 	const [scenes, setScenes] = useState<SceneType[]>([]);
 
 	const fetchData = async () => {
-		const sceneRes = await axios({ method: 'get', url: `${BASE_URL}/api/scene` });
+		const sceneRes = await axios({
+			method: 'get',
+			url: `${BASE_URL}/api/scene`,
+			headers: { Authorization: session.data?.jwt! },
+		});
 		setScenes(sceneRes.data);
 	};
 
 	useEffect(() => {
+		if (!session.data?.jwt) return;
 		fetchData();
-	}, []);
+	}, [session]);
 
 	const contextValue: SceneContextType = useMemo(() => {
 		const addScene = async (scene: SceneType) => {
 			const res = await axios({
 				method: 'post',
 				url: `${BASE_URL}/api/scene`,
+				headers: { Authorization: session.data?.jwt! },
 				data: scene,
 			});
 
@@ -63,6 +71,7 @@ export const SceneProvider: FC<Props> = (props) => {
 			await axios({
 				method: 'patch',
 				url: `${BASE_URL}/api/scene/${scene._id}`,
+				headers: { Authorization: session.data?.jwt! },
 				data: scene,
 			});
 
@@ -81,6 +90,7 @@ export const SceneProvider: FC<Props> = (props) => {
 			await axios({
 				method: 'delete',
 				url: `${BASE_URL}/api/scene/${scene._id}`,
+				headers: { Authorization: session.data?.jwt! },
 			});
 
 			setScenes([...scenes]);

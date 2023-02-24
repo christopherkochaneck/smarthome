@@ -1,30 +1,31 @@
 import express from 'express';
 import { Group } from '../../models/group';
+import { auth } from '../middleware/auth';
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const groups = await Group.find();
-    res.status(200).send(groups);
+    return res.status(200).send(groups);
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).send('Internal server Error');
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   try {
     const group = await Group.findById(req.params.id);
 
     if (!group)
       return res.status(404).send('The Group with the given ID was not found.');
 
-    res.send(group);
+    return res.status(200).send(group);
   } catch (error) {
     return res.status(500).send('Internal server Error');
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   try {
     let group = new Group({
       id: req.body.id,
@@ -32,13 +33,13 @@ router.post('/', async (req, res) => {
       ids: req.body.ids,
     });
     group = await group.save();
-    res.status(200).send(group);
+    return res.status(200).send(group);
   } catch (error) {
-    console.error(error);
+    return res.status(500).send('Internal server Error');
   }
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', auth, async (req, res) => {
   try {
     let group = await Group.findByIdAndUpdate(
       req.params.id,
@@ -53,22 +54,22 @@ router.patch('/:id', async (req, res) => {
     if (!group)
       return res.status(404).send('The Group with the given ID was not found.');
 
-    res.send(group);
+    return res.status(200).send(group);
   } catch (error) {
-    console.error(error);
+    return res.status(500).send('Internal server Error');
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const group = await Group.findByIdAndRemove(req.params.id);
 
     if (!group)
       return res.status(404).send('The Group with the given ID was not found.');
 
-    res.send(group);
+    return res.status(200).send(group);
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).send('Internal server Error');
   }
 });
 

@@ -1,8 +1,9 @@
 import { createContext, FC, useContext, useEffect, useMemo, useState } from 'react';
+import { v4 } from 'uuid';
 import Toast from '../components/ui/toast/Toast';
 
 interface ToastType {
-	id: string;
+	id?: string;
 	message: string;
 	type: 'info' | 'success' | 'warning' | 'error';
 }
@@ -35,6 +36,7 @@ export const ToastProvider: FC<Props> = (props) => {
 
 	const contextValue: ToastContextType = useMemo(() => {
 		const addToast = (toast: ToastType) => {
+			toast.id = v4();
 			setToasts((prev) => [...prev, toast]);
 			setLastToastId(toast.id);
 		};

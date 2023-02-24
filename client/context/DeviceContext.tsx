@@ -14,6 +14,7 @@ import { HTType } from '../types/HTType';
 import axios from 'axios';
 import { BASE_URL } from '../config/env';
 import { Device } from '../types/Device';
+import { useSession } from 'next-auth/react';
 
 interface DeviceContextType {
 	devices: Device[];
@@ -34,16 +35,19 @@ export function useDevices() {
 }
 
 export const DeviceProvider: FC<Props> = (props) => {
+	const session = useSession();
 	const [devices, setDevices] = useState<Device[]>([]);
 
 	const fetchData = async () => {
 		const rgbw2 = await axios({
 			method: 'get',
 			url: `${BASE_URL}/api/rgbw2`,
+			headers: { Authorization: session.data?.jwt! },
 		});
 		const plugS = await axios({
 			method: 'get',
 			url: `${BASE_URL}/api/plugs`,
+			headers: { Authorization: session.data?.jwt! },
 		});
 		setDevices([
 			...rgbw2.data.map((x: any) => ({ type: 'rgbw2', ...x })),
@@ -51,8 +55,9 @@ export const DeviceProvider: FC<Props> = (props) => {
 		]);
 	};
 	useEffect(() => {
+		if (!session.data?.jwt) return;
 		fetchData();
-	}, []);
+	}, [session]);
 
 	const contextValue: DeviceContextType = useMemo(() => {
 		const addDevice = async (device: Device) => {
@@ -60,6 +65,7 @@ export const DeviceProvider: FC<Props> = (props) => {
 				const res = await axios({
 					method: 'post',
 					url: `${BASE_URL}/api/${device.type}`,
+					headers: { Authorization: session.data?.jwt! },
 					data: device,
 				});
 
@@ -78,6 +84,7 @@ export const DeviceProvider: FC<Props> = (props) => {
 			await axios({
 				method: 'patch',
 				url: `${BASE_URL}/api/${device.type}/${device._id}`,
+				headers: { Authorization: session.data?.jwt! },
 				data: device,
 			});
 
@@ -96,6 +103,7 @@ export const DeviceProvider: FC<Props> = (props) => {
 			await axios({
 				method: 'delete',
 				url: `${BASE_URL}/api/${device.type}/${device._id}`,
+				headers: { Authorization: session.data?.jwt! },
 			});
 
 			setDevices([...devices]);

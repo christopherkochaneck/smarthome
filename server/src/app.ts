@@ -8,6 +8,8 @@ import plugS from './routes/plugs';
 import scene from './routes/scene';
 import serverData from './routes/serverData';
 import powerLog from './routes/powerLog';
+import user from './routes/user';
+
 import { establishConnection } from './startup/db';
 import * as dotenv from 'dotenv';
 import httpLogger from 'tw-express-http-logger';
@@ -28,6 +30,7 @@ app.use('/api/rgbw2', rgbw2);
 app.use('/api/scene', scene);
 app.use('/api/serverData', serverData);
 app.use('/api/powerLog', powerLog);
+app.use('/api/user', user);
 
 let server;
 if (process.env.NODE_ENV !== 'test') {
