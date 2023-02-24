@@ -1,13 +1,13 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { getSession, signOut, useSession } from 'next-auth/react';
 import { useToast } from '../../context/ToastContext';
-import { redirectDeniedPage } from '../../util/redirect';
+import { redirectDenied } from '../../util/redirect';
 import { deleteUser } from '../../util/user';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await getSession(ctx);
 
-	const state = redirectDeniedPage(session);
+	const state = redirectDenied(session);
 	if (state) return state;
 
 	return { props: {} };
