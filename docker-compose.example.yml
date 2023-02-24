@@ -14,6 +14,7 @@ services:
       NODE-ENV: production
       WEATHER_API_KEY: WEATHER_API_KEY
       NEXT_PUBLIC_API_URL: NEXT_PUBLIC_API_URL
+      JWT_SECRET: JWT_SECRET
 
   backend:
     container_name: smarthome-backend
@@ -29,7 +30,7 @@ services:
       DB_CONNECTION_STRING: DB_CONNECTION_STRING
       DB_USER: DB_USER
       DB_PASS: DB_PASS
-
+      JWT_SECRET: JWT_SECRET
   database:
     container_name: smarthome-database
     image: mongo:latest
