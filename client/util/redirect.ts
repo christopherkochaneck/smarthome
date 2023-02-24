@@ -1,7 +1,6 @@
 import { Session } from 'next-auth';
 
 export const redirectByPermission = (session: Session | null) => {
-	console.log('session', session);
 	if (!session) {
 		return { redirect: { destination: '/auth/signIn', permanent: false } };
 	}
