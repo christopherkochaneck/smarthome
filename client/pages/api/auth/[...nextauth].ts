@@ -1,10 +1,9 @@
-import jwt from 'jsonwebtoken';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import mongoose, { connect, model, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
-import { permission } from '../../../interfaces/permission';
 import { authUser } from '../../../interfaces/authUser';
+import { generateAuthToken } from '../../../util/auth';
 
 connect(`${process.env.DB_CONNECTION_STRING}`, {
 	user: `${process.env.DB_USER}`,
@@ -25,16 +24,6 @@ const User =
 export type authSession = {
 	user: authUser;
 	token: string;
-};
-
-const generateAuthToken = (data: { id: string; name: string; permission: permission }) => {
-	const secret = process.env.JWT_SECRET;
-
-	if (!secret) throw Error('No JWT Secret');
-
-	const token = jwt.sign(data, secret);
-
-	return token;
 };
 
 export default NextAuth({
