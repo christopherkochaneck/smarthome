@@ -81,17 +81,24 @@ const Devices: NextPage = () => {
 
 	return (
 		<>
-			<Backdrop visible={visible} onClick={() => setVisible(false)} />
-			<ContextMenu visible={visible}>
-				<ContextMenuItem
-					title="Edit"
-					type="contextItem"
-					onClick={() => router.push(`/editDevice/${selectedId}`)}
-				/>
-				<ContextMenuItem title="Go to Device Page" type="contextItem" onClick={handleDevicePage} />
-				<ContextMenuItem title="Delete" type="cancel" onClick={handleDelete} />
-				<ContextMenuItem title="Cancel" type="cancel" onClick={() => setVisible(false)} />
-			</ContextMenu>
+			{visible && (
+				<Backdrop>
+					<ContextMenu visible={visible}>
+						<ContextMenuItem
+							title="Edit"
+							type="contextItem"
+							onClick={() => router.push(`/editDevice/${selectedId}`)}
+						/>
+						<ContextMenuItem
+							title="Go to Device Page"
+							type="contextItem"
+							onClick={handleDevicePage}
+						/>
+						<ContextMenuItem title="Delete" type="cancel" onClick={handleDelete} />
+						<ContextMenuItem title="Cancel" type="cancel" onClick={() => setVisible(false)} />
+					</ContextMenu>
+				</Backdrop>
+			)}
 			<LayoutWrapper showAppbar showAppbarIcon appBarTitle="Devices" href="/add/addDevice">
 				<div className="grid gap-4">
 					<div className="text-white text-center">Lights</div>
