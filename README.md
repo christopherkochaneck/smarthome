@@ -64,10 +64,10 @@ A web-based solution for controlling [Shelly](https://www.shelly.cloud/en) IoT d
    <strong>Using yarn</strong><br>
 
    ```shell
-   $ cd client<br>
-   $ yarn dev<br>
-   $ cd server<br>
-   $ yarn dev<br>
+   $ cd client
+   $ yarn dev
+   $ cd server
+   $ yarn dev
    ```
 
 5. #### Check the functionality<br>
