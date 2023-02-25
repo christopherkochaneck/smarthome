@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { SignInForm } from '../../components/auth/signInForm/signInForm';
 import UserSelectionForm from '../../components/auth/userSelectionForm/userSelectionForm';
 import { authUser } from '../../interfaces/authUser';
+import { getUsersFormLocalStorage } from '../../util/localStorage';
 
 export const SignIn: NextPage = () => {
 	const [userToLogin, setUserToLogin] = useState<authUser | null>(null);
@@ -10,10 +11,8 @@ export const SignIn: NextPage = () => {
 	const [newLogin, setNewLogin] = useState<boolean>(false);
 
 	useEffect(() => {
-		const localUsers = localStorage.users;
-
-		if (!localUsers) localStorage.setItem('users', JSON.stringify([]));
-		setUsers(JSON.parse(localUsers));
+		const localUsers = getUsersFormLocalStorage();
+		setUsers(localUsers);
 	}, []);
 
 	return (

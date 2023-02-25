@@ -7,6 +7,7 @@ import { Input } from '../../ui/input/input';
 import { User as UserIcon } from 'tabler-icons-react';
 import { Session } from 'next-auth';
 import { authUser } from '../../../interfaces/authUser';
+import { addUserToLocalStorage, getUsersFormLocalStorage } from '../../../util/localStorage';
 
 type Props = {
 	userToLogin: authUser | null;
@@ -15,7 +16,6 @@ type Props = {
 
 export const SignInForm: FC<Props> = ({ userToLogin, goBack }) => {
 	const originSession = useSession();
-	const [session, setSession] = useState<Session | null>(null);
 	const { addToast } = useToast();
 
 	const [username, setUsername] = useState<string>('');
@@ -24,30 +24,12 @@ export const SignInForm: FC<Props> = ({ userToLogin, goBack }) => {
 	const router = useRouter();
 
 	useEffect(() => {
-		const localUsers = localStorage.users;
-
-		if (localUsers) {
-			setUsers(JSON.parse(localUsers));
-		} else {
-			localStorage.setItem('users', JSON.stringify([]));
-		}
+		const localUsers = getUsersFormLocalStorage();
+		setUsers(localUsers);
 	}, []);
 
 	useEffect(() => {
-		const manageLocalStorage = async () => {
-			setSession(originSession.data);
-
-			const sessionUser: authUser = originSession.data?.user;
-			if (!sessionUser) return;
-
-			if (users.length === 0) {
-				localStorage.setItem('users', JSON.stringify([sessionUser]));
-			} else {
-				!users.find((x) => x.id === sessionUser.id) &&
-					localStorage.setItem('users', JSON.stringify(users.push(sessionUser)));
-			}
-		};
-		manageLocalStorage();
+		addUserToLocalStorage(originSession.data?.user);
 	}, [originSession]);
 
 	const handleSignIn = async () => {

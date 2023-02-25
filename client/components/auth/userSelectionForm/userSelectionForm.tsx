@@ -4,6 +4,7 @@ import { UserSelectable } from './components/userSelectable';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 import { useRouter } from 'next/router';
 import { authUser } from '../../../interfaces/authUser';
+import { clearUserLocalStorage, getUsersFormLocalStorage } from '../../../util/localStorage';
 
 type Props = {
 	setUserToLogin: Dispatch<SetStateAction<authUser | null>>;
@@ -15,8 +16,8 @@ export const UserSelectionForm: FC<Props> = ({ setUserToLogin, setNewLogin }) =>
 	const [users, setUsers] = useState<authUser[]>([]);
 
 	useEffect(() => {
-		const localUsers = localStorage.users;
-		if (localUsers) setUsers(JSON.parse(localUsers));
+		const localUsers = getUsersFormLocalStorage();
+		if (localUsers) setUsers(localUsers);
 	}, []);
 
 	return (
@@ -57,7 +58,7 @@ export const UserSelectionForm: FC<Props> = ({ setUserToLogin, setNewLogin }) =>
 					<button
 						className="bg-black rounded-lg w-full h-max pl-4 pr-4 pt-2 pb-2 mt-4 text-white"
 						onClick={() => {
-							localStorage.setItem('users', JSON.stringify([]));
+							clearUserLocalStorage();
 							setUsers([]);
 							setUserToLogin(null);
 							setNewLogin(true);

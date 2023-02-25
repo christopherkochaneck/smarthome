@@ -5,6 +5,7 @@ import { QuestionMark } from 'tabler-icons-react';
 import { useToast } from '../../../context/ToastContext';
 import { authUser } from '../../../interfaces/authUser';
 import { DBUser } from '../../../interfaces/user';
+import { addUserToLocalStorage, getUsersFormLocalStorage } from '../../../util/localStorage';
 import { addUser } from '../../../util/user';
 import { Avatar } from '../../ui/avatar/avatar';
 import { Input } from '../../ui/input/input';
@@ -18,8 +19,8 @@ export const SignUpForm: FC = () => {
 	const { addToast } = useToast();
 
 	useEffect(() => {
-		const localUsers = localStorage.users;
-		if (localUsers) setUsers(JSON.parse(localUsers));
+		const localUsers = getUsersFormLocalStorage();
+		setUsers(localUsers);
 	}, []);
 
 	const handleSignUp = async () => {
@@ -36,11 +37,17 @@ export const SignUpForm: FC = () => {
 		}
 
 		try {
-			const user = await addUser({ username: username, password: passwordConfirm });
+			const user: authUser | undefined = await addUser({
+				username: username,
+				password: passwordConfirm,
+			});
+			if (!user) return addToast({ message: 'Something went wrong', type: 'error' });
 
 			!users.find((x) => x.id === user.id) && setUsers((prev) => [...prev, user]);
-			localStorage.setItem('users', JSON.stringify(users));
+
+			addUserToLocalStorage(user);
 			addToast({ message: 'Account created', type: 'success' });
+
 			await signIn('credentials', {
 				redirect: true,
 				username: username,

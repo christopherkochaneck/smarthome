@@ -1,6 +1,7 @@
 import { permission } from './../interfaces/permission';
 import axios from 'axios';
 import { BASE_URL } from '../config/env';
+import { authUser } from '../interfaces/authUser';
 
 export const getUsers = async (authorization: string) => {
 	try {
@@ -20,7 +21,9 @@ export const addUser = async (data: { username: string; password: string }) => {
 			method: 'post',
 			data: { username: data.username, password: data.password, permission: 'unauthorized' },
 		});
-		return res.data;
+		const { _id: id, username: name, permission } = res.data;
+		const authUser: authUser = { id, name, permission };
+		return authUser;
 	} catch (error) {}
 };
 
