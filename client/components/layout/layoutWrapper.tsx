@@ -14,7 +14,7 @@ interface Props {
 }
 export const LayoutWrapper: FC<Props> = (props) => {
 	return (
-		<div className="flex flex-col h-screen bg-darkgrey">
+		<div className="absolute top-0 left-0 flex flex-col h-screen bg-darkgrey">
 			<header>
 				<Appbar
 					href={props.href}
@@ -24,7 +24,7 @@ export const LayoutWrapper: FC<Props> = (props) => {
 					showBackButton={props.showBackButton}
 				/>
 			</header>
-			<main className="flex-1">
+			<main className="flex-1 overflow-auto">
 				<div className={`${props.className} p-4`}>{props.children}</div>
 			</main>
 			<footer>{!props.hideNavbar && <Navbar />}</footer>
