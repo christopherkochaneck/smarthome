@@ -2,7 +2,6 @@ import { FC, useEffect, useMemo, useState } from 'react';
 import { RGBW2 } from '../../devices/rgbw2';
 import Color from '../../interfaces/color';
 import { Card } from '../ui/card/card';
-import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 import Hammer from 'react-hammerjs';
 import { Bulb } from 'tabler-icons-react';
@@ -12,6 +11,7 @@ interface Props {
 	name: string;
 	ipAdress: string;
 	onLongPress: () => void;
+	onIconPress: () => void;
 }
 
 export const LightCard: FC<Props> = (props) => {
@@ -47,13 +47,6 @@ export const LightCard: FC<Props> = (props) => {
 
 	return (
 		<>
-			<RGBW2Modal
-				open={open}
-				setOpen={setOpen}
-				setSelectedColor={setSelectedColor}
-				brightness={brightness}
-				setBrightness={setBrightness}
-			/>
 			<Hammer
 				onPress={props.onLongPress}
 				options={{
@@ -68,20 +61,13 @@ export const LightCard: FC<Props> = (props) => {
 			>
 				<div className="h-full w-translate-y-full">
 					<Card className="flex flex-row gap-x-3 p-3 items-center">
-						<div
+						<Bulb
+							className="h-10 w-10"
+							onClick={props.onIconPress}
 							style={{
 								color: color && state ? `rgb(${color.red},${color.green}, ${color.blue})` : '#000',
 							}}
-						>
-							<div
-								onClick={(e) => {
-									e.stopPropagation();
-									setOpen(!open);
-								}}
-							>
-								<Bulb className="h-10 w-10" />
-							</div>
-						</div>
+						/>
 						<div
 							onClick={async () => {
 								state ? await device.turnOff() : await device.turnOn();
@@ -96,13 +82,11 @@ export const LightCard: FC<Props> = (props) => {
 								</div>
 								<div className="text-white text-left">{`Brightness: ${brightness}%`}</div>
 							</div>
-							<div className="self-center">
-								<ToggleSwitch
-									state={state}
-									setState={setState}
-									className="border border-darkgrey"
-								/>
-							</div>
+							<ToggleSwitch
+								state={state}
+								setState={setState}
+								className="border border-darkgrey self-center"
+							/>
 						</div>
 					</Card>
 				</div>

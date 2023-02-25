@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import router from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ContextMenuItem } from '../components/ui/contextMenu/components/contextMenuItem';
 import { ContextMenu } from '../components/ui/contextMenu/contextMenu';
 import { LightCard } from '../components/devices/lightCard';
@@ -10,6 +10,9 @@ import { Backdrop } from '../components/ui/backdrop/Backdrop';
 import { useDevices } from '../context/DeviceContext';
 import { getSession } from 'next-auth/react';
 import { redirectByPermission } from '../util/redirect';
+import { CircularColorSelector } from '../components/ui/modals/cirucularColorSelector/CircularColorSelector';
+import color from '../interfaces/color';
+import { changeColor } from '../util/rgbw2';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await getSession(ctx);
@@ -24,6 +27,16 @@ const Devices: NextPage = () => {
 	const { devices, deleteDevice } = useDevices();
 	const [visible, setVisible] = useState<boolean>(false);
 	const [selectedId, setSelectedId] = useState<string>('');
+	const [showColorSelector, setShowColorSelector] = useState<boolean>(false);
+	const [selectedColor, setSelectedColor] = useState<color | undefined>();
+	const [ipToChangeColor, setIpToChangeColor] = useState<string | undefined>();
+
+	useEffect(() => {
+		if (!selectedColor) return;
+		if (!ipToChangeColor) return;
+
+		changeColor(ipToChangeColor, selectedColor);
+	}, [selectedColor]);
 
 	function handleDelete() {
 		const device = devices.find((x) => x._id === selectedId);
@@ -52,6 +65,10 @@ const Devices: NextPage = () => {
 						key={key._id}
 						ipAdress={key.ipAdress}
 						name={key.title}
+						onIconPress={() => {
+							setIpToChangeColor(key.ipAdress);
+							setShowColorSelector(true);
+						}}
 						onLongPress={() => {
 							setSelectedId(key._id!);
 							setVisible(true);
@@ -97,6 +114,20 @@ const Devices: NextPage = () => {
 						<ContextMenuItem title="Delete" type="cancel" onClick={handleDelete} />
 						<ContextMenuItem title="Cancel" type="cancel" onClick={() => setVisible(false)} />
 					</ContextMenu>
+				</Backdrop>
+			)}
+			{showColorSelector && (
+				<Backdrop
+					onClick={() => {
+						setShowColorSelector(false);
+						setSelectedColor(undefined);
+					}}
+					className="flex items-center justify-center"
+				>
+					<CircularColorSelector
+						setSelectedColor={setSelectedColor}
+						setShowColorSelector={setShowColorSelector}
+					/>
 				</Backdrop>
 			)}
 			<LayoutWrapper showAppbar showAppbarIcon appBarTitle="Devices" href="/add/addDevice">

@@ -4,7 +4,6 @@ import { useGroups } from '../../context/GroupContext';
 import { RGBW2 } from '../../devices/rgbw2';
 import color from '../../interfaces/color';
 import { Card } from '../ui/card/card';
-import { RGBW2Modal } from '../ui/modals/rgbw2Modal/RGBW2Modal';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 import Hammer from 'react-hammerjs';
 import { PlugS } from '../../devices/plugS';
@@ -15,6 +14,7 @@ interface Props {
 	groupName: string;
 	title: string;
 	onLongPress: () => void;
+	onLightIconPress: () => void;
 }
 
 export const GroupCard: FC<Props> = (props) => {
@@ -28,26 +28,26 @@ export const GroupCard: FC<Props> = (props) => {
 	const [open, setOpen] = useState<boolean>(false);
 	const [updating, setUpdating] = useState<boolean>(false);
 
+	const toggleState = async (on: boolean) => {
+		try {
+			setUpdating(true);
+			await Promise.all(
+				entities.map(async (device: RGBW2 | PlugS) => {
+					on ? await device.turnOn() : await device.turnOff();
+				})
+			);
+			setState(on);
+		} catch (err) {
+			console.error(err);
+		} finally {
+			setUpdating(false);
+		}
+	};
+
 	async function handleGroupTap() {
 		if (!entities) {
 			return;
 		}
-
-		const toggleState = async (on: boolean) => {
-			try {
-				setUpdating(true);
-				await Promise.all(
-					entities.map(async (device: RGBW2 | PlugS) => {
-						on ? await device.turnOn() : await device.turnOff();
-					})
-				);
-				setState(on);
-			} catch (err) {
-				console.error(err);
-			} finally {
-				setUpdating(false);
-			}
-		};
 
 		if (state) {
 			await toggleState(false);
@@ -108,7 +108,6 @@ export const GroupCard: FC<Props> = (props) => {
 
 	return (
 		<>
-			<RGBW2Modal open={open} setOpen={setOpen} setSelectedColor={setSelectedColor} />
 			<Hammer
 				onPress={props.onLongPress}
 				options={{
@@ -137,7 +136,7 @@ export const GroupCard: FC<Props> = (props) => {
 								}}
 							>
 								{entities.some((device) => device instanceof RGBW2) ? (
-									<Bulb className="h-10 w-10" />
+									<Bulb className="h-10 w-10" onClick={props.onLightIconPress} />
 								) : (
 									<Plug className="h-10 w-10" />
 								)}

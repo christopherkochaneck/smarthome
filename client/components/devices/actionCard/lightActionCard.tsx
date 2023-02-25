@@ -4,7 +4,6 @@ import { ColorIndicator } from './components/colorIndicator';
 import color from '../../../interfaces/color';
 import { ToggleSwitch } from '../../ui/toggleSwitch/toggleSwitch';
 import { Action } from '../../../types/SceneType';
-import { RGBW2Modal } from '../../ui/modals/rgbw2Modal/RGBW2Modal';
 import { useDevices } from '../../../context/DeviceContext';
 import { Bulb } from 'tabler-icons-react';
 
@@ -61,7 +60,6 @@ export const LightActionCard: FC<Props> = (props) => {
 
 	return (
 		<>
-			<RGBW2Modal open={open} setOpen={setOpen} setSelectedColor={setColor} />
 			<Card>
 				<div className="flex flex-row gap-x-3 p-3 items-center">
 					<Bulb className="h-10 w-10" />
