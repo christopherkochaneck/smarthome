@@ -34,7 +34,9 @@ export const changeUserPermission = async (
 			{ permission: data.permission },
 			{ headers: { Authorization: authorization } }
 		);
-	} catch (error) {}
+	} catch (error: any) {
+		return error.message;
+	}
 };
 
 export const deleteUser = async (data: { userId: string; authorization: string }) => {
