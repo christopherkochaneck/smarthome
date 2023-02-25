@@ -61,3 +61,5 @@ server/.env
 docker-compose.yml
 
 /data
+
+.vscode
