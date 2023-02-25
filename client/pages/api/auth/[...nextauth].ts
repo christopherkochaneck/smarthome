@@ -1,20 +1,20 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import mongoose, { connect, model, Schema } from 'mongoose';
+import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import { authUser } from '../../../interfaces/authUser';
 import { generateAuthToken } from '../../../util/auth';
 
-connect(`${process.env.DB_CONNECTION_STRING}`, {
+mongoose.connect(`${process.env.DB_CONNECTION_STRING}`, {
 	user: `${process.env.DB_USER}`,
 	pass: `${process.env.DB_PASS}`,
 });
 
 const User =
 	mongoose.models.User ||
-	model(
+	mongoose.model(
 		'User',
-		new Schema({
+		new mongoose.Schema({
 			username: { type: String },
 			password: { type: String },
 			permission: { type: String },
@@ -45,8 +45,12 @@ export default NextAuth({
 					username: username,
 				});
 
-				if (!user || !(await bcrypt.compare(password, user.password))) {
-					throw new Error('Wrong username or password.');
+				if (!user) {
+					throw new Error('User does not exist.');
+				}
+
+				if (!(await bcrypt.compare(password, user.password))) {
+					throw new Error('Wrong password');
 				}
 
 				const { _id: id, username: name, permission } = user;
