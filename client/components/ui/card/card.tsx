@@ -12,7 +12,7 @@ export const Card: FC<Props> = (props) => {
 		<div
 			className={`bg-grey text-center ${
 				!props.pointerOnHover && 'hover:cursor-pointer'
-			} w-full h-full rounded-xl ${props.className}`}
+			} rounded-xl ${props.className}`}
 			onClick={props.onClick}
 		>
 			{props.children}
