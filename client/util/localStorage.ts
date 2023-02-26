@@ -3,14 +3,16 @@ import { authUser } from '../interfaces/authUser';
 export const initializeLocalStorage = () => {
 	localStorage.setItem('users', JSON.stringify([]));
 };
+
 export const getUsersFormLocalStorage = (): authUser[] => {
-	if (localStorage.getItem('users') === undefined) initializeLocalStorage();
-	return JSON.parse(localStorage.getItem('users')!);
+	if (localStorage.users === '[null]') initializeLocalStorage();
+	if (localStorage.users === undefined) initializeLocalStorage();
+	return JSON.parse(localStorage.users);
 };
 
 export const addUserToLocalStorage = (user: authUser) => {
+	if (!user) return;
 	const users = getUsersFormLocalStorage();
-
 	const storageUser = users.find((x) => x.id === user.id);
 	if (storageUser) return;
 

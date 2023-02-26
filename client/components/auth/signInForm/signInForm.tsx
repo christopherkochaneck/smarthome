@@ -25,10 +25,12 @@ export const SignInForm: FC<Props> = ({ userToLogin, goBack }) => {
 
 	useEffect(() => {
 		const localUsers = getUsersFormLocalStorage();
+		console.log(localUsers);
 		setUsers(localUsers);
 	}, []);
 
 	useEffect(() => {
+		if (originSession.data === undefined) return;
 		addUserToLocalStorage(originSession.data?.user);
 	}, [originSession]);
 
