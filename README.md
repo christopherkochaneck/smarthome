@@ -34,12 +34,24 @@ A web-based solution for controlling [Shelly](https://www.shelly.cloud/en) IoT d
 
 2. #### Install the dependencies<br>
 
+   <strong>Using npm</strong><br>
+
    ```shell
    $ cd client
    $ npm i
    $ cd ..
    $ cd server
-   $ npm
+   $ npm i
+   ```
+
+   <strong>Using yarn</strong><br>
+
+   ```shell
+   $ cd client
+   $ yarn
+   $ cd ..
+   $ cd server
+   $ yarn
    ```
 
 3. #### Set the environment variables<br>
