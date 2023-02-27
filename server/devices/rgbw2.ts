@@ -1,7 +1,7 @@
 import axios from 'axios';
 import color from '../interfaces/color';
 
-export class RGBW2 {
+export class RGBW2 implements ShellyDevice {
   id: string;
   ipAddress: string;
   state: boolean = false;

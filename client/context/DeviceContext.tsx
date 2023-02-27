@@ -55,7 +55,7 @@ export const DeviceProvider: FC<Props> = (props) => {
 		]);
 	};
 	useEffect(() => {
-		if (!session.data?.jwt) return;
+		if (!session.data) return;
 		fetchData();
 	}, [session]);
 
@@ -108,6 +108,7 @@ export const DeviceProvider: FC<Props> = (props) => {
 
 			setDevices([...devices]);
 		};
+
 		return {
 			devices,
 			setDevices,

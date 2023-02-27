@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export class PlugS {
+export class PlugS implements ShellyDevice {
   id: string;
   ipAddress: string;
   state: boolean = false;

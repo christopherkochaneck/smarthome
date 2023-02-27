@@ -13,6 +13,7 @@ import user from './routes/user';
 import { establishConnection } from './startup/db';
 import * as dotenv from 'dotenv';
 import httpLogger from 'tw-express-http-logger';
+import { dataServiceRunner } from './runners/devicesRunner';
 
 dotenv.config();
 const app = express();
@@ -23,6 +24,7 @@ app.use(cors());
 app.use(httpLogger());
 
 establishConnection();
+dataServiceRunner();
 
 app.use('/api/group', group);
 app.use('/api/plugs', plugS);

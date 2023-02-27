@@ -25,7 +25,6 @@ export const SignInForm: FC<Props> = ({ userToLogin, goBack }) => {
 
 	useEffect(() => {
 		const localUsers = getUsersFormLocalStorage();
-		console.log(localUsers);
 		setUsers(localUsers);
 	}, []);
 

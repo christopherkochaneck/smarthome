@@ -1,0 +1,3 @@
+interface ShellyDevice {
+  fetchCurrentDeviceData: () => void;
+}

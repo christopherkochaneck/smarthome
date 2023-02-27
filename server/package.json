@@ -17,6 +17,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.13",
     "@types/jsonwebtoken": "^9.0.1",
+    "@types/socket.io": "^3.0.2",
     "@types/supertest": "^2.0.12",
     "axios": "^1.1.3",
     "bcrypt": "^5.1.0",
@@ -25,6 +26,7 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.8.2",
+    "socket.io": "^4.6.1",
     "tw-express-http-logger": "^3.0.2",
     "tw-logger": "^3.0.10",
     "winston": "^3.8.2"
