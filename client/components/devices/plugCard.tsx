@@ -4,6 +4,7 @@ import { Card } from '../ui/card/card';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 import Hammer from 'react-hammerjs';
 import { Plug } from 'tabler-icons-react';
+import { socketClient } from '../../util/socketClient';
 
 interface Props {
 	id: string;
@@ -23,16 +24,15 @@ export const PlugCard: FC<Props> = (props) => {
 	const [name, setName] = useState<string>(props.name);
 
 	useEffect(() => {
-		const interval = setInterval(async () => {
-			await device.fetchCurrentDeviceData();
-			setState(device.state);
-			setPower(device.power);
-			setName(props.name);
-		}, 400);
+		socketClient.on(props.id, (deviceData: any) => {
+			setState(deviceData.state);
+			setPower(deviceData.power);
+			setName(deviceData.name);
+		});
 		return () => {
-			clearInterval(interval);
+			socketClient.removeListener(props.id);
 		};
-	}, [device, props.name]);
+	}, []);
 
 	return (
 		<>
