@@ -5,8 +5,7 @@ import { Card } from '../ui/card/card';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 import Hammer from 'react-hammerjs';
 import { Bulb } from 'tabler-icons-react';
-import io from 'socket.io-client';
-import { useDevices } from '../../context/DeviceContext';
+import { socketClient } from '../../util/socketClient';
 
 interface Props {
 	id: string;
@@ -22,29 +21,20 @@ export const LightCard: FC<Props> = (props) => {
 	}, [props.id, props.ipAdress]);
 
 	const [color, setColor] = useState<Color>({ red: 0, green: 0, blue: 0 });
-	const [selectedColor, setSelectedColor] = useState<Color | null>(null);
 	const [state, setState] = useState<boolean | null>(false);
 	const [brightness, setBrightness] = useState<number>(100);
 	const [name, setName] = useState<string>(props.name);
-
-	const socket = io('http://localhost:3002/');
 	useEffect(() => {
-		socket.on(props.id, (deviceData) => {
+		socketClient.on(props.id, (deviceData) => {
 			setColor(deviceData.color);
 			setBrightness(deviceData.brightness);
 			setState(deviceData.state);
 			setName(deviceData.name);
 		});
 		return () => {
-			socket.removeListener(props.id);
+			socketClient.removeListener(props.id);
 		};
 	}, []);
-
-	useEffect(() => {
-		if (device) {
-			if (selectedColor !== null) device.setColor(selectedColor);
-		}
-	}, [selectedColor, device]);
 
 	return (
 		<>
