@@ -11,7 +11,7 @@ import request from 'supertest';
 import { json } from 'stream/consumers';
 
 let server;
-describe('/api/plugs', () => {
+describe('/api/device', () => {
   beforeAll(() => {
     server = require('../../src/app');
   });

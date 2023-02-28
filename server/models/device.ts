@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
 
-export const RGBW2 = model(
-  'RGBW2',
+export const Device = model(
+  'Device',
   new Schema({
     title: { type: String },
     ipAdress: { type: String },

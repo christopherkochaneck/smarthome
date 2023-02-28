@@ -39,20 +39,13 @@ export const DeviceProvider: FC<Props> = (props) => {
 	const [devices, setDevices] = useState<Device[]>([]);
 
 	const fetchData = async () => {
-		const rgbw2 = await axios({
+		const devices = await axios({
 			method: 'get',
-			url: `${BASE_URL}/api/rgbw2`,
+			url: `${BASE_URL}/api/device`,
 			headers: { Authorization: session.data?.jwt! },
 		});
-		const plugS = await axios({
-			method: 'get',
-			url: `${BASE_URL}/api/plugs`,
-			headers: { Authorization: session.data?.jwt! },
-		});
-		setDevices([
-			...rgbw2.data.map((x: any) => ({ type: 'rgbw2', ...x })),
-			...plugS.data.map((x: any) => ({ type: 'plugs', ...x })),
-		]);
+		console.log(devices);
+		setDevices([...devices.data.map((x: any) => ({ type: x.type, ...x }))]);
 	};
 	useEffect(() => {
 		if (!session.data) return;
@@ -64,7 +57,7 @@ export const DeviceProvider: FC<Props> = (props) => {
 			try {
 				const res = await axios({
 					method: 'post',
-					url: `${BASE_URL}/api/${device.type}`,
+					url: `${BASE_URL}/api/device`,
 					headers: { Authorization: session.data?.jwt! },
 					data: device,
 				});

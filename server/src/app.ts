@@ -27,8 +27,7 @@ establishConnection();
 dataServiceRunner();
 
 app.use('/api/group', group);
-app.use('/api/plugs', plugS);
-app.use('/api/rgbw2', rgbw2);
+app.use('/api/device', rgbw2);
 app.use('/api/scene', scene);
 app.use('/api/serverData', serverData);
 app.use('/api/powerLog', powerLog);

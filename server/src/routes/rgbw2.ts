@@ -1,11 +1,11 @@
 import express from 'express';
-import { RGBW2 } from '../../models/rgbw2';
+import { Device } from '../../models/device';
 import { auth } from '../middleware/auth';
 const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
   try {
-    const rgbw2 = await RGBW2.find();
+    const rgbw2 = await Device.find();
     return res.status(200).send(rgbw2);
   } catch (error) {
     return res.status(500).send('Internal server Error');
@@ -14,7 +14,7 @@ router.get('/', auth, async (req, res) => {
 
 router.get('/:id', auth, async (req, res) => {
   try {
-    const rgbw2 = await RGBW2.findById(req.params.id);
+    const rgbw2 = await Device.findById(req.params.id);
 
     if (!rgbw2)
       return res.status(404).send('The RGBW2 with the given ID was not found.');
@@ -27,7 +27,7 @@ router.get('/:id', auth, async (req, res) => {
 
 router.post('/', auth, async (req, res) => {
   try {
-    let rgbw2 = new RGBW2({
+    let rgbw2 = new Device({
       id: req.body.id,
       ipAdress: req.body.ipAdress,
       title: req.body.title,
@@ -42,7 +42,7 @@ router.post('/', auth, async (req, res) => {
 
 router.patch('/:id', auth, async (req, res) => {
   try {
-    let rgbw2 = await RGBW2.findByIdAndUpdate(
+    let rgbw2 = await Device.findByIdAndUpdate(
       req.params.id,
       {
         ipAdress: req.body.ipAdress,
@@ -62,7 +62,7 @@ router.patch('/:id', auth, async (req, res) => {
 
 router.delete('/:id', auth, async (req, res) => {
   try {
-    const rgbw2 = await RGBW2.findByIdAndRemove(req.params.id);
+    const rgbw2 = await Device.findByIdAndRemove(req.params.id);
     if (!rgbw2) {
       return res.status(404).send('The RGBW2 with the given ID was not found.');
     }

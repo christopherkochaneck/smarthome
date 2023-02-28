@@ -8,15 +8,15 @@ import {
   afterAll,
   beforeAll,
 } from '@jest/globals';
-import { RGBW2 } from '../../models/RGBW2';
+import { Device } from '../../models/Device';
 
 let server;
-describe('/api/rgbw2', () => {
+describe('/api/device', () => {
   beforeAll(() => {
     server = require('../../src/app');
   });
   afterEach(async () => {
-    await RGBW2.deleteMany({});
+    await Device.deleteMany({});
   });
   afterAll(async () => {
     await server.close();
@@ -29,9 +29,9 @@ describe('/api/rgbw2', () => {
         { ipAdress: '192.168.1.2', title: 'MyTitle2', type: 'rgbw2' },
         { ipAdress: '192.168.1.3', title: 'MyTitle3', type: 'rgbw2' },
       ];
-      await RGBW2.collection.insertMany(rgbw2);
+      await Device.collection.insertMany(rgbw2);
 
-      const res = await request(server).get('/api/rgbw2');
+      const res = await request(server).get('/api/device');
       expect(res.status).toBe(200);
       expect(res.body.length).toBe(3);
       expect(res.body.some((x) => x.title === 'MyTitle')).toBeTruthy();
@@ -41,15 +41,15 @@ describe('/api/rgbw2', () => {
   });
 
   describe('GET /:id', () => {
-    it('should return a RGBW2 device if given a valid id', async () => {
+    it('should return a Device device if given a valid id', async () => {
       const rgbw2 = {
         ipAdress: '192.168.1.1',
         title: 'MyTitle',
         type: 'rgbw2',
       };
-      const insertedDevice = await RGBW2.collection.insertOne(rgbw2);
+      const insertedDevice = await Device.collection.insertOne(rgbw2);
       const res = await request(server).get(
-        `/api/rgbw2/${insertedDevice.insertedId}`
+        `/api/device/${insertedDevice.insertedId}`
       );
 
       expect(res.body).toStrictEqual({
@@ -66,9 +66,9 @@ describe('/api/rgbw2', () => {
         title: 'MyTitle',
         type: 'rgbw2',
       };
-      RGBW2.collection.insertOne(rgbw2);
+      Device.collection.insertOne(rgbw2);
       const res = await request(server).get(
-        '/api/rgbw2/5eb78994dbb89024f04a2507'
+        '/api/device/5eb78994dbb89024f04a2507'
       );
       expect(res.statusCode).toBe(404);
     });
@@ -79,21 +79,21 @@ describe('/api/rgbw2', () => {
         title: 'MyTitle',
         type: 'rgbw2',
       };
-      RGBW2.collection.insertOne(rgbw2);
-      const res = await request(server).get('/api/rgbw2/123');
+      Device.collection.insertOne(rgbw2);
+      const res = await request(server).get('/api/device/123');
       expect(res.statusCode).toBe(500);
     });
   });
 
   describe('POST /', () => {
-    it('should return a RGBW2 Object when sending a POST Request', async () => {
+    it('should return a Device Object when sending a POST Request', async () => {
       const rgbw2 = {
         ipAdress: '192.168.1.1',
         title: 'MyTitle',
         type: 'rgbw2',
       };
-      const res = await request(server).post('/api/rgbw2').send(rgbw2);
-      let plugSObject = RGBW2.find({
+      const res = await request(server).post('/api/device').send(rgbw2);
+      let plugSObject = Device.find({
         _id: res.body._id,
         ipAdress: rgbw2.ipAdress,
         title: rgbw2.title,
@@ -117,7 +117,7 @@ describe('/api/rgbw2', () => {
         title: 'MyTitle',
         type: 'rgbw2',
       };
-      const insertedDevice = await RGBW2.collection.insertOne(rgbw2);
+      const insertedDevice = await Device.collection.insertOne(rgbw2);
       const id = insertedDevice.insertedId.toString();
       const updatedPlugS = {
         _id: id,
@@ -126,7 +126,7 @@ describe('/api/rgbw2', () => {
         type: 'rgbw2',
       };
       const res = await request(server)
-        .patch(`/api/rgbw2/${id}`)
+        .patch(`/api/device/${id}`)
         .send(updatedPlugS);
 
       expect(res).not.toBe(null);
@@ -139,7 +139,7 @@ describe('/api/rgbw2', () => {
         title: 'MyTitle',
         type: 'rgbw2',
       };
-      const insertedDevice = await RGBW2.collection.insertOne(rgbw2);
+      const insertedDevice = await Device.collection.insertOne(rgbw2);
       const id = insertedDevice.insertedId.toString();
       const updatedPlugS = {
         _id: id,
@@ -148,7 +148,7 @@ describe('/api/rgbw2', () => {
         type: 'rgbw2',
       };
       const res = await request(server)
-        .patch('/api/rgbw2/5eb78994dbb89024f04a2507')
+        .patch('/api/device/5eb78994dbb89024f04a2507')
         .send(updatedPlugS);
       expect(res.statusCode).toBe(404);
     });
@@ -159,23 +159,23 @@ describe('/api/rgbw2', () => {
         title: 'MyTitle',
         type: 'rgbw2',
       };
-      RGBW2.collection.insertOne(rgbw2);
-      const res = await request(server).patch('/api/rgbw2/123');
+      Device.collection.insertOne(rgbw2);
+      const res = await request(server).patch('/api/device/123');
       expect(res.statusCode).toBe(500);
     });
   });
 
   describe('DELETE /:id', () => {
-    it('should delete a RGBW2 Entry and return the deleted entry when given a valid ID that is used in the DB', async () => {
+    it('should delete a Device Entry and return the deleted entry when given a valid ID that is used in the DB', async () => {
       const rgbw2 = {
         ipAdress: '192.168.1.1',
         title: 'MyTitle',
         type: 'rgbw2',
       };
-      const insertedDevice = await RGBW2.collection.insertOne(rgbw2);
+      const insertedDevice = await Device.collection.insertOne(rgbw2);
       const id = insertedDevice.insertedId.toString();
-      const res = await request(server).delete(`/api/rgbw2/${id}`);
-      const foundPlugS = await RGBW2.findById(id);
+      const res = await request(server).delete(`/api/device/${id}`);
+      const foundPlugS = await Device.findById(id);
       expect(foundPlugS).toBe(null);
     });
 
@@ -185,10 +185,10 @@ describe('/api/rgbw2', () => {
         title: 'MyTitle',
         type: 'rgbw2',
       };
-      const insertedDevice = await RGBW2.collection.insertOne(rgbw2);
+      const insertedDevice = await Device.collection.insertOne(rgbw2);
       const id = insertedDevice.insertedId.toString();
       const res = await request(server).delete(
-        '/api/rgbw2/5eb78994dbb89024f04a2507'
+        '/api/device/5eb78994dbb89024f04a2507'
       );
       expect(res.statusCode).toBe(404);
     });
@@ -199,8 +199,8 @@ describe('/api/rgbw2', () => {
         title: 'MyTitle',
         type: 'rgbw2',
       };
-      RGBW2.collection.insertOne(rgbw2);
-      const res = await request(server).patch('/api/rgbw2/123');
+      Device.collection.insertOne(rgbw2);
+      const res = await request(server).patch('/api/device/123');
       expect(res.statusCode).toBe(500);
     });
   });

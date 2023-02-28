@@ -1,11 +1,11 @@
 import express from 'express';
-import { PlugS } from '../../models/plugS';
+import { Device } from '../../models/device';
 import { auth } from '../middleware/auth';
 const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
   try {
-    const plugS = await PlugS.find();
+    const plugS = await Device.find();
     return res.status(200).send(plugS);
   } catch (error) {
     return res.status(500).send('Internal server Error');
@@ -14,10 +14,12 @@ router.get('/', auth, async (req, res) => {
 
 router.get('/:id', auth, async (req, res) => {
   try {
-    const plugS = await PlugS.findById(req.params.id);
+    const plugS = await Device.findById(req.params.id);
 
     if (!plugS)
-      return res.status(404).send('The PlugS with the given ID was not found.');
+      return res
+        .status(404)
+        .send('The Device with the given ID was not found.');
 
     return res.status(200).send(plugS);
   } catch (error) {
@@ -27,7 +29,7 @@ router.get('/:id', auth, async (req, res) => {
 
 router.post('/', auth, async (req, res) => {
   try {
-    let plugS = new PlugS({
+    let plugS = new Device({
       ipAdress: req.body.ipAdress,
       title: req.body.title,
       type: 'plugs',
@@ -41,7 +43,7 @@ router.post('/', auth, async (req, res) => {
 
 router.patch('/:id', auth, async (req, res) => {
   try {
-    let plugS = await PlugS.findByIdAndUpdate(
+    let plugS = await Device.findByIdAndUpdate(
       req.params.id,
       {
         ipAdress: req.body.ipAdress,
@@ -51,7 +53,9 @@ router.patch('/:id', auth, async (req, res) => {
     );
 
     if (!plugS)
-      return res.status(404).send('The PlugS with the given ID was not found.');
+      return res
+        .status(404)
+        .send('The Device with the given ID was not found.');
 
     return res.status(200).send(plugS);
   } catch (error) {
@@ -61,10 +65,12 @@ router.patch('/:id', auth, async (req, res) => {
 
 router.delete('/:id', auth, async (req, res) => {
   try {
-    const plugS = await PlugS.findByIdAndRemove(req.params.id);
+    const plugS = await Device.findByIdAndRemove(req.params.id);
 
     if (!plugS)
-      return res.status(404).send('The PlugS with the given ID was not found.');
+      return res
+        .status(404)
+        .send('The Device with the given ID was not found.');
 
     return res.status(200).send(plugS);
   } catch (error) {
