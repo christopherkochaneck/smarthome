@@ -44,7 +44,6 @@ export const DeviceProvider: FC<Props> = (props) => {
 			url: `${BASE_URL}/api/device`,
 			headers: { Authorization: session.data?.jwt! },
 		});
-		console.log(devices);
 		setDevices([...devices.data.map((x: any) => ({ type: x.type, ...x }))]);
 	};
 	useEffect(() => {
@@ -76,7 +75,7 @@ export const DeviceProvider: FC<Props> = (props) => {
 		const updateDevice = async (device: Device) => {
 			await axios({
 				method: 'patch',
-				url: `${BASE_URL}/api/${device.type}/${device._id}`,
+				url: `${BASE_URL}/api/device/${device._id}`,
 				headers: { Authorization: session.data?.jwt! },
 				data: device,
 			});
@@ -95,7 +94,7 @@ export const DeviceProvider: FC<Props> = (props) => {
 
 			await axios({
 				method: 'delete',
-				url: `${BASE_URL}/api/${device.type}/${device._id}`,
+				url: `${BASE_URL}/api/device/${device._id}`,
 				headers: { Authorization: session.data?.jwt! },
 			});
 
