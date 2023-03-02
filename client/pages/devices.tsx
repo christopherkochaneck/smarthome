@@ -13,7 +13,6 @@ import { redirectByPermission } from '../util/redirect';
 import { CircularColorSelector } from '../components/ui/modals/cirucularColorSelector/CircularColorSelector';
 import color from '../interfaces/color';
 import { changeColor } from '../util/rgbw2';
-import { io } from 'socket.io-client';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await getSession(ctx);

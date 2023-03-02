@@ -5,7 +5,7 @@ import { Card } from '../ui/card/card';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 import Hammer from 'react-hammerjs';
 import { Bulb } from 'tabler-icons-react';
-import { socketClient } from '../../util/socketClient';
+import { io } from 'socket.io-client';
 
 interface Props {
 	id: string;
@@ -25,11 +25,11 @@ export const LightCard: FC<Props> = (props) => {
 	const [brightness, setBrightness] = useState<number>(100);
 	const [name, setName] = useState<string>(props.name);
 	useEffect(() => {
+		const socketClient = io('http://localhost:3002/', { query: { id: props.id } });
 		socketClient.on(props.id, (deviceData) => {
 			setColor(deviceData.color);
 			setBrightness(deviceData.brightness);
 			setState(deviceData.state);
-			setName(deviceData.name);
 		});
 		return () => {
 			socketClient.removeListener(props.id);

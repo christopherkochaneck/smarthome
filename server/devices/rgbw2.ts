@@ -1,5 +1,7 @@
 import axios from 'axios';
+import logger from 'tw-logger';
 import color from '../interfaces/color';
+import { ShellyDevice } from '../interfaces/shellyDevice';
 
 export class RGBW2 implements ShellyDevice {
   id: string;
@@ -24,7 +26,7 @@ export class RGBW2 implements ShellyDevice {
 
       return res.data;
     } catch (error) {
-      console.error(error);
+      logger.error(error.message);
     }
   }
 
@@ -34,7 +36,7 @@ export class RGBW2 implements ShellyDevice {
 
       return res.data;
     } catch (error) {
-      console.error(error);
+      logger.error(error.message);
     }
   }
 
@@ -84,8 +86,17 @@ export class RGBW2 implements ShellyDevice {
 
       res = await this.getStatus();
       this.power = res.meters[0].power;
+
+      return {
+        hostname: this.hostname,
+        state: this.state,
+        name: this.name,
+        color: this.color,
+        brightness: this.brightness,
+        power: this.power,
+      };
     } catch (error) {
-      console.error(error);
+      logger.error(error.message);
     }
   }
 
@@ -98,7 +109,7 @@ export class RGBW2 implements ShellyDevice {
         `http://${this.ipAddress}/color/0?red=${color.red}&green=${color.green}&blue=${color.blue}`
       );
     } catch (error) {
-      console.error(error);
+      logger.error(error.message);
     }
   }
 
@@ -107,7 +118,7 @@ export class RGBW2 implements ShellyDevice {
       await axios.get(`http://${this.ipAddress}/color/0?gain=${brightness}`);
       return;
     } catch (error) {
-      console.error(error);
+      logger.error(error.message);
     }
   }
 
@@ -115,7 +126,7 @@ export class RGBW2 implements ShellyDevice {
     try {
       await axios.get(`http://${this.ipAddress}/color/0?turn=off`);
     } catch (error) {
-      console.error(error);
+      logger.error(error.message);
     }
   }
 
@@ -123,7 +134,7 @@ export class RGBW2 implements ShellyDevice {
     try {
       await axios.get(`http://${this.ipAddress}/color/0?turn=on`);
     } catch (error) {
-      console.error(error);
+      logger.error(error.message);
     }
   }
 }

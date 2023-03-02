@@ -43,6 +43,12 @@ export class PlugS {
 			this.name = res.relays[0].name;
 
 			this.power = meters.power;
+			return {
+				hostname: this.hostname,
+				state: this.state,
+				name: this.name,
+				power: this.power.toFixed(1),
+			};
 		} catch (error) {}
 	}
 

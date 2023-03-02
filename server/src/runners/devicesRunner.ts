@@ -50,7 +50,5 @@ export const dataServiceRunner = () => {
         }
       }
     }, 1000);
-  } catch (error: any) {
-    console.log(error.message);
-  }
+  } catch (error: any) {}
 };

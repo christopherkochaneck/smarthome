@@ -1,4 +1,6 @@
 import axios from 'axios';
+import logger from 'tw-logger';
+import { ShellyDevice } from '../interfaces/shellyDevice';
 
 export class PlugS implements ShellyDevice {
   id: string;
@@ -23,7 +25,7 @@ export class PlugS implements ShellyDevice {
 
       return res.data;
     } catch (error) {
-      console.error(error);
+      logger.error(error.message);
     }
   }
 
@@ -36,7 +38,7 @@ export class PlugS implements ShellyDevice {
 
       return res.data;
     } catch (error) {
-      console.error(error);
+      logger.error(error.message);
     }
   }
 
@@ -51,10 +53,16 @@ export class PlugS implements ShellyDevice {
       this.state = res.relays[0].ison;
 
       this.name = res.relays[0].name;
-
       this.power = meters.power;
+
+      return {
+        hostname: this.hostname,
+        state: this.state,
+        name: this.name,
+        power: this.power.toFixed(1),
+      };
     } catch (error) {
-      console.error(error);
+      logger.error(error.message);
     }
   }
 
@@ -65,7 +73,7 @@ export class PlugS implements ShellyDevice {
         url: `http://${this.ipAddress}/relay/0?turn=off`,
       });
     } catch (error) {
-      console.error(error);
+      logger.error(error.message);
     }
   }
 
@@ -76,7 +84,7 @@ export class PlugS implements ShellyDevice {
         url: `http://${this.ipAddress}/relay/0?turn=on`,
       });
     } catch (error) {
-      console.error(error);
+      logger.error(error.message);
     }
   }
 }

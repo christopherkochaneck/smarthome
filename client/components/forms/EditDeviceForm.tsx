@@ -5,6 +5,7 @@ import { useDevices } from '../../context/DeviceContext';
 import { useRouter } from 'next/router';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { Select } from '../ui/select/select';
+import { useToast } from '../../context/ToastContext';
 
 export const EditDeviceForm: FC = () => {
 	const { devices, updateDevice, addDevice, deleteDevice } = useDevices();
@@ -12,8 +13,10 @@ export const EditDeviceForm: FC = () => {
 	const [selectedDeviceType, setSelectedDeviceType] = useState<string>('');
 	const [deviceName, setDeviceName] = useState<string>('');
 	const [deviceIP, setDeviceIP] = useState<string>('');
-	const router = useRouter();
 	const [deviceId, setDeviceId] = useState<string>('');
+	const router = useRouter();
+
+	const { addToast } = useToast();
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -33,6 +36,7 @@ export const EditDeviceForm: FC = () => {
 				addDevice(device);
 			}
 		} catch (ex) {
+			addToast({ message: 'Something went wrong', type: 'error' });
 		} finally {
 			router.push('/devices');
 		}

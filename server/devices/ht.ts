@@ -1,4 +1,5 @@
 import axios from 'axios';
+import logger from 'tw-logger';
 
 export class HT {
   id: string;
@@ -45,7 +46,7 @@ export class HT {
       this.temperatureUnit = res.tmp.units;
       this.humidity = res.hum.value;
     } catch (error) {
-      console.error(error);
+      logger.error(error.message);
     }
   }
 }

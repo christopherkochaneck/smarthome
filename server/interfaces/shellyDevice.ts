@@ -1,3 +1,3 @@
-interface ShellyDevice {
+export interface ShellyDevice {
   fetchCurrentDeviceData: () => void;
 }

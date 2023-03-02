@@ -4,7 +4,7 @@ import { Card } from '../ui/card/card';
 import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 import Hammer from 'react-hammerjs';
 import { Plug } from 'tabler-icons-react';
-import { socketClient } from '../../util/socketClient';
+import { io } from 'socket.io-client';
 
 interface Props {
 	id: string;
@@ -21,13 +21,12 @@ export const PlugCard: FC<Props> = (props) => {
 
 	const [state, setState] = useState<boolean | null>(false);
 	const [power, setPower] = useState<number>(0);
-	const [name, setName] = useState<string>(props.name);
 
 	useEffect(() => {
+		const socketClient = io('http://localhost:3002/', { query: { id: props.id } });
 		socketClient.on(props.id, (deviceData: any) => {
 			setState(deviceData.state);
 			setPower(deviceData.power);
-			setName(deviceData.name);
 		});
 		return () => {
 			socketClient.removeListener(props.id);
@@ -68,7 +67,7 @@ export const PlugCard: FC<Props> = (props) => {
 						>
 							<div className="flex flex-col">
 								<div className="text-white text-left">
-									{device ? name : 'DeviceTitle unavailable'}
+									{device ? props.name : 'DeviceTitle unavailable'}
 								</div>
 								<div className="text-white text-left">{`Load: ${power} W`}</div>
 							</div>
