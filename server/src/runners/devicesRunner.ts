@@ -6,8 +6,11 @@ import { HT } from '../../models/ht';
 
 export const dataServiceRunner = () => {
   const devicedata: any[] = [];
+  let totalPower: number = 0;
+
   try {
     setInterval(async () => {
+      let currentPower: number = 0;
       const devices = await DeviceModel.find();
 
       for (const device of devices) {
@@ -31,7 +34,7 @@ export const dataServiceRunner = () => {
         }
 
         const res = await deviceInstance.fetchCurrentDeviceData();
-
+        currentPower = currentPower + res.power;
         if (res === undefined) {
           continue;
         }
@@ -48,6 +51,11 @@ export const dataServiceRunner = () => {
           devicedata[foundDeviceIndex] = res;
           socketServer.emit(id, res);
         }
+      }
+      const roundedCurrent = Math.round(currentPower);
+      if (roundedCurrent !== totalPower) {
+        totalPower = roundedCurrent;
+        socketServer.emit('totalPower', roundedCurrent);
       }
     }, 1000);
   } catch (error: any) {}

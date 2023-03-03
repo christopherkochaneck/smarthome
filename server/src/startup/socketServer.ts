@@ -14,10 +14,11 @@ export const socketServer = new Server(3002, {
 // socketServer middleware
 socketServer.use(async (socket, next) => {
   const id = socket.handshake.query.id?.toString();
-  if (!id) return;
-  const deviceData = await getInitialData(id);
-  if (!deviceData) return;
-  deviceData && socket.emit(id, deviceData);
+  if (id) {
+    const deviceData = await getInitialData(id);
+    if (!deviceData) return;
+    deviceData && socket.emit(id, deviceData);
+  }
   next();
 });
 

@@ -59,7 +59,7 @@ export class PlugS implements ShellyDevice {
         hostname: this.hostname,
         state: this.state,
         name: this.name,
-        power: this.power.toFixed(1),
+        power: this.power,
       };
     } catch (error) {
       logger.error(error.message);

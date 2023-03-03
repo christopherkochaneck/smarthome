@@ -47,7 +47,7 @@ export class PlugS {
 				hostname: this.hostname,
 				state: this.state,
 				name: this.name,
-				power: this.power.toFixed(1),
+				power: this.power,
 			};
 		} catch (error) {}
 	}
