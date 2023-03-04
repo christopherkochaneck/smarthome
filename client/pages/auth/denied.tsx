@@ -37,11 +37,15 @@ export const Denied: NextPage = () => {
 					Log out
 				</button>
 				<button
-					onClick={() => {
-						//TODO: deletion not working
-						deleteUser(session.data?.user.id);
-						addToast({ message: 'Account deleted', type: 'success' });
-						signOut();
+					onClick={async () => {
+						const jwt = session.data?.jwt;
+						if (!jwt) return;
+						const res = await deleteUser(session.data?.user.id, jwt);
+						if (res?.status === 200) {
+							addToast({ message: 'Account deleted', type: 'success' });
+							return signOut();
+						}
+						addToast({ message: 'Something went wrong', type: 'error' });
 					}}
 					className="bg-black rounded-xl text-white pl-4 pr-4 pt-2 pb-2"
 				>
