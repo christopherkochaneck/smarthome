@@ -8,6 +8,8 @@ import { ToggleSwitch } from '../ui/toggleSwitch/toggleSwitch';
 import Hammer from 'react-hammerjs';
 import { PlugS } from '../../devices/plugS';
 import { Bulb, Plug } from 'tabler-icons-react';
+import { io } from 'socket.io-client';
+import { HT } from '../../devices/ht';
 
 interface Props {
 	groupID: string;
@@ -28,15 +30,29 @@ export const GroupCard: FC<Props> = (props) => {
 	const [open, setOpen] = useState<boolean>(false);
 	const [updating, setUpdating] = useState<boolean>(false);
 
-	const toggleState = async (on: boolean) => {
+	const toggleState = async (deviceState: boolean) => {
 		try {
 			setUpdating(true);
 			await Promise.all(
-				entities.map(async (device: RGBW2 | PlugS) => {
-					on ? await device.turnOn() : await device.turnOff();
+				entities.map(async ({ ipAdress, _id, type }) => {
+					let deviceInstance;
+
+					if (!ipAdress) return;
+					switch (type) {
+						case 'rgbw2':
+							deviceInstance = new RGBW2(ipAdress, _id);
+							break;
+						case 'plugs':
+							deviceInstance = new PlugS(ipAdress, _id);
+							break;
+						case 'ht':
+							deviceInstance = new HT(ipAdress, _id);
+					}
+					if (!deviceInstance) return;
+					deviceState ? await deviceInstance!.turnOn() : await deviceInstance!.turnOff();
 				})
 			);
-			setState(on);
+			setState(deviceState);
 		} catch (err) {
 			console.error(err);
 		} finally {
@@ -56,43 +72,41 @@ export const GroupCard: FC<Props> = (props) => {
 		}
 	}
 
+	const stateArray: { hostname: string; state: any }[] = [];
 	useEffect(() => {
 		const group = groups.find((x) => x._id === props.groupID);
 		if (!group) return;
 
-		const devicesInGroup = group.ids
-			.map((id) => {
-				const res = devices.find((x) => x._id === id);
-				if (!res) return;
-				switch (res.type) {
-					case 'rgbw2':
-						return new RGBW2(res.ipAdress, res._id!);
-					case 'plugs':
-						return new PlugS(res.ipAdress, res._id!);
-					default:
-						return;
-				}
-			})
-			.filter((d) => d);
+		const devicesInGroup = devices.filter((device) => group.ids.includes(device._id!));
 		setEntities(devicesInGroup);
 
-		const interval = setInterval(() => {
-			if (updating) return;
-			const stateArray: boolean[] = [];
-			const colorArray: color[] = [];
-			entities.forEach((device: RGBW2 | PlugS) => {
-				device.fetchCurrentDeviceData();
-				stateArray.push(device.state);
-				if (device instanceof RGBW2) colorArray.push(device.color);
+		const colorArray: color[] = [];
+
+		devicesInGroup.forEach((entity) => {
+			const deviceType = devices.find((x) => x._id === entity._id)?.type;
+			const socketClient = io('http://localhost:3002/', { query: { id: entity._id } });
+			if (!entity._id) return;
+			socketClient.on(entity._id, (deviceData: any) => {
+				const { hostname, state, color } = deviceData;
+				const stateIndex = stateArray.findIndex((x) => x.hostname === hostname);
+				if (stateIndex > -1) {
+					stateArray[stateIndex].state = state;
+				} else {
+					stateArray.push({ hostname, state });
+				}
+				if (deviceType === 'rgbw2' && color) {
+					colorArray.push(color);
+					setColor(colorArray[0]);
+				}
+				console.log(deviceData.state);
+				setState(stateArray.some((x) => x.state));
 			});
-
-			setState(stateArray.some((x) => x === true));
-			setState(stateArray.includes(true) ? true : null);
-			setColor(colorArray[0]);
-		}, 400);
-
-		return () => clearInterval(interval);
-	}, [devices, groups, props.groupID, updating]);
+		});
+		return () => {
+			const socketClient = io('http://localhost:3002/');
+			socketClient.removeAllListeners();
+		};
+	}, []);
 
 	useEffect(() => {
 		if (!entities) {
@@ -135,7 +149,7 @@ export const GroupCard: FC<Props> = (props) => {
 									}
 								}}
 							>
-								{entities.some((device) => device instanceof RGBW2) ? (
+								{entities.some((device) => device.type === 'rgbw2') ? (
 									<Bulb className="h-10 w-10" onClick={props.onLightIconPress} />
 								) : (
 									<Plug className="h-10 w-10" />
