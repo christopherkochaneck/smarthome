@@ -20,8 +20,6 @@ const Settings: NextPage = () => {
 	return (
 		<LayoutWrapper showAppbar appBarTitle="Settings">
 			<div className="flex flex-col">
-				<ListTile title="Open Admin Panel" onClick={() => router.push('/admin/adminPanel')} />
-				<Divider />
 				<ListTile title="Show Power Log" onClick={() => router.push('/powerLog')} />
 				<Divider />
 				<ListTile title="Your Account" onClick={() => router.push('/auth/accountSettings')} />
@@ -29,6 +27,8 @@ const Settings: NextPage = () => {
 					<>
 						<Divider />
 						<ListTile title="Manage Accounts" onClick={() => router.push('/manageAccounts')} />
+						<Divider />
+						<ListTile title="Open Admin Panel" onClick={() => router.push('/admin/adminPanel')} />
 					</>
 				)}
 			</div>
