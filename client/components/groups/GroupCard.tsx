@@ -98,7 +98,6 @@ export const GroupCard: FC<Props> = (props) => {
 					colorArray.push(color);
 					setColor(colorArray[0]);
 				}
-				console.log(deviceData.state);
 				setState(stateArray.some((x) => x.state));
 			});
 		});
