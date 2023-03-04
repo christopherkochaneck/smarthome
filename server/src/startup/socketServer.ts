@@ -11,7 +11,6 @@ export const socketServer = new Server(3002, {
   allowEIO3: true,
 });
 
-let i = 0;
 // socketServer middleware
 socketServer.use(async (socket, next) => {
   const id = socket.handshake.query.id?.toString();
