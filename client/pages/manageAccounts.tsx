@@ -13,6 +13,7 @@ import { changeUserPermission, getUsers } from '../util/user';
 import { redirectByPermission } from '../util/redirect';
 import { Backdrop } from '../components/ui/backdrop/Backdrop';
 import { modalOption, SelectionModal } from '../components/ui/modals/selectionModal/SelectionModal';
+import { deleteUser as utilDeleteUser } from '../util/user';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await getSession(ctx);
@@ -81,7 +82,7 @@ export const ManageAccounts: NextPage = () => {
 					<UserSelectable
 						_id={user._id}
 						key={user._id}
-						avatarBackground="purple"
+						avatarBackground="black"
 						onClick={() => null}
 						userName={user.username}
 						actions={[
@@ -115,13 +116,14 @@ export const ManageAccounts: NextPage = () => {
 
 	const deleteUser = async (user: DBUser) => {
 		try {
-			await axios({
-				method: 'delete',
-				url: `${BASE_URL}/api/user/${user._id}`,
-				headers: { Authorization: session.data?.jwt! },
-			});
-			setUsers((prev) => prev.filter((x) => x._id !== user._id));
-			addToast({ message: 'User deleted successfully', type: 'success' });
+			if (!session.data) return;
+			const res = await utilDeleteUser(user._id, session.data?.jwt);
+			if (res?.status === 200) {
+				setUsers((prev) => prev.filter((x) => x._id !== user._id));
+				addToast({ message: 'User deleted successfully', type: 'success' });
+				return;
+			}
+			addToast({ message: 'Something went wrong', type: 'error' });
 		} catch (error: any) {
 			return error.message;
 		}
@@ -139,6 +141,7 @@ export const ManageAccounts: NextPage = () => {
 				userId: userToDeny._id,
 				permission: 'denied',
 			});
+			setUsers((prev) => prev.filter((x) => x._id !== userToDeny._id));
 		}
 
 		if (userToAccept !== undefined) {
@@ -146,6 +149,7 @@ export const ManageAccounts: NextPage = () => {
 				userId: userToAccept._id,
 				permission: 'user',
 			});
+			setUsers((prev) => prev.filter((x) => x._id !== userToAccept._id));
 		}
 
 		if (!errorMessage) {
