@@ -5,5 +5,6 @@ export const User = model(
     username: { type: String, minlength: 5, maxlength: 128, required: true },
     password: { type: String, minlength: 5, maxlength: 128, required: true },
     permission: { type: String, required: true },
+    dayOfCreation: { type: String, required: true },
   })
 );

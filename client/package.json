@@ -16,6 +16,7 @@
 		"@types/bcrypt": "^5.0.0",
 		"@types/hammerjs": "^2.0.41",
 		"@types/jsonwebtoken": "^9.0.1",
+		"@types/moment": "^2.13.0",
 		"@types/mongoose": "^5.11.97",
 		"@types/react-hammerjs": "^1.0.4",
 		"axios": "^0.27.2",

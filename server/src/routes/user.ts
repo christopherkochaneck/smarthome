@@ -1,7 +1,9 @@
+import { authUser } from './../../../client/interfaces/authUser';
 import express from 'express';
 import { User } from '../../models/user';
 import bcrypt from 'bcrypt';
 import { auth } from '../middleware/auth';
+import moment from 'moment';
 const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
@@ -15,8 +17,10 @@ router.get('/', auth, async (req, res) => {
 
 router.get('/:id', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
-    return res.status(200).send(user);
+    const user = await User.findById<any>(req.params.id);
+
+    const { username: name, permission, dayOfCreation } = user;
+    return res.status(200).send({ name, permission, dayOfCreation });
   } catch (error) {
     return res.status(500).send('Internal server Error');
   }
@@ -25,11 +29,12 @@ router.get('/:id', auth, async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const dbUser = await User.findOne({ username: req.body.username });
-    if (dbUser) return res.status(409).send('Internal server Error');
+    if (dbUser) return res.status(409).send('Username already exists');
 
     let user = new User({
       username: req.body.username,
       password: req.body.password,
+      dayOfCreation: moment().toISOString(),
       permission: 'unauthorized',
     });
 

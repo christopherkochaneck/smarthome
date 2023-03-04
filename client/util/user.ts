@@ -14,6 +14,19 @@ export const getUsers = async (authorization: string) => {
 	} catch (error) {}
 };
 
+export const getUserById = async (authorization: string, userId: string) => {
+	try {
+		const res = await axios({
+			method: 'get',
+			url: `${BASE_URL}/api/user/${userId}`,
+			headers: { Authorization: authorization },
+		});
+		const { name, permission, dayOfCreation } = res.data;
+		const user = { name, permission, dayOfCreation };
+		return user;
+	} catch (error) {}
+};
+
 export const addUser = async (data: { username: string; password: string }) => {
 	try {
 		const res = await axios({
@@ -21,9 +34,9 @@ export const addUser = async (data: { username: string; password: string }) => {
 			method: 'post',
 			data: { username: data.username, password: data.password, permission: 'unauthorized' },
 		});
-		const { _id: id, username: name, permission } = res.data;
-		const authUser: authUser = { id, name, permission };
-		return authUser;
+		const { _id: id, username: name, permission, dayOfCreation } = res.data;
+		const user = { id, name, permission, dayOfCreation };
+		return user;
 	} catch (error) {}
 };
 
@@ -42,10 +55,11 @@ export const changeUserPermission = async (
 	}
 };
 
-export const deleteUser = async (data: { userId: string; authorization: string }) => {
+export const deleteUser = async (userId: string, authorization: string) => {
 	try {
-		await axios.delete(`${BASE_URL}/api/user/${data.userId}`, {
-			headers: { Authorization: data.authorization },
+		const res = await axios.delete(`${BASE_URL}/api/user/${userId}`, {
+			headers: { Authorization: authorization },
 		});
+		return res;
 	} catch (error) {}
 };
