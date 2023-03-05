@@ -20,7 +20,12 @@ const app = express();
 
 app.use(express.json());
 app.disable('x-powered-by');
-app.use(cors());
+app.use(
+  cors({
+    origin: String(process.env.CORS_ORIGIN),
+  })
+);
+
 app.use(httpLogger());
 
 establishConnection();
