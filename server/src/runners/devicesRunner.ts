@@ -6,7 +6,6 @@ import { HT } from '../../models/ht';
 
 export const dataServiceRunner = () => {
   const devicedata: any[] = [];
-  let totalPower: number = 0;
 
   try {
     setInterval(async () => {
@@ -53,10 +52,8 @@ export const dataServiceRunner = () => {
         }
       }
       const roundedCurrent = Math.round(currentPower);
-      if (roundedCurrent !== totalPower) {
-        totalPower = roundedCurrent;
-        socketServer.emit('totalPower', roundedCurrent);
-      }
+
+      socketServer.emit('totalPower', roundedCurrent);
     }, 1000);
   } catch (error: any) {}
 };
