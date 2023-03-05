@@ -87,9 +87,8 @@ export const SceneForm: FC = () => {
 						<LightActionCard
 							id={device._id!}
 							key={key}
-							actions={actions}
-							setActions={setActions}
 							selectedColor={idToSetColor === device._id ? selectedColor : null}
+							state={actions.find((x) => x._id === device._id)!.actions.state}
 							onIndicatorClick={() => {
 								setShowColorSelector(true);
 								setIdToSelectColor(device._id!);

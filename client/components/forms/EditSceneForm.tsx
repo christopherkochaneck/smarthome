@@ -36,7 +36,6 @@ export const EditSceneForm: FC = () => {
 			return;
 		}
 
-		console.log(actions);
 		let scene: SceneType = {
 			_id: sceneId,
 			name: sceneName,
@@ -101,7 +100,6 @@ export const EditSceneForm: FC = () => {
 		if (!action) return;
 		if (!selectedColor) return;
 		action.actions.color = selectedColor;
-		console.log(action.actions.color);
 		setActions([...actions]);
 	}, [selectedColor]);
 
@@ -115,12 +113,12 @@ export const EditSceneForm: FC = () => {
 							selectedColor={actions.find((x) => x._id === key)!.actions.color}
 							id={key}
 							key={key}
-							actions={actions}
-							setActions={setActions}
+							state={actions.find((x) => x._id === key)!.actions.state}
 							onIndicatorClick={() => {
 								setShowColorSelector(true);
 								setIdToSetColor(key);
 							}}
+							onToggle={(state) => (actions.find((x) => x._id === key)!.actions.state = state)}
 						/>
 					);
 				case 'plugs':
