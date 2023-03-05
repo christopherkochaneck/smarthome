@@ -23,8 +23,8 @@ export const addUserToLocalStorage = (user: authUser) => {
 
 export const removeUserFromLocalStorage = (user: authUser) => {
 	let users = getUsersFormLocalStorage();
-	users.filter((x: authUser) => x.id !== user.id);
-	localStorage.setItem('users', JSON.stringify(users));
+	const filteredUsers = users.filter((x: authUser) => x.id !== user.id);
+	localStorage.setItem('users', JSON.stringify(filteredUsers));
 };
 
 export const updateUserInLocalStorage = (user: authUser) => {
