@@ -2,7 +2,7 @@
 
 # Smarthome
 
-A web-based solution for controlling [Shelly](https://www.shelly.cloud/en) IoT devices using [Next.js](https://nextjs.org/), [TypeScript](https://www.typescriptlang.org/), and [Express.js](https://expressjs.com/), as well as [MongoDB](https://www.mongodb.com/) for data storage and [Docker](https://www.docker.com/) for containerization.
+A self-hosted, web-based solution for controlling [Shelly](https://www.shelly.cloud/en) IoT devices using [Next.js](https://nextjs.org/), [TypeScript](https://www.typescriptlang.org/), and [Express.js](https://expressjs.com/), as well as [MongoDB](https://www.mongodb.com/) for data storage and [Docker](https://www.docker.com/) for containerization.
 
 ## Features
 
@@ -115,6 +115,13 @@ The project uses [Docker](https://www.docker.com/) to launch seperate containers
    Try to connect to the IP Adress where you deployed the project.<br>
    If you haven't setup any custom Routing using e.g. [traefik](https://doc.traefik.io/traefik/), you should be able to connect to the Smarthome with the Server IP, following the port (Default: 3000).<br>
    Example with a <strong>randomized ip</strong>: `http://209.191.162.183:3000`
+
+## FAQ
+
+#### 1. Why should I use a self-hosted option instead of a cloud solution?
+
+Actually, it's quite simple: data protection.
+Whereas with a cloud solution you never know exactly what happens to your data, with a self-hosted cloud solution all the data is where you can manage and oversee it yourself without any problems.
 
 ## Licensing
 
