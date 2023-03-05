@@ -10,6 +10,9 @@ import { ArrowNarrowLeft, ArrowNarrowRight, DeviceFloppy } from 'tabler-icons-re
 import { PlugActionCard } from '../devices/actionCard/plugActionCard';
 import { PlugSDevices } from '../util/plugSdevices';
 import { Rgbw2Devices } from '../util/rgbw2devices';
+import { Backdrop } from '../ui/backdrop/Backdrop';
+import { CircularColorSelector } from '../ui/modals/cirucularColorSelector/CircularColorSelector';
+import color from '../../interfaces/color';
 
 export const EditSceneForm: FC = () => {
 	const { devices } = useDevices();
@@ -20,6 +23,10 @@ export const EditSceneForm: FC = () => {
 	const [ids, setIds] = useState<string[]>([]);
 	const [viewActionPage, setViewActionPage] = useState<boolean>(false);
 	const [sceneId, setSceneId] = useState<string>('');
+	const [showColorSelector, setShowColorSelector] = useState<boolean>(false);
+	const [selectedColor, setSelectedColor] = useState<color | null>(null);
+	const [idToSetColor, setIdToSetColor] = useState<string>('');
+	const [idToSetState, setIdToSetState] = useState<string>('');
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -29,6 +36,7 @@ export const EditSceneForm: FC = () => {
 			return;
 		}
 
+		console.log(actions);
 		let scene: SceneType = {
 			_id: sceneId,
 			name: sceneName,
@@ -52,7 +60,7 @@ export const EditSceneForm: FC = () => {
 		const action: Action = {
 			_id: key._id!,
 			type: key.type,
-			actions: { color: { red: 100, green: 0, blue: 0 }, state: false },
+			actions: { color: null, state: false },
 		};
 
 		if (actions.find((x) => x._id === key._id)) {
@@ -86,14 +94,35 @@ export const EditSceneForm: FC = () => {
 		});
 
 		setActions([...scene.actions]);
-	}, [router.query, scenes]);
+	}, []);
+
+	useEffect(() => {
+		const action = actions.find((x) => x._id === idToSetColor);
+		if (!action) return;
+		if (!selectedColor) return;
+		action.actions.color = selectedColor;
+		console.log(action.actions.color);
+		setActions([...actions]);
+	}, [selectedColor]);
 
 	const mapActionCards = () => {
 		return ids.map((key) => {
 			const type = devices.find((x) => x._id === key)?.type;
 			switch (type) {
 				case 'rgbw2':
-					return <LightActionCard id={key} key={key} actions={actions} setActions={setActions} />;
+					return (
+						<LightActionCard
+							selectedColor={actions.find((x) => x._id === key)!.actions.color}
+							id={key}
+							key={key}
+							actions={actions}
+							setActions={setActions}
+							onIndicatorClick={() => {
+								setShowColorSelector(true);
+								setIdToSetColor(key);
+							}}
+						/>
+					);
 				case 'plugs':
 					return <PlugActionCard id={key} key={key} actions={actions} setActions={setActions} />;
 				default:
@@ -105,6 +134,20 @@ export const EditSceneForm: FC = () => {
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
+				{showColorSelector && (
+					<Backdrop
+						onClick={() => {
+							setShowColorSelector(false);
+							setSelectedColor(null);
+						}}
+						className="flex items-center justify-center"
+					>
+						<CircularColorSelector
+							setSelectedColor={setSelectedColor}
+							setShowColorSelector={setShowColorSelector}
+						/>
+					</Backdrop>
+				)}
 				<div className={`grid gap-4 ${!viewActionPage ? 'block' : 'hidden'}`}>
 					<Input
 						title="Scene Name"
@@ -121,7 +164,7 @@ export const EditSceneForm: FC = () => {
 				<div className={`grid gap-4 ${!viewActionPage ? 'hidden' : 'block'}`}>
 					<>{mapActionCards()}</>
 				</div>
-				{viewActionPage ? (
+				{viewActionPage && (
 					<FloatingActionButton
 						className="bg-black absolute left-4 bottom-20 text-white"
 						type="button"
@@ -129,10 +172,7 @@ export const EditSceneForm: FC = () => {
 					>
 						<ArrowNarrowLeft className="h-8 w-8" />
 					</FloatingActionButton>
-				) : (
-					<></>
 				)}
-
 				<FloatingActionButton
 					className="bg-black absolute right-4 bottom-20 text-white"
 					type="submit"

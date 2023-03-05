@@ -3,6 +3,7 @@ import color from '../../../../interfaces/color';
 
 interface Props {
 	color: color | null;
+	onClick?: () => void;
 }
 export const ColorIndicator: FC<Props> = (props) => {
 	return (
@@ -12,6 +13,7 @@ export const ColorIndicator: FC<Props> = (props) => {
 				style={{
 					background: `rgb(${props.color?.red},${props.color?.green},${props.color?.blue})`,
 				}}
+				onClick={props.onClick}
 			/>
 		</>
 	);

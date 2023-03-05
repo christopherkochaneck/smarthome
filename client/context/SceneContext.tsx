@@ -63,7 +63,6 @@ export const SceneProvider: FC<Props> = (props) => {
 				name: res.data.name,
 				actions: res.data.actions,
 			};
-
 			setScenes([...scenes, createdScene]);
 		};
 

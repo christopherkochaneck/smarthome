@@ -4,7 +4,7 @@ import { Backdrop } from '../../backdrop/Backdrop';
 import { ColorSelector } from './components/ColorSelector';
 
 type Props = {
-	setSelectedColor: Dispatch<SetStateAction<color | undefined>>;
+	setSelectedColor: Dispatch<SetStateAction<color | null>>;
 	setShowColorSelector: Dispatch<SetStateAction<boolean>>;
 };
 

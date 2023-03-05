@@ -11,12 +11,15 @@ interface Props {
 	id: string;
 	actions: Action[];
 	setActions: Dispatch<SetStateAction<Action[]>>;
+	onIndicatorClick: () => void;
+	selectedColor: color | null;
+	onToggle?: () => void;
+	setSelectedState?: Dispatch<SetStateAction<boolean>>;
 }
 
 export const LightActionCard: FC<Props> = (props) => {
 	const { devices } = useDevices();
 	const [state, setState] = useState<boolean | null>(false);
-	const [open, setOpen] = useState<boolean>(false);
 	const [color, setColor] = useState<color | null>(null);
 	const [name, setName] = useState<string>('');
 
@@ -28,14 +31,13 @@ export const LightActionCard: FC<Props> = (props) => {
 		}
 
 		const device = devices.find((x) => x._id === currentAction._id);
-
 		if (device !== undefined) {
 			setName(device.title);
 		}
 
 		setColor(currentAction.actions.color);
 		setState(currentAction.actions.state);
-	}, [devices, props.id, props.actions]);
+	}, []);
 
 	useEffect(() => {
 		const currentAction = props.actions.find((x) => x._id === props.id);
@@ -64,12 +66,11 @@ export const LightActionCard: FC<Props> = (props) => {
 				<div className="flex flex-row gap-x-3 p-3 items-center">
 					<Bulb className="h-10 w-10" />
 					<div className="text-white text-left flex-grow">{name}</div>
-					<div onClick={() => setOpen(!open)}>
-						<ColorIndicator color={color} />
-					</div>
+					<ColorIndicator color={props.selectedColor} onClick={props.onIndicatorClick} />
 					<div
 						onClick={() => {
 							setState(!state);
+							props.onToggle;
 						}}
 					>
 						<ToggleSwitch state={state} setState={setState} className="border border-darkgrey" />

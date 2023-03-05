@@ -12,6 +12,9 @@ import { Rgbw2Devices } from '../util/rgbw2devices';
 import { PlugSDevices } from '../util/plugSdevices';
 import { useDevices } from '../../context/DeviceContext';
 import { PlugActionCard } from '../devices/actionCard/plugActionCard';
+import { Backdrop } from '../ui/backdrop/Backdrop';
+import { CircularColorSelector } from '../ui/modals/cirucularColorSelector/CircularColorSelector';
+import color from '../../interfaces/color';
 
 export const SceneForm: FC = () => {
 	const { addScene } = useScenes();
@@ -21,6 +24,16 @@ export const SceneForm: FC = () => {
 	const router = useRouter();
 	const [ids, setIds] = useState<string[]>([]);
 	const [viewActionPage, setViewActionPage] = useState<boolean>(false);
+	const [showColorSelector, setShowColorSelector] = useState<boolean>(false);
+	const [selectedColor, setSelectedColor] = useState<color | null>(null);
+	const [idToSetColor, setIdToSelectColor] = useState<string>('');
+
+	useEffect(() => {
+		const action = actions.find((x) => x._id === idToSetColor);
+		if (!action) return;
+		action.actions.color = selectedColor;
+		setActions([...actions]);
+	}, [selectedColor]);
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -52,7 +65,7 @@ export const SceneForm: FC = () => {
 		const action: Action = {
 			_id: key._id!,
 			type: key.type,
-			actions: { color: { red: 0, green: 0, blue: 0 }, state: false },
+			actions: { color: null, state: true },
 		};
 
 		if (actions.find((x) => x._id === key._id!)) {
@@ -71,7 +84,17 @@ export const SceneForm: FC = () => {
 			switch (device.type) {
 				case 'rgbw2':
 					return (
-						<LightActionCard id={device._id!} key={key} actions={actions} setActions={setActions} />
+						<LightActionCard
+							id={device._id!}
+							key={key}
+							actions={actions}
+							setActions={setActions}
+							selectedColor={idToSetColor === device._id ? selectedColor : null}
+							onIndicatorClick={() => {
+								setShowColorSelector(true);
+								setIdToSelectColor(device._id!);
+							}}
+						/>
 					);
 				case 'plugs':
 					return (
@@ -90,6 +113,19 @@ export const SceneForm: FC = () => {
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
+				{showColorSelector && (
+					<Backdrop
+						onClick={() => {
+							setShowColorSelector(false);
+						}}
+						className="flex items-center justify-center"
+					>
+						<CircularColorSelector
+							setSelectedColor={setSelectedColor}
+							setShowColorSelector={setShowColorSelector}
+						/>
+					</Backdrop>
+				)}
 				<div className={`grid gap-4 ${!viewActionPage ? 'block' : 'hidden'}`}>
 					<Input
 						title="Scene Name"

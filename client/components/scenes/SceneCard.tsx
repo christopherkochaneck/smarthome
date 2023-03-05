@@ -25,7 +25,6 @@ export const SceneCard: FC<Props> = (props) => {
 		e.preventDefault();
 
 		if (!scene) return;
-
 		scene.actions.forEach(async (action) => {
 			const device = devices.find((x) => x._id === action._id);
 			if (!device) return;
@@ -59,7 +58,7 @@ export const SceneCard: FC<Props> = (props) => {
 	useEffect(() => {
 		const scene = scenes.find((x) => x._id === props.sceneID);
 		setScene(scene);
-	}, [props.sceneID, scenes]);
+	}, []);
 
 	return (
 		<>
@@ -78,7 +77,7 @@ export const SceneCard: FC<Props> = (props) => {
 				}}
 			>
 				<div className="h-[179px] w-full" onClick={handleScene}>
-					<Card className="flex justify-center items-center">
+					<Card className="flex justify-center items-center w-full h-full">
 						<div className="text-white h-max w-max">{props.name}</div>
 					</Card>
 				</div>

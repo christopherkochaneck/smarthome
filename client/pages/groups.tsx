@@ -33,7 +33,7 @@ const Groups: NextPage = () => {
 	const [visible, setVisible] = useState<boolean>(false);
 	const [selectedId, setSelectedId] = useState<string>('');
 	const [showColorSelector, setShowColorSelector] = useState<boolean>(false);
-	const [selectedColor, setSelectedColor] = useState<color | undefined>(undefined);
+	const [selectedColor, setSelectedColor] = useState<color | null>(null);
 	const [groupToChangeColor, setGroupToChangeColor] = useState<GroupType | undefined>(undefined);
 
 	useEffect(() => {
@@ -127,7 +127,7 @@ const Groups: NextPage = () => {
 				<Backdrop
 					onClick={() => {
 						setShowColorSelector(false);
-						setSelectedColor(undefined);
+						setSelectedColor(null);
 					}}
 					className="flex items-center justify-center"
 				>
