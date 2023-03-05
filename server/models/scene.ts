@@ -6,11 +6,15 @@ export const Scene = model(
     name: { type: String },
     actions: [
       {
-        state: { type: Boolean },
-        color: {
-          red: { type: Number },
-          green: { type: Number },
-          blue: { type: Number },
+        _id: { type: String },
+        type: { type: String },
+        actions: {
+          state: { type: Boolean },
+          color: {
+            red: { type: Number },
+            green: { type: Number },
+            blue: { type: Number },
+          },
         },
       },
     ],

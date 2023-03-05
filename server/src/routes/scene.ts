@@ -31,10 +31,10 @@ router.post('/', auth, async (req, res) => {
       id: req.body.id,
       ipAdress: req.body.ipAdress,
       name: req.body.name,
+      actions: req.body.actions,
     });
 
     scene = await scene.save();
-
     return res.status(200).send(scene);
   } catch (error) {
     return res.status(500).send('Internal server error.');
