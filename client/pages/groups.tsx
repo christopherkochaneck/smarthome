@@ -86,7 +86,10 @@ const Groups: NextPage = () => {
 					groupName={key.name}
 					title={key.name}
 					key={key.name}
-					onLightIconPress={() => setGroupToChangeColor(key)}
+					onLightIconPress={() => {
+						setGroupToChangeColor(key);
+						setShowColorSelector(true);
+					}}
 					onLongPress={() => {
 						setVisible(true);
 						setSelectedId(key._id);

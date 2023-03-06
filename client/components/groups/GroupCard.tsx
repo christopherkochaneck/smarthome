@@ -28,11 +28,9 @@ export const GroupCard: FC<Props> = (props) => {
 	const [selectedColor, setSelectedColor] = useState<color | null>(null);
 	const [state, setState] = useState<boolean | null>(false);
 	const [open, setOpen] = useState<boolean>(false);
-	const [updating, setUpdating] = useState<boolean>(false);
 
 	const toggleState = async (deviceState: boolean) => {
 		try {
-			setUpdating(true);
 			await Promise.all(
 				entities.map(async ({ ipAdress, _id, type }) => {
 					let deviceInstance;
@@ -55,8 +53,6 @@ export const GroupCard: FC<Props> = (props) => {
 			setState(deviceState);
 		} catch (err) {
 			console.error(err);
-		} finally {
-			setUpdating(false);
 		}
 	};
 
@@ -80,8 +76,6 @@ export const GroupCard: FC<Props> = (props) => {
 		const devicesInGroup = devices.filter((device) => group.ids.includes(device._id!));
 		setEntities(devicesInGroup);
 
-		const colorArray: color[] = [];
-
 		devicesInGroup.forEach((entity) => {
 			const deviceType = devices.find((x) => x._id === entity._id)?.type;
 			const socketClient = io('http://localhost:3002/', { query: { id: entity._id } });
@@ -94,9 +88,8 @@ export const GroupCard: FC<Props> = (props) => {
 				} else {
 					stateArray.push({ hostname, state });
 				}
-				if (deviceType === 'rgbw2' && color) {
-					colorArray.push(color);
-					setColor(colorArray[0]);
+				if (deviceType === 'rgbw2') {
+					setColor(color);
 				}
 				setState(stateArray.some((x) => x.state));
 			});
