@@ -7,8 +7,8 @@ import { Plug } from 'tabler-icons-react';
 
 interface Props {
 	id: string;
-	actions: Action[];
-	setActions: Dispatch<SetStateAction<Action[]>>;
+	onToggle?: (state: boolean | null) => void;
+	state: boolean | null;
 }
 
 export const PlugActionCard: FC<Props> = (props) => {
@@ -17,37 +17,14 @@ export const PlugActionCard: FC<Props> = (props) => {
 	const [name, setName] = useState<string>('');
 
 	useEffect(() => {
-		const currentAction = props.actions.find((x) => x._id === props.id);
-
-		if (currentAction === undefined) {
-			return;
-		}
-
-		const device = devices.find((x) => x._id === currentAction._id);
-
-		if (device !== undefined) {
-			setName(device.title);
-		}
-
-		setState(currentAction.actions.state);
-	}, [devices, props.id, props.actions]);
+		const device = devices.find((x) => x._id === props.id);
+		if (!device) return;
+		setName(device.title);
+	}, []);
 
 	useEffect(() => {
-		const currentAction = props.actions.find((x) => x._id === props.id);
-		if (currentAction === undefined) {
-			return;
-		}
-
-		if (currentAction.actions.state !== null) {
-			currentAction.actions.state = state;
-		}
-
-		const index = props.actions.findIndex((x) => x._id === currentAction._id);
-
-		props.actions[index] = currentAction;
-
-		props.setActions([...props.actions]);
-	}, [state]);
+		setState(props.state);
+	}, [props.state]);
 
 	return (
 		<>
@@ -59,6 +36,7 @@ export const PlugActionCard: FC<Props> = (props) => {
 						className="self-center"
 						onClick={() => {
 							setState(!state);
+							props.onToggle && props.onToggle(!state);
 						}}
 					>
 						<ToggleSwitch state={state} setState={setState} className="border border-darkgrey" />

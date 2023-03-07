@@ -97,7 +97,11 @@ export const SceneForm: FC = () => {
 					);
 				case 'plugs':
 					return (
-						<PlugActionCard id={device._id!} key={key} actions={actions} setActions={setActions} />
+						<PlugActionCard
+							id={device._id!}
+							key={key}
+							state={actions.find((x) => x._id === device._id)!.actions.state}
+						/>
 					);
 				default:
 					break;

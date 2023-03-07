@@ -122,7 +122,14 @@ export const EditSceneForm: FC = () => {
 						/>
 					);
 				case 'plugs':
-					return <PlugActionCard id={key} key={key} actions={actions} setActions={setActions} />;
+					return (
+						<PlugActionCard
+							id={key}
+							key={key}
+							state={actions.find((x) => x._id === key)!.actions.state}
+							onToggle={(state) => (actions.find((x) => x._id === key)!.actions.state = state)}
+						/>
+					);
 				default:
 					break;
 			}
