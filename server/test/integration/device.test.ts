@@ -1,7 +1,6 @@
 import request from 'supertest';
 import {
   afterEach,
-  beforeEach,
   describe,
   it,
   expect,
@@ -31,7 +30,9 @@ describe('/api/device', () => {
       ];
       await Device.collection.insertMany(rgbw2);
 
-      const res = await request(server).get('/api/device');
+      const res = await request(server)
+        .get('/api/rgbw2')
+        .set('Authorization', 'Bearer ' + token);
       expect(res.status).toBe(200);
       expect(res.body.length).toBe(3);
       expect(res.body.some((x) => x.title === 'MyTitle')).toBeTruthy();
